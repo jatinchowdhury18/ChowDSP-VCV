@@ -22,36 +22,46 @@ struct ChowTape : Module {
 
 	ChowTape() {
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-		configParam(BIAS_PARAM, 0.f, 1.f, 0.f, "");
-		configParam(SAT_PARAM, 0.f, 1.f, 0.f, "");
-		configParam(DRIVE_PARAM, 0.f, 1.f, 0.f, "");
+		configParam(BIAS_PARAM, 0.f, 1.f, 0.5f, "");
+		configParam(SAT_PARAM, 0.f, 1.f, 0.5f, "");
+		configParam(DRIVE_PARAM, 0.f, 1.f, 0.5f, "");
 
         hysteresis.reset();
         hysteresis.setSolver (SolverType::RK2);
 	}
     
-    float calcMakeup(float width, float sat) const noexcept
+    inline float calcMakeup(float width, float sat) const noexcept
     {
         return (1.0f + 0.6f * width) / (0.5f + 1.5f * (1.0f - sat));
     }
 
 	void process(const ProcessArgs& args) override {
-        hysteresis.setSampleRate (args.sampleRate);
+        // set hysteresis sample rate
+        hysteresis.setSampleRate(args.sampleRate);
 
+        // set hysteresis params
         float width = 1.0f - params[BIAS_PARAM].getValue();
         float sat = params[SAT_PARAM].getValue();
         float drive = params[DRIVE_PARAM].getValue();
 
         hysteresis.cook (drive, width, sat, false);
 
+        // get input
         float x = inputs[AUDIO_INPUT].getVoltage() / 5.0f;
-        float y = hysteresis.process (x) * calcMakeup (width, sat);
+
+        // process hysteresis
+        float y = (float) hysteresis.process((double) x) * calcMakeup(width, sat);
+
+        // process DC blocker
+        dcBlocker.setParameters(dsp::BiquadFilter::HIGHPASS, 30.0f / args.sampleRate, M_SQRT1_2, 1.0f);
+        y = dcBlocker.process (y);
 
         outputs[AUDIO_OUTPUT].setVoltage(y * 5.0f);
 	}
 
 private:
     HysteresisProcessing hysteresis;
+    dsp::BiquadFilter dcBlocker;
 };
 
 
