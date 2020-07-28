@@ -22,6 +22,24 @@
         "Distortion",
         "Physical modeling"
       ]
+    },
+    {
+      "slug": "ChowPhaserFeedback",
+      "name": "ChowPhaserFeedback",
+      "description": "A feedback phaser",
+      "tags": [
+        "Effect",
+        "Phaser"
+      ]
+    },
+    {
+      "slug": "ChowPhaserMod",
+      "name": "ChowPhaserMod",
+      "description": "A modulation phaser",
+      "tags": [
+        "Effect",
+        "Phaser"
+      ]
     }
   ]
 }

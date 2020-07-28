@@ -9,3 +9,5 @@ extern Plugin* pluginInstance;
 
 // Declare each Model, defined in each module source file
 extern Model* modelChowTape;
+extern Model* modelChowPhaserFeedback;
+extern Model* modelChowPhaserMod;
