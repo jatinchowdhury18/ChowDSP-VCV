@@ -22,6 +22,9 @@ CHOW Tape is a port of the [CHOW Tape Model](https://github.com/jatinchowdhury18
 ## CHOW Phaser
 CHOW Phaser is a port of the [CHOW Phaser](https://github.com/jatinchowdhury18/ChowPhaser) audio plugin. It is recommended to use with a bipolar LFO.
 
+## CHOW FDN
+A feedback delay network reverb. You can use up to 16 delay lines, but note that more delay lines will use more CPU.
+
 ## License
 
 TBD, probably BSD or similar...

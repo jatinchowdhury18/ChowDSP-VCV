@@ -9,6 +9,9 @@ public:
     ShelfFilter() {}
 
     void calcCoefs(float lowGain, float highGain, float fc, float fs) {
+        lowGain = clamp(lowGain, -1.0f, 1.0f);
+        highGain = clamp(highGain, -1.0f, 1.0f);
+
         // reduce to simple gain element
         if (lowGain == highGain)
         {
