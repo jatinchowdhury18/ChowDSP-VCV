@@ -120,11 +120,11 @@ stages:
             artifact: Plugin-MacOS
             patterns: "**/*.zip"
             targetPath: $(Build.ArtifactStagingDirectory)
-        - task: DownloadPipelineArtifact@2
-          inputs:
-            artifact: Plugin-Windows
-            patterns: "**/*.zip"
-            targetPath: $(Build.ArtifactStagingDirectory)
+        # - task: DownloadPipelineArtifact@2
+        #   inputs:
+        #     artifact: Plugin-Windows
+        #     patterns: "**/*.zip"
+        #     targetPath: $(Build.ArtifactStagingDirectory)
         - bash: |
             ls -l $(Build.ArtifactStagingDirectory)
             export EXTEND_TAG=`date "+%Y%m%d"`
