@@ -31,8 +31,6 @@ public:
     }
 
     inline float process(float x) {
-        // return x;
-
         // push dry sample into history buffer
         if(! histBuffer.full()) {
             histBuffer.push(x);

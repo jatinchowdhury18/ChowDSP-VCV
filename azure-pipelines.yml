@@ -1,0 +1,148 @@
+# CI script mostly borrowed from IggyLabs (https://github.com/IggyLabs/IggyLabsModules)
+
+trigger:
+- main
+- dev*
+
+pr:
+- master
+
+variables:
+  rack-sdk-version: 1.1.6
+
+  add-gitrev-to-plugin-version: |
+    gitrev=`git rev-parse --short HEAD`
+    version="1.0.${gitrev}"
+    echo "Updating to version=$version"
+    tf=`mktemp`
+    jq --arg VERSION "$version" '.version=$VERSION' plugin.json > $tf
+    mv $tf plugin.json
+  add-release-notes: |
+    cat <<- EOH
+    # ChowDSP-VCV Rack Modules development builds
+    These test builds are produced on every commit. They may be unstable!
+    EOH
+    date
+    echo ""
+    echo "Most recent commits:"
+    echo ""
+    git log --pretty=oneline | head -5
+stages:
+- stage: build
+  displayName: Build Plugin
+  jobs:
+  - job: BuildPlugin
+    strategy:
+      matrix:
+        mac:
+          imageName: 'macos-10.14'
+          isMac: true
+        windows:
+          imageName: 'vs2017-win2016'
+          isWindows: true
+        linux:
+          imageName: 'ubuntu-16.04'
+          isLinux: true
+
+    pool:
+      vmImage: $(imageName)
+
+    steps:
+    - checkout: self
+      fetchDepth: 1
+
+    - bash: |
+        uname -a
+        git submodule update --init --recursive
+        pushd $AGENT_TEMPDIRECTORY
+        curl -o Rack-SDK.zip https://vcvrack.com/downloads/Rack-SDK-$(rack-sdk-version).zip
+        unzip Rack-SDK.zip
+      displayName: Get Rack-SDK
+    - bash: |
+        $(add-gitrev-to-plugin-version)
+      displayName: Update Version in plugins.json
+    - bash: |
+        export RACK_DIR=$AGENT_TEMPDIRECTORY/Rack-SDK
+        export CC=gcc
+        make azure-win-dist
+        mkdir artifacts_win/
+        cp dist/*zip artifacts_win/
+      displayName: Build Windows Plugin
+      condition: variables.isWindows
+    - bash: |
+        export RACK_DIR=$AGENT_TEMPDIRECTORY/Rack-SDK
+        make dist
+        mkdir artifacts_mac/
+        cp dist/*zip artifacts_mac/
+      displayName: Build MacOS Plugin
+      condition: variables.isMac
+    - bash: |
+        sudo apt install -y libglu-dev
+        export RACK_DIR=$AGENT_TEMPDIRECTORY/Rack-SDK
+        make dist
+        mkdir artifacts_lin/
+        cp dist/*zip artifacts_lin/
+      displayName: Build Linux Plugins
+      condition: variables.isLinux
+    - task: PublishPipelineArtifact@0
+      inputs:
+        artifactName: Plugin-Linux
+        targetPath: artifacts_lin/
+      displayName: Publish Linux Zip
+      condition: variables.isLinux
+
+    - task: PublishPipelineArtifact@0
+      inputs:
+        artifactName: Plugin-MacOS
+        targetPath: artifacts_mac/
+      displayName: Publish MacOS Zip
+      condition: variables.isMac
+
+    - task: PublishPipelineArtifact@0
+      inputs:
+        artifactName: Plugin-Windows
+        targetPath: artifacts_win/
+      displayName: Publish Windows Zip
+      condition: variables.isWindows
+- stage: publish
+  displayName: Publish Plugin
+  dependsOn: build
+  jobs:
+    - job: PublishArtifacts
+      steps:
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            artifact: Plugin-Linux
+            patterns: "**/*.zip"
+            targetPath: $(Build.ArtifactStagingDirectory)
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            artifact: Plugin-MacOS
+            patterns: "**/*.zip"
+            targetPath: $(Build.ArtifactStagingDirectory)
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            artifact: Plugin-Windows
+            patterns: "**/*.zip"
+            targetPath: $(Build.ArtifactStagingDirectory)
+        - bash: |
+            ls -l $(Build.ArtifactStagingDirectory)
+            export EXTEND_TAG=`date "+%Y%m%d"`
+            for file in $(Build.ArtifactStagingDirectory)/*.zip; do mv "$file" "${file/.zip/-${EXTEND_TAG}.zip}"; done
+            ls -l $(Build.ArtifactStagingDirectory)
+          displayName: Tag asset names with Date
+        - bash: |
+            $(add-release-notes) > $(Build.ArtifactStagingDirectory)/ReleaseNotes.md
+          displayName: Add release notes
+        - task: GitHubRelease@0
+          displayName: "Update Github Release"
+          inputs:
+            gitHubConnection: 'github.com_chow_vcv'
+            repositoryName: 'jatinchowdhury18/ChowDSP-VCV'
+            action: 'edit'
+            target: '$(Build.SourceVersion)'
+            tag: 'AzureCI'
+            releaseNotesFile: '$(Build.ArtifactStagingDirectory)/ReleaseNotes.md'
+            assets: '$(Build.ArtifactStagingDirectory)/*.zip'
+            addChangeLog: false
+          condition: 
