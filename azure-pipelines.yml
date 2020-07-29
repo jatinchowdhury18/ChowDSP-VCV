@@ -1,7 +1,7 @@
 # CI script mostly borrowed from IggyLabs (https://github.com/IggyLabs/IggyLabsModules)
 
 trigger:
-- main
+- master
 - dev*
 
 pr:
