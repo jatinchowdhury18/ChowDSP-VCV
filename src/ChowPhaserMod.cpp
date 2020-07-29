@@ -1,5 +1,5 @@
 #include "plugin.hpp"
-
+#include "shared/ldr.hpp"
 
 struct ChowPhaserMod : Module {
 	enum ParamIds {
@@ -32,11 +32,8 @@ struct ChowPhaserMod : Module {
 
 	void process(const ProcessArgs& args) override {
         // handle LFO
-        constexpr float maxDepth = 20.0f;
-        const auto skewVal = std::pow(2.0f, params[SKEW_PARAM].getValue());
-        const auto lfoVal = lightShape(inputs[LFO_INPUT].getVoltage() / 5.0f, skewVal);
-        const auto lightVal = (maxDepth + 0.1f) - (lfoVal * maxDepth);
-        const auto rVal = 100000.0f * std::pow(lightVal / 0.1f, -0.75f);
+        const auto lfo = inputs[LFO_INPUT].getVoltage() / 5.0f;
+        const auto rVal = LDR::getLDRResistance(lfo, params[SKEW_PARAM].getValue());
 
         // process mod
         const auto mod = params[MOD_PARAM].getValue();
@@ -58,12 +55,6 @@ struct ChowPhaserMod : Module {
 	}
 
 private:
-    inline float lightShape(float x, float skewPow) const noexcept
-    {
-        x = clamp(x, -1.0f, 1.0f);
-        return (std::pow((x + 1.0f) / 2.0f, skewPow) * 2.0f) - 1.0f;
-    }
-
     inline float processStage(float x, int stage)
     {
         float y = z[stage] + x * b[0];

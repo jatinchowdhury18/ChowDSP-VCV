@@ -1,5 +1,5 @@
 #include "plugin.hpp"
-
+#include "shared/ldr.hpp"
 
 struct ChowPhaserFeedback : Module {
 	enum ParamIds {
@@ -28,25 +28,16 @@ struct ChowPhaserFeedback : Module {
 
 	void process(const ProcessArgs& args) override {
         // handle LFO
-        constexpr float maxDepth = 20.0f;
-        const auto skewVal = std::pow(2.0f, params[SKEW_PARAM].getValue());
-        const auto lfoVal = lightShape(inputs[LFO_INPUT].getVoltage() / 5.0f, skewVal);
-        const auto lightVal = (maxDepth + 0.1f) - (lfoVal * maxDepth);
-        const auto rVal = 100000.0f * std::pow(lightVal / 0.1f, -0.75f);
+        const auto lfo = inputs[LFO_INPUT].getVoltage() / 5.0f;
+        const auto rVal = LDR::getLDRResistance(lfo, params[SKEW_PARAM].getValue());
 
         // feedback process
         calcCoefs(rVal, -1.0f * params[FB_PARAM].getValue(), args.sampleRate);
         auto y = fbFilter.process(inputs[IN_INPUT].getVoltage());
-        outputs[OUT_OUTPUT].setVoltage(y);
+        outputs[OUT_OUTPUT].setVoltage(std::tanh(y));
 	}
 
 private:
-    inline float lightShape(float x, float skewPow) const noexcept
-    {
-        x = clamp(x, -1.0f, 1.0f);
-        return (std::pow((x + 1.0f) / 2.0f, skewPow) * 2.0f) - 1.0f;
-    }
-
     inline void calcCoefs(float R, float fbAmt, float fs) noexcept
     {
         constexpr float C = (float) 15e-9;

@@ -51,7 +51,7 @@ private:
     inline double langevinD2 (double x) const noexcept;  // 2nd derivative of Langevin function
     inline double deriv (double x_n, double x_n1, double x_d_n1) const noexcept // Derivative by alpha transform
     {
-        constexpr double dAlpha = 0.9;
+        constexpr double dAlpha = 0.85;
         return (((1.0 + dAlpha) / T) * (x_n - x_n1)) - dAlpha * x_d_n1;
     }
 
