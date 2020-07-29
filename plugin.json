@@ -40,6 +40,15 @@
         "Effect",
         "Phaser"
       ]
+    },
+    {
+      "slug": "ChowFDN",
+      "name": "ChowFDN",
+      "description": "Feedback delay network reverb",
+      "tags": [
+        "Effect",
+        "Reverb"
+      ]
     }
   ]
 }
