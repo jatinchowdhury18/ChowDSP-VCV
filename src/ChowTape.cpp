@@ -1,5 +1,5 @@
 #include "plugin.hpp"
-#include "HysteresisProcessing.h"
+#include "shared/HysteresisProcessing.hpp"
 
 struct ChowTape : Module {
 	enum ParamIds {
@@ -75,13 +75,13 @@ struct ChowTapeWidget : ModuleWidget {
 		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(15.234, 19.721)), module, ChowTape::BIAS_PARAM));
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(15.502, 41.37)), module, ChowTape::SAT_PARAM));
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(15.24, 64.25)), module, ChowTape::DRIVE_PARAM));
+		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(15.25, 23.0)), module, ChowTape::BIAS_PARAM));
+		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(15.25, 43.0)), module, ChowTape::SAT_PARAM));
+		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(15.25, 63.0)), module, ChowTape::DRIVE_PARAM));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(15.507, 91.109)), module, ChowTape::AUDIO_INPUT));
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(15.25, 93.0)), module, ChowTape::AUDIO_INPUT));
 
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(15.24, 111.385)), module, ChowTape::AUDIO_OUTPUT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(15.25, 113.0)), module, ChowTape::AUDIO_OUTPUT));
 	}
 };
 

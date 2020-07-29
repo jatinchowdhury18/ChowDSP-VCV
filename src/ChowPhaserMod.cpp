@@ -103,14 +103,14 @@ struct ChowPhaserModWidget : ModuleWidget {
 		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(15.764, 20.25)), module, ChowPhaserMod::SKEW_PARAM));
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(15.502, 36.559)), module, ChowPhaserMod::MOD_PARAM));
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(15.502, 53.932)), module, ChowPhaserMod::STAGES_PARAM));
+		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(15.25, 25.0)), module, ChowPhaserMod::SKEW_PARAM));
+		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(15.25, 42.5)), module, ChowPhaserMod::MOD_PARAM));
+		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(15.25, 60.0)), module, ChowPhaserMod::STAGES_PARAM));
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(15.507, 73.872)), module, ChowPhaserMod::LFO_INPUT));
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(15.507, 91.109)), module, ChowPhaserMod::IN_INPUT));
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(15.25, 79.0)), module, ChowPhaserMod::LFO_INPUT));
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(15.25, 95.0)), module, ChowPhaserMod::IN_INPUT));
 
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(15.24, 111.385)), module, ChowPhaserMod::OUT_OUTPUT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(15.25, 113.0)), module, ChowPhaserMod::OUT_OUTPUT));
 	}
 };
 
