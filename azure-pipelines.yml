@@ -137,7 +137,7 @@ stages:
         - task: GitHubRelease@0
           displayName: "Update Github Release"
           inputs:
-            gitHubConnection: 'github.com_chow_vcv'
+            gitHubConnection: 'github.com_jatinchowdhury18'
             repositoryName: 'jatinchowdhury18/ChowDSP-VCV'
             action: 'edit'
             target: '$(Build.SourceVersion)'
