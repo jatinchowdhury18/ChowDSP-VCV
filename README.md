@@ -15,7 +15,7 @@ $ cd ChowDSP-VCV
 $ make install
 ```
 
-# Plugins
+# Modules
 
 ## CHOW Tape
 <img src="./doc/ChowTape_cap.PNG" alt="Pic" height="300">
@@ -25,10 +25,9 @@ CHOW Tape is a port of the [CHOW Tape Model](https://github.com/jatinchowdhury18
 For more information on the physical modelling and signal processing happening internally, check out [this blog post](https://medium.com/@jatinchowdhury18/complex-nonlinearities-episode-3-hysteresis-fdeb2cd3e3f6) or for more technical readers, check out [this DAFx paper](http://dafx2019.bcu.ac.uk/papers/DAFx2019_paper_3.pdf) on tape modelling.
 
 ## CHOW Phaser
-<img src="./doc/ChowPhaseFeedback_cap.PNG" alt="Pic" height="300">
-<img src="./doc/ChowPhaseMod_cap.PNG" alt="Pic" height="300">
+<img src="./doc/ChowPhaseFeedback_cap.PNG" alt="Pic" height="300"> <img src="./doc/ChowPhaseMod_cap.PNG" alt="Pic" height="300">
 
-CHOW Phaser is made up two modules that together make up a port of the [CHOW Phaser](https://github.com/jatinchowdhury18/ChowPhaser) audio plugin. For a typical phaser effect, use a bipolar LFO as the CV input.
+CHOW Phaser is made up of two modules that together make up a port of the [CHOW Phaser](https://github.com/jatinchowdhury18/ChowPhaser) audio plugin. For a typical phaser effect, use a bipolar LFO as the CV input.
 
 The **skew** knob emphasises different parts of the CV input, in a way inspired by the behaviour of Light-Dependent Resistors (LDRs).
 
@@ -41,7 +40,7 @@ The Mod module contains a series of modulating allpass stages. The **mod** knob 
 ## CHOW FDN
 <img src="./doc/ChowFDN_cap.PNG" alt="Pic" height="300">
 
-A [feedback delay network](https://ccrma.stanford.edu/~jos/cfdn/Feedback_Delay_Networks.html) reverb, with controls for **pre-delay**, room **size**, decay times (**T60 Low** and **T60 High**), and **dry/wet** mix. You can use up to 16 delay lines, but note that more delay lines will use more CPU.
+A [feedback delay network](https://ccrma.stanford.edu/~jos/cfdn/Feedback_Delay_Networks.html) reverb, with controls for **pre-delay**, room **size**, decay times (**T60 Low** and **T60 High**), and **dry/wet** mix. You can use any **number of delay lines** up to 16, but note that more delay lines will use more CPU.
 
 ## License
 
