@@ -38,7 +38,7 @@ void HysteresisProcessing::cook (float drive, float width, float sat, bool v1)
     a = M_s / (0.01 + 6.0 * (double) drive);
     c = std::sqrt (1.0f - (double) width) - 0.01;
     k = 0.47875;
-    upperLim = 20.0;
+    upperLim = 1.2;
 
     if (v1)
     {

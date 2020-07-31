@@ -27,7 +27,7 @@ struct ChowTape : Module {
 		configParam(DRIVE_PARAM, 0.f, 1.f, 0.5f, "");
 
         hysteresis.reset();
-        hysteresis.setSolver (SolverType::RK2);
+        hysteresis.setSolver (SolverType::NR5);
 	}
     
     inline float calcMakeup(float width, float sat) const noexcept
@@ -47,14 +47,14 @@ struct ChowTape : Module {
         hysteresis.cook (drive, width, sat, false);
 
         // get input
-        float x = inputs[AUDIO_INPUT].getVoltage() / 5.0f;
+        float x = clamp(inputs[AUDIO_INPUT].getVoltage() / 5.0f, -1.0f, 1.0f);
 
         // process hysteresis
-        float y = (float) hysteresis.process((double) x) * calcMakeup(width, sat);
+        float y = (float) hysteresis.process((double) x); // * calcMakeup(width, sat);
 
         // process DC blocker
         dcBlocker.setParameters(dsp::BiquadFilter::HIGHPASS, 30.0f / args.sampleRate, M_SQRT1_2, 1.0f);
-        y = dcBlocker.process (y);
+        y = std::tanh(dcBlocker.process (y));
 
         outputs[AUDIO_OUTPUT].setVoltage(y * 5.0f);
 	}

@@ -34,7 +34,7 @@ struct ChowPhaserFeedback : Module {
         // feedback process
         calcCoefs(rVal, -1.0f * params[FB_PARAM].getValue(), args.sampleRate);
         auto y = fbFilter.process(inputs[IN_INPUT].getVoltage());
-        outputs[OUT_OUTPUT].setVoltage(std::tanh(y));
+        outputs[OUT_OUTPUT].setVoltage(std::tanh(y / 5.0f) * 5.0f);
 	}
 
 private:
