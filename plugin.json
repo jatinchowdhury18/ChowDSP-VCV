@@ -2,7 +2,7 @@
   "slug": "ChowDSP",
   "name": "ChowDSP",
   "version": "1.0.0",
-  "license": "GPL-3.0",
+  "license": "GPL-3.0-or-later",
   "brand": "chowdsp",
   "author": "Jatin Chowdhury",
   "authorEmail": "jatin@ccmra.stanford.edu",
