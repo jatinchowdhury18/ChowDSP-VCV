@@ -2,7 +2,7 @@
 RACK_DIR ?= ../..
 
 # FLAGS will be passed to both the C and C++ compiler
-FLAGS += -Idep/include
+FLAGS += -Ilib -Isrc -Idep/include
 CFLAGS +=
 CXXFLAGS +=
 
@@ -11,9 +11,8 @@ CXXFLAGS +=
 LDFLAGS +=
 
 # Add .cpp files to the build
-SOURCES += $(wildcard src/*.cpp)
-SOURCES += $(wildcard src/shared/*.cpp)
-SOURCES += $(wildcard src/shared/r8lib/*.cpp)
+SOURCES += $(wildcard src/*.cpp) $(wildcard src/**/*.cpp)
+SOURCES += $(wildcard lib/r8lib/*.cpp)
 
 # libsamplerate...
 libsamplerate := dep/lib/libsamplerate.a
