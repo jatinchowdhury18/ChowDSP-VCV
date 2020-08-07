@@ -1,5 +1,6 @@
 #include <plugin.hpp>
 #include "HysteresisProcessing.hpp"
+#include <shared/oversampling.hpp>
 
 struct ChowTape : Module {
 	enum ParamIds {
@@ -28,16 +29,18 @@ struct ChowTape : Module {
 
         hysteresis.reset();
         hysteresis.setSolver (SolverType::NR5);
+
+        oversample.osProcess = [=] (float x) { return (float) hysteresis.process((double) x); };
 	}
-    
-    inline float calcMakeup(float width, float sat) const noexcept
-    {
-        return (1.0f + 0.6f * width) / (0.5f + 1.5f * (1.0f - sat));
-    }
 
 	void process(const ProcessArgs& args) override {
-        // set hysteresis sample rate
-        hysteresis.setSampleRate(args.sampleRate);
+        if(needsSRUpdate) {
+            // set hysteresis sample rate
+            hysteresis.setSampleRate(args.sampleRate * OSRatio);
+
+            // set oversampling sample rate
+            oversample.reset(args.sampleRate);
+        }
 
         // set hysteresis params
         float width = 1.0f - params[BIAS_PARAM].getValue();
@@ -50,7 +53,7 @@ struct ChowTape : Module {
         float x = clamp(inputs[AUDIO_INPUT].getVoltage() / 5.0f, -1.0f, 1.0f);
 
         // process hysteresis
-        float y = (float) hysteresis.process((double) x); // * calcMakeup(width, sat);
+        float y = oversample.process(x);
 
         // process DC blocker
         dcBlocker.setParameters(dsp::BiquadFilter::HIGHPASS, 30.0f / args.sampleRate, M_SQRT1_2, 1.0f);
@@ -59,9 +62,19 @@ struct ChowTape : Module {
         outputs[AUDIO_OUTPUT].setVoltage(y * 5.0f);
 	}
 
+    void onSampleRateChange() override {
+        needsSRUpdate = true;
+    }
+
 private:
+    enum {
+        OSRatio = 4,
+    };
+
     HysteresisProcessing hysteresis;
     dsp::BiquadFilter dcBlocker;
+    OversampledProcess<OSRatio> oversample;
+    bool needsSRUpdate = true;
 };
 
 
