@@ -3,7 +3,7 @@
 
 #include <plugin.hpp>
 #include "mixing_matrix_utils.hpp"
-#include <shared/delay.hpp>
+#include <shared/delay_line.hpp>
 #include <shared/shelf_filter.hpp>
 #include <numeric>
 
@@ -22,7 +22,7 @@ public:
 
         // accumulate from delay lines
         for(int sumInd = 0; sumInd < curDelays; ++sumInd)
-            delayReads[sumInd] = delayLines[sumInd].read();
+            delayReads[sumInd] = delayLines[sumInd].popSample();
 
         for(int dInd = 0; dInd < curDelays; ++dInd) {
             // multiply by mixing matrix
@@ -31,14 +31,15 @@ public:
             y += accum; // add to output
             accum += x; // add input to accumulator
             accum = shelfs[dInd].process(accum);
-            delayLines[dInd].write(accum);
+            delayLines[dInd].pushSample(accum);
+            delayLines[dInd].updateReadPointer();
         }
 
         return y;
     }
 
 private:
-    Delay delayLines[N];
+    DelayLine<float, DelayLineInterpolationTypes::Lagrange3rd> delayLines[N];
     std::vector<int> delayLensMs;
     float curDelaySamples[N];
     

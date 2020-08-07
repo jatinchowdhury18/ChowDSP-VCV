@@ -1,5 +1,5 @@
 #include <plugin.hpp>
-#include <shared/delay.hpp>
+#include <shared/delay_line.hpp>
 #include "fdn.hpp"
 
 struct ChowFDN : Module {
@@ -32,15 +32,16 @@ struct ChowFDN : Module {
         configParam(T60_HIGH_PARAM, 0.5f, 10.0f, 0.5f, "T60 High", " s");
         configParam(NUM_DELAYS_PARAM, 1.0f, 16.0f, 4.0f, "# delays");
         configParam(DRYWET_PARAM, 0.0f, 1.0f, 1.0f, "Dry/Wet");
+
+        preDelay.reset();
     }
 
     void process(const ProcessArgs& args) override {
         const float x = inputs[AUDIO_INPUT].getVoltage();
 
         // process pre-delay
-        preDelay.setProcessArgs(args);
-        float delayParam = clamp(params[PRE_DELAY_PARAM].getValue(), 0.0f, 1.0f);
-        preDelay.setDelayTimeMs(std::pow(maxPreDelayMs, delayParam));
+        float delayMs = std::pow(maxPreDelayMs, params[PRE_DELAY_PARAM].getValue());
+        preDelay.setDelay(args.sampleRate * delayMs / 1000.0f);
         float y = preDelay.process(x);
 
         // process FDN
@@ -58,7 +59,7 @@ struct ChowFDN : Module {
 
 private:
     const float maxPreDelayMs = 500.0f;
-    Delay preDelay;
+    DelayLine<float, DelayLineInterpolationTypes::Lagrange3rd> preDelay;
     FDN<16> fdn;
 };
 

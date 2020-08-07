@@ -42,10 +42,8 @@ void FDN<N>::prepare(const Module::ProcessArgs& args, float size, float t60Low, 
         // compute delay line lengths
         for(int dInd = 0; dInd < curDelays; ++dInd) {
             const auto curDelayLenMs = (float) delayLensMs[dInd] * size;
-            delayLines[dInd].setProcessArgs(args);
-            delayLines[dInd].setDelayTimeMs(curDelayLenMs);
-
             curDelaySamples[dInd] = (curDelayLenMs / 1000.0f) * fs;
+            delayLines[dInd].setDelay (curDelaySamples[dInd]);
         }
 
         oldSize = size;

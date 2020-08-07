@@ -14,18 +14,6 @@ LDFLAGS +=
 SOURCES += $(wildcard src/*.cpp) $(wildcard src/**/*.cpp)
 SOURCES += $(wildcard lib/r8lib/*.cpp)
 
-# libsamplerate...
-libsamplerate := dep/lib/libsamplerate.a
-OBJECTS += $(libsamplerate)
-DEPS += $(libsamplerate)
-
-$(libsamplerate):
-	$(WGET) http://www.mega-nerd.com/SRC/libsamplerate-0.1.9.tar.gz
-	cd dep && $(UNTAR) ../libsamplerate-0.1.9.tar.gz
-	cd dep/libsamplerate-0.1.9 && $(CONFIGURE)
-	cd dep/libsamplerate-0.1.9/src && $(MAKE)
-	cd dep/libsamplerate-0.1.9/src && $(MAKE) install
-
 # Add files to the ZIP package when running `make dist`
 # The compiled plugin and "plugin.json" are automatically added.
 DISTRIBUTABLES += res

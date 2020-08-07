@@ -37,9 +37,9 @@ stages:
         mac:
           imageName: 'macos-10.14'
           isMac: true
-        # windows:
-        #   imageName: 'vs2017-win2016'
-        #   isWindows: true
+        windows:
+          imageName: 'vs2017-win2016'
+          isWindows: true
         linux:
           imageName: 'ubuntu-16.04'
           isLinux: true
@@ -61,14 +61,14 @@ stages:
     - bash: |
         $(add-gitrev-to-plugin-version)
       displayName: Update Version in plugins.json
-    # - bash: |
-    #     export RACK_DIR=$AGENT_TEMPDIRECTORY/Rack-SDK
-    #     export CC=gcc
-    #     make azure-win-dist
-    #     mkdir artifacts_win/
-    #     cp dist/*zip artifacts_win/
-    #   displayName: Build Windows Plugin
-    #   condition: variables.isWindows
+    - bash: |
+        export RACK_DIR=$AGENT_TEMPDIRECTORY/Rack-SDK
+        export CC=gcc
+        make azure-win-dist
+        mkdir artifacts_win/
+        cp dist/*zip artifacts_win/
+      displayName: Build Windows Plugin
+      condition: variables.isWindows
     - bash: |
         export RACK_DIR=$AGENT_TEMPDIRECTORY/Rack-SDK
         make dist
@@ -98,12 +98,12 @@ stages:
       displayName: Publish MacOS Zip
       condition: variables.isMac
 
-    # - task: PublishPipelineArtifact@0
-    #   inputs:
-    #     artifactName: Plugin-Windows
-    #     targetPath: artifacts_win/
-    #   displayName: Publish Windows Zip
-    #   condition: variables.isWindows
+    - task: PublishPipelineArtifact@0
+      inputs:
+        artifactName: Plugin-Windows
+        targetPath: artifacts_win/
+      displayName: Publish Windows Zip
+      condition: variables.isWindows
 - stage: publish
   displayName: Publish Plugin
   dependsOn: build
@@ -120,11 +120,11 @@ stages:
             artifact: Plugin-MacOS
             patterns: "**/*.zip"
             targetPath: $(Build.ArtifactStagingDirectory)
-        # - task: DownloadPipelineArtifact@2
-        #   inputs:
-        #     artifact: Plugin-Windows
-        #     patterns: "**/*.zip"
-        #     targetPath: $(Build.ArtifactStagingDirectory)
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            artifact: Plugin-Windows
+            patterns: "**/*.zip"
+            targetPath: $(Build.ArtifactStagingDirectory)
         - bash: |
             ls -l $(Build.ArtifactStagingDirectory)
             export EXTEND_TAG=`date "+%Y%m%d"`
