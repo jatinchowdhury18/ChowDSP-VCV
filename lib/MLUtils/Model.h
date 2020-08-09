@@ -66,9 +66,10 @@ public:
         return outs.back()[0];
     }
 
+    std::vector<Layer<T>*> layers;
+
 private:
     const size_t in_size;
-    std::vector<Layer<T>*> layers;
     std::vector<T*> outs;
 };
 

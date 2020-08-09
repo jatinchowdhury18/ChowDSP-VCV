@@ -3,6 +3,8 @@
 #include <memory>
 #include <MLUtils/Model.h>
 
+#include "LayerRandomiser.hpp"
+
 struct ChowRNN : Module {
 	enum ParamIds {
         RANDOM_PARAM,
@@ -33,15 +35,42 @@ struct ChowRNN : Module {
         model.addLayer(new MLUtils::Dense<float> (NDims, 1));
 
         model.reset();
+
+        rando.zeroDenseBias(dynamic_cast<MLUtils::Dense<float>*> (model.layers.back()));
 	}
 
-	void process(const ProcessArgs& args) override {
-        float input[NDims];
+    void randomiseModel() {
+        if(auto denseLayer = dynamic_cast<MLUtils::Dense<float>*> (model.layers[0])) {
+            rando.randomDenseWeights(denseLayer);
+            rando.randomDenseBias(denseLayer);
+        }
 
+        if(auto gruLayer = dynamic_cast<MLUtils::GRULayer<float>*> (model.layers[2]))
+            rando.randomGRU(gruLayer);
+
+        if(auto denseLayer = dynamic_cast<MLUtils::Dense<float>*> (model.layers[3]))
+            rando.randomDenseWeights(denseLayer);
+    }
+
+	void process(const ProcessArgs& args) override {
+        // randomise if needed
+        if(params[RANDOM_PARAM].getValue()) {
+            randomiseModel();
+        }
+
+        // load RNN inputs
+        float input[NDims];
         for(int i = 0; i < NUM_INPUTS; ++i)
             input[i] = inputs[i].getVoltage();
 
-        outputs[OUT1].setVoltage(model.forward(input));
+        // process RNN
+        float y = model.forward(input);
+
+        // apply DC blocker
+        dcBlocker.setParameters(dsp::BiquadFilter::HIGHPASS, 30.0f / args.sampleRate, M_SQRT1_2, 1.0f);
+        y = dcBlocker.process (y);
+
+        outputs[OUT1].setVoltage(y);
 	}
 
 private:
@@ -50,6 +79,8 @@ private:
     };
 
     MLUtils::Model<float> model { NDims };
+    LayerRandomiser rando;
+    dsp::BiquadFilter dcBlocker;
 };
 
 
