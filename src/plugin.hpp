@@ -12,3 +12,4 @@ extern Model* modelChowTape;
 extern Model* modelChowPhaserFeedback;
 extern Model* modelChowPhaserMod;
 extern Model* modelChowFDN;
+extern Model* modelChowRNN;

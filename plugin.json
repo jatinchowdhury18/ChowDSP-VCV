@@ -49,6 +49,14 @@
         "Effect",
         "Reverb"
       ]
+    },
+    {
+      "slug": "ChowRNN",
+      "name": "ChowRNN",
+      "description": "Simple recurrent neural network",
+      "tags": [
+        "Effect"
+      ]
     }
   ]
 }
