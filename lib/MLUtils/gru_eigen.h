@@ -44,6 +44,10 @@ public:
     void setUVals(T** uVals);
     void setBVals(T** bVals);
 
+    T getWVal(size_t i, size_t k) const noexcept;
+    T getUVal(size_t i, size_t k) const noexcept;
+    T getBVal(size_t i, size_t k) const noexcept;
+
 private:
     Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> wVec_z;
     Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> wVec_r;

@@ -61,6 +61,7 @@ public:
 } // namespace MLUtils
 
 #else
+#include <cmath>
 
 namespace MLUtils
 {

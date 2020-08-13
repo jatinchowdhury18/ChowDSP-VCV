@@ -40,6 +40,14 @@ public:
 
     void setBias(T b) { bias = b; }
 
+    T getWeight(size_t i) const noexcept {
+        return weights[i];
+    }
+
+    T getBias() const noexcept {
+        return bias;
+    }
+
 private:
     const size_t in_size;
     T bias;
@@ -85,6 +93,15 @@ public:
     {
         for (size_t i = 0; i < Layer<T>::out_size; ++i)
             subLayers[i]->setBias (b[i]);
+    }
+
+    T getWeight(size_t i, size_t k) const noexcept {
+        return subLayers[i]->getWeight(k);
+    }
+
+
+    T getBias(size_t i) const noexcept {
+        return subLayers[i]->getBias();
     }
 
 private:

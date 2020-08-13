@@ -44,6 +44,15 @@ public:
             bias (i, 0) = b[i];
     }
 
+    T getWeight(size_t i, size_t k) const noexcept {
+        return weights (i, k);
+    }
+
+
+    T getBias(size_t i) const noexcept {
+        return bias (i, 0);
+    }
+
 private:
     Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> weights;
     Eigen::Matrix<T, Eigen::Dynamic, 1> bias;

@@ -4,6 +4,7 @@
 #include <MLUtils/Model.h>
 
 #include "LayerRandomiser.hpp"
+#include "LayerJSON.hpp"
 
 struct ChowRNN : Module {
 	enum ParamIds {
@@ -70,8 +71,56 @@ struct ChowRNN : Module {
         dcBlocker.setParameters(dsp::BiquadFilter::HIGHPASS, 30.0f / args.sampleRate, M_SQRT1_2, 1.0f);
         y = dcBlocker.process (y);
 
-        outputs[OUT1].setVoltage(y);
+
+        // makeup gain
+        int numConnected = 0;
+        for(auto in : inputs)
+            if(in.isConnected()) numConnected++;
+        float makeupGain = 4.0f / (float) std::max(numConnected, 1);
+
+        outputs[OUT1].setVoltage(y * makeupGain);
 	}
+
+    json_t* dataToJson() override {
+        json_t* rootJ = json_object();
+        
+        if(auto denseLayer = dynamic_cast<MLUtils::Dense<float>*> (model.layers[0])) {
+            auto dense1J = LayerJson::DenseToJson(denseLayer);
+            json_object_set_new(rootJ, "dense1", dense1J);
+        }
+
+        if(auto gruLayer = dynamic_cast<MLUtils::GRULayer<float>*> (model.layers[2])) {
+            auto gruJ = LayerJson::GruToJson(gruLayer);
+            json_object_set_new(rootJ, "gru", gruJ);
+        }
+
+        if(auto denseLayer = dynamic_cast<MLUtils::Dense<float>*> (model.layers[3])) {
+            auto denseOutJ = LayerJson::DenseToJson(denseLayer);
+            json_object_set_new(rootJ, "denseOut", denseOutJ);
+        }
+
+        return rootJ;
+    }
+
+    void dataFromJson(json_t* json) override {
+        json_t* dense1J = json_object_get(json, "dense1");
+        if(dense1J) {
+            if(auto denseLayer = dynamic_cast<MLUtils::Dense<float>*> (model.layers[0]))
+                LayerJson::JsonToDense(denseLayer, dense1J);
+        }
+
+        json_t* gruJ = json_object_get(json, "gru");
+        if(gruJ) {
+            if(auto gruLayer = dynamic_cast<MLUtils::GRULayer<float>*> (model.layers[2]))
+                LayerJson::JsonToGru(gruLayer, gruJ);
+        }
+
+        json_t* denseOutJ = json_object_get(json, "denseOut");
+        if(denseOutJ) {
+            if(auto denseLayer = dynamic_cast<MLUtils::Dense<float>*> (model.layers[3]))
+                LayerJson::JsonToDense(denseLayer, denseOutJ);
+        }
+    }
 
 private:
     enum {

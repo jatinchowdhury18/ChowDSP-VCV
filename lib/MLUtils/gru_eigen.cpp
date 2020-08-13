@@ -68,6 +68,42 @@ void GRULayer<T>::setBVals(T** bVals)
         }
     }
 }
+
+template<typename T>
+T GRULayer<T>::getWVal(size_t i, size_t k) const noexcept
+{
+    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> set = wVec_z;
+    if(k > 2 * Layer<T>::out_size)
+        set = wVec_c;
+    else if (k > Layer<T>::out_size)
+        set = wVec_r;
+
+    return set (k % Layer<T>::out_size, i);
+}
+
+template<typename T>
+T GRULayer<T>::getUVal(size_t i, size_t k) const noexcept
+{
+    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> set = uVec_z;
+    if(k > 2 * Layer<T>::out_size)
+        set = uVec_c;
+    else if (k > Layer<T>::out_size)
+        set = uVec_r;
+
+    return set (k % Layer<T>::out_size, i);
+}
+
+template<typename T>
+T GRULayer<T>::getBVal(size_t i, size_t k) const noexcept
+{
+    Eigen::Matrix<T, Eigen::Dynamic, 2> set = bVec_z;
+    if(k > 2 * Layer<T>::out_size)
+        set = bVec_c;
+    else if (k > Layer<T>::out_size)
+        set = bVec_r;
+
+    return set (k % Layer<T>::out_size, i);
+}
 #endif // USE_EIGEN
 
 } // namespace MLUtils
