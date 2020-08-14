@@ -57,6 +57,15 @@
       "tags": [
         "Effect"
       ]
+    },
+    {
+      "slug": "ChowModal",
+      "name": "ChowModal",
+      "description": "Single resonant mode",
+      "tags": [
+        "Effect",
+        "Oscillator"
+      ]
     }
   ]
 }

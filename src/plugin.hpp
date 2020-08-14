@@ -13,3 +13,4 @@ extern Model* modelChowPhaserFeedback;
 extern Model* modelChowPhaserMod;
 extern Model* modelChowFDN;
 extern Model* modelChowRNN;
+extern Model* modelChowModal;
