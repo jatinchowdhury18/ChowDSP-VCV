@@ -30,6 +30,7 @@ struct ChowRNN : Module {
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
         configParam(RANDOM_PARAM, 0.0f, 1.0f, 0.0f, "Randomise");
 
+        // model architecture: input -> Dense(4) -> Tanh Activation(4) -> GRU(4) -> Dense(1)
         model.addLayer(new MLUtils::Dense<float> (NDims, NDims));
         model.addLayer(new MLUtils::TanhActivation<float> (NDims));
         model.addLayer(new MLUtils::GRULayer<float> (NDims, NDims));
@@ -37,9 +38,11 @@ struct ChowRNN : Module {
 
         model.reset();
 
+        // no bias on the output layer, since we're going to use a DC blocker anyway
         rando.zeroDenseBias(dynamic_cast<MLUtils::Dense<float>*> (model.layers.back()));
 	}
 
+    // randomise model weights
     void randomiseModel() {
         if(auto denseLayer = dynamic_cast<MLUtils::Dense<float>*> (model.layers[0])) {
             rando.randomDenseWeights(denseLayer);
@@ -67,10 +70,16 @@ struct ChowRNN : Module {
         // process RNN
         float y = model.forward(input);
 
+        // Unstable RNN weights??
+        if (std::isnan(y))
+        {
+            y = 0.0f;
+            model.reset();
+        }
+
         // apply DC blocker
         dcBlocker.setParameters(dsp::BiquadFilter::HIGHPASS, 30.0f / args.sampleRate, M_SQRT1_2, 1.0f);
-        y = dcBlocker.process (y);
-
+        y = dcBlocker.process(y);
 
         // makeup gain
         int numConnected = 0;
@@ -81,6 +90,11 @@ struct ChowRNN : Module {
         outputs[OUT1].setVoltage(y * makeupGain);
 	}
 
+    void onReset() override {
+        model.reset();
+    }
+
+    // save model weights to JSON
     json_t* dataToJson() override {
         json_t* rootJ = json_object();
         
@@ -102,6 +116,7 @@ struct ChowRNN : Module {
         return rootJ;
     }
 
+    // load model weights from JSON
     void dataFromJson(json_t* json) override {
         json_t* dense1J = json_object_get(json, "dense1");
         if(dense1J) {

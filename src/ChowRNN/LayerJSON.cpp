@@ -1,5 +1,6 @@
 #include "LayerJSON.hpp"
 
+// serialize a 1D array as accessed buy func(i)
 json_t* serialize_array(size_t nDims, std::function<json_t*(size_t)> func) {
     json_t* array = json_array();
 
@@ -9,6 +10,7 @@ json_t* serialize_array(size_t nDims, std::function<json_t*(size_t)> func) {
     return array;
 }
 
+// deserialize 1D array into float vector
 std::vector<float> deserialize_array(json_t* array, size_t nDims) {
     std::vector<float> vec (nDims, 0.0f);
 
@@ -20,6 +22,7 @@ std::vector<float> deserialize_array(json_t* array, size_t nDims) {
     return vec;
 }
 
+// serialize a 2D array as accessed buy func(i, k)
 json_t* serialize_double_array(size_t nDims1, size_t nDims2, std::function<json_t*(size_t,size_t)> func) {
     json_t* array = json_array();
 
@@ -31,6 +34,7 @@ json_t* serialize_double_array(size_t nDims1, size_t nDims2, std::function<json_
     return array;
 }
 
+// deserialize 2D array into 2D float vector
 std::vector<std::vector<float>> deserialize_double_array(json_t* array, size_t nDims1, size_t nDims2) {
     std::vector<std::vector<float>> vec;
 

@@ -42,6 +42,11 @@ The Mod module contains a series of modulating allpass stages. The **mod** knob 
 
 A [feedback delay network](https://ccrma.stanford.edu/~jos/cfdn/Feedback_Delay_Networks.html) reverb, with controls for **pre-delay**, room **size**, decay times (**T60 Low** and **T60 High**), and **dry/wet** mix. You can use any **number of delay lines** up to 16, but note that more delay lines will use more CPU.
 
+## CHOW RNN
+<img src="./doc/ChowRNN_cap.PNG" alt="Pic" height="300">
+
+A [Recurrent Neural Network](https://en.wikipedia.org/wiki/Recurrent_neural_network) with 4 inputs and 1 output. The network architecture is as follows: the input channels are fed through a fully-connected layer containing 4 "neurons", followed by a recurrent layer consisting of 4 [Gated Recurrent Units](https://en.wikipedia.org/wiki/Gated_recurrent_unit). The output of the recurrent layer is then fed through another fully-connected layer, this time containing only a single neuron, that essentially performs a weighted sum on the 4 inputs. To change the weights of the RNN, use the randomise button.
+
 ## License
 
 ChowDSP VCV Modules are licensed under the GPLv3 license. Enjoy!

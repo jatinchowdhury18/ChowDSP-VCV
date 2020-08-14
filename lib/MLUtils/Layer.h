@@ -6,6 +6,7 @@
 namespace MLUtils
 {
 
+/** Neural network layer */
 template<typename T>
 class Layer
 {

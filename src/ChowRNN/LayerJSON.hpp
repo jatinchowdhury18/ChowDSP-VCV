@@ -4,6 +4,7 @@
 #include <rack.hpp>
 #include <MLUtils/Model.h>
 
+// utility functions to lave RNN layer weights to JSON
 class LayerJson {
 public:
     static json_t* DenseToJson(MLUtils::Dense<float>* dense);

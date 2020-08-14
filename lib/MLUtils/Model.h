@@ -12,6 +12,7 @@
 namespace MLUtils
 {
 
+/** Neural network model */
 template<typename T>
 class Model
 {
