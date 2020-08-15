@@ -3,6 +3,10 @@
 
 #include <complex>
 
+/**
+ * A modal oscillator using the Max Mathews phasor filter.
+ * For more information, see: https://ccrma.stanford.edu/~jos/smac03maxjos/
+ */ 
 class Mode
 {
 public:
