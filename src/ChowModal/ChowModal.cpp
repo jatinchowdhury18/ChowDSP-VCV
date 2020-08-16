@@ -29,9 +29,9 @@ struct ChowModal : Module {
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 
         configParam(FREQ_PARAM, -36.0f, 36.0f, 0.0f, "Frequency", " Hz", dsp::FREQ_SEMITONE, dsp::FREQ_C4);
-        configParam(DECAY_PARAM, 0.0f, 1.0f, 0.5f, "Decay", " seconds", 0.0f, decayMult);
-        configParam(AMP_PARAM, 0.0f, 1.0f, 1.0f, "Amplitude");
-        configParam(PHASE_PARAM, 0.0f, 1.0f, 0.5f, "Phase");
+        configParam(DECAY_PARAM, 0.0f, 1.0f, 0.2f, "Decay", " seconds", 0.0f, decayMult);
+        configParam(AMP_PARAM, 0.0f, 1.0f, 0.25f, "Amplitude");
+        configParam(PHASE_PARAM, 0.0f, 1.0f, 0.0f, "Phase");
 
         mode.prepare((double) APP->engine->getSampleRate());
 	}
@@ -56,7 +56,7 @@ struct ChowModal : Module {
         // set complex amplitude
         float amp = params[AMP_PARAM].getValue() + 0.1f * inputs[AMP_IN].getVoltage();
         float phase = params[PHASE_PARAM].getValue() + 0.1f * inputs[PHASE_IN].getVoltage();
-        mode.setAmp(0.25f * amp, phase);
+        mode.setAmp(0.01f * amp, phase);
 
         mode.updateParams();
 

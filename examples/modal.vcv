@@ -133,7 +133,7 @@
     {
       "id": 13,
       "plugin": "ChowDSP",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "model": "ChowModal",
       "params": [
         {
@@ -146,7 +146,7 @@
         },
         {
           "id": 2,
-          "value": 0.326499939
+          "value": 1.0
         },
         {
           "id": 3,
@@ -191,7 +191,7 @@
     {
       "id": 16,
       "plugin": "ChowDSP",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "model": "ChowModal",
       "params": [
         {
@@ -204,7 +204,7 @@
         },
         {
           "id": 2,
-          "value": 0.393000007
+          "value": 1.0
         },
         {
           "id": 3,
@@ -221,7 +221,7 @@
     {
       "id": 17,
       "plugin": "ChowDSP",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "model": "ChowModal",
       "params": [
         {
@@ -234,7 +234,7 @@
         },
         {
           "id": 2,
-          "value": 0.114000022
+          "value": 0.616000056
         },
         {
           "id": 3,
@@ -256,7 +256,7 @@
       "params": [
         {
           "id": 0,
-          "value": 0.453999937
+          "value": 1.58489323
         },
         {
           "id": 1,
@@ -337,7 +337,7 @@
     {
       "id": 21,
       "plugin": "ChowDSP",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "model": "ChowTape",
       "params": [
         {

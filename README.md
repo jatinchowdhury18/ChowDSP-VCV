@@ -45,13 +45,13 @@ A [feedback delay network](https://ccrma.stanford.edu/~jos/cfdn/Feedback_Delay_N
 ## CHOW RNN
 <img src="./doc/ChowRNN_cap.PNG" alt="Pic" height="300">
 
-A [Recurrent Neural Network](https://en.wikipedia.org/wiki/Recurrent_neural_network) with 4 inputs and 1 output. The network architecture is as follows: the input channels are fed through a fully-connected layer containing 4 "neurons", followed by a recurrent layer consisting of 4 [Gated Recurrent Units](https://en.wikipedia.org/wiki/Gated_recurrent_unit). The output of the recurrent layer is then fed through another fully-connected layer, this time containing only a single neuron, that essentially performs a weighted sum on the 4 inputs. To change the weights of the RNN, use the randomise button.
+A [Recurrent Neural Network](https://en.wikipedia.org/wiki/Recurrent_neural_network) with 4 inputs and 1 output. The network architecture is as follows: the input channels are fed through a fully-connected layer containing 4 "neurons", followed by a recurrent layer consisting of 4 [Gated Recurrent Units](https://en.wikipedia.org/wiki/Gated_recurrent_unit). The output of the recurrent layer is then fed through another fully-connected layer, this time containing only a single neuron, that essentially performs a weighted sum on the 4 inputs. To change the weights of the RNN, use the **randomise** button.
 
 ## CHOW Modal
 <img src="./doc/ChowModal_cap.PNG" alt="Pic" height="300">
 
-A modal filter implemented using the [Max Mathews phasor filter](https://ccrma.stanford.edu/~jos/smac03maxjos/). These filters can be combined to do things like synthesizing [carillon bells](https://www.dafx.de/paper-archive/2019/DAFx2019_paper_34.pdf), or [waterbottles](https://github.com/jatinchowdhury18/modal-waterbottles). For an example see the [demo patch](./examples/modal.vcv).
-
+A modal filter implemented using the [Max Mathews phasor filter](https://ccrma.stanford.edu/~jos/smac03maxjos/). Includes controls for the mode's
+**Frequency**, **Decay Time**, **Amplitude**,, and **Phase**. These filters can be combined to synthesize things like [carillon bells](https://www.dafx.de/paper-archive/2019/DAFx2019_paper_34.pdf), or [waterbottles](https://github.com/jatinchowdhury18/modal-waterbottles). For an example see the [demo patch](./examples/modal.vcv).
 
 ## License
 
