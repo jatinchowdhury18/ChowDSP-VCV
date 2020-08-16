@@ -4,7 +4,7 @@ RACK_DIR ?= ../..
 # FLAGS will be passed to both the C and C++ compiler
 FLAGS += -Ilib -Isrc -DUSE_EIGEN
 CFLAGS +=
-CXXFLAGS += -Wno-deprecated-copy
+CXXFLAGS +=
 
 # Careful about linking to shared libraries, since you can't assume much about the user's environment and library search path.
 # Static libraries are fine, but they should be added to this plugin's build system.
@@ -21,6 +21,13 @@ DISTRIBUTABLES += $(wildcard LICENSE*)
 
 # Include the Rack plugin Makefile framework
 include $(RACK_DIR)/plugin.mk
+
+# Eigen library has a ton of deprecated copy errors
+ifndef_any_of = $(filter undefined,$(foreach v,$(1),$(origin $(v))))
+ifdef_any_of = $(filter-out undefined,$(foreach v,$(1),$(origin $(v))))
+ifneq ($(call ifdef_any_of,ARCH_WIN ARCH_LIN),)
+  CXXFLAGS += -Wno-deprecated-copy
+endif
 
 ifdef ARCH_WIN
 # extra dist target for Azure CI Windows build, as there is only 7zip available and no zip command
