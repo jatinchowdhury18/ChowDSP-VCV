@@ -16,14 +16,14 @@ BENCH_SOURCES += $(MY_RACK)/src/Quantity.cpp $(MY_RACK)/src/app.cpp $(MY_RACK)/s
 BENCH_SOURCES += $(wildcard $(MY_RACK)/src/*/*.cpp)
 
 BENCH_SOURCES := $(filter-out $(MY_RACK)/src/main.cpp, $(BENCH_SOURCES))
-LDFLAGS = 
+BENCH_LDFLAGS = 
 
 ifdef ARCH_LIN
   BENCH_SOURCES += $(MY_RACK)/dep/osdialog/osdialog_gtk2.c
 build_bench/$(MY_RACK)/dep/osdialog/osdialog_gtk2.c.o: CXXFLAGS += $(shell pkg-config --cflags gtk+-2.0)
   
   CXXFLAGS += -fpermissive
-  LDFLAGS += -rdynamic \
+  BENCH_LDFLAGS += -rdynamic \
     $(RACK_DIR)/dep/lib/libGLEW.a $(RACK_DIR)/dep/lib/libglfw3.a $(RACK_DIR)/dep/lib/libjansson.a $(RACK_DIR)/dep/lib/libcurl.a $(RACK_DIR)/dep/lib/libssl.a $(RACK_DIR)/dep/lib/libcrypto.a $(RACK_DIR)/dep/lib/libzip.a $(RACK_DIR)/dep/lib/libz.a $(RACK_DIR)/dep/lib/libspeexdsp.a $(RACK_DIR)/dep/lib/librtaudio.a \
 	-lpthread -lGL -ldl -lX11 -lasound -ljack \
  	$(shell pkg-config --libs gtk+-2.0)
@@ -46,4 +46,4 @@ cleanbench :
 	rm -fv bench.exe
 
 bench.exe : $(BENCH_OBJECTS)
-	$(CXX) -o $@ $^ $(LDFLAGS)
+	$(CXX) -o $@ $^ $(BENCH_LDFLAGS)
