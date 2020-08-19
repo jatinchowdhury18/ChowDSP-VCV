@@ -1,7 +1,7 @@
 #ifndef OVERSAMPLING_H_INCLUDED
 #define OVERSAMPLING_H_INCLUDED
 
-#include <plugin.hpp>
+#include "iir.hpp"
 #include <type_traits>
 #include <functional>
 
@@ -34,7 +34,7 @@ public:
         auto Qs = calculateButterQs(2*N);
 
         for(int i = 0; i < N; ++i)
-            filters[i].setParameters(dsp::BiquadFilter::Type::LOWPASS, fc / sampleRate, Qs[i], 1.0f);
+            filters[i].setParameters(BiquadFilter::Type::LOWPASS, fc / sampleRate, Qs[i], 1.0f);
     }
     
     inline float process(float x) noexcept {
@@ -45,7 +45,7 @@ public:
     }
 
 private:
-    dsp::BiquadFilter filters[N];
+    BiquadFilter filters[N];
 };
 
 /** 

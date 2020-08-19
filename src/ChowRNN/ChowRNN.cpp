@@ -3,6 +3,7 @@
 #include <memory>
 #include <MLUtils/Model.h>
 
+#include "../shared/iir.hpp"
 #include "LayerRandomiser.hpp"
 #include "LayerJSON.hpp"
 
@@ -78,7 +79,7 @@ struct ChowRNN : Module {
         }
 
         // apply DC blocker
-        dcBlocker.setParameters(dsp::BiquadFilter::HIGHPASS, 30.0f / args.sampleRate, M_SQRT1_2, 1.0f);
+        dcBlocker.setParameters(BiquadFilter::HIGHPASS, 30.0f / args.sampleRate, M_SQRT1_2, 1.0f);
         y = dcBlocker.process(y);
 
         // makeup gain
@@ -144,7 +145,7 @@ private:
 
     MLUtils::Model<float> model { NDims };
     LayerRandomiser rando;
-    dsp::BiquadFilter dcBlocker;
+    BiquadFilter dcBlocker;
 };
 
 

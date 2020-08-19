@@ -1,4 +1,5 @@
 #include "../plugin.hpp"
+#include "../shared/iir.hpp"
 #include "ldr.hpp"
 
 struct ChowPhaserFeedback : Module {
@@ -58,8 +59,8 @@ private:
 
         // bilinear transform
         const float a0 = a0s * KSq + a1s * K + a2s;
-        a[0] = 2.0f * (a2s - a0s * KSq) / a0;
-        a[1] = (a0s * KSq - a1s * K + a2s) / a0;
+        a[1] = 2.0f * (a2s - a0s * KSq) / a0;
+        a[2] = (a0s * KSq - a1s * K + a2s) / a0;
         b[0] = (b0s * KSq + b1s * K + b2s) / a0;
         b[1] = 2.0f * (b2s - b0s * KSq) / a0;
         b[2] = (b0s * KSq - b1s * K + b2s) / a0;
@@ -74,8 +75,8 @@ private:
         return radicand >= 0.0f ? 0.0f : std::sqrt (-radicand) / (2.0f * a);
     }
 
-    dsp::IIRFilter<3, 3, float> fbFilter;
-    float a[2];
+    BiquadFilter fbFilter;
+    float a[3];
     float b[3];
 };
 

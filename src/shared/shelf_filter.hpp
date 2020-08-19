@@ -1,10 +1,10 @@
 #ifndef SHELFFILTER_H_INCLUDED
 #define SHELFFILTER_H_INCLUDED
 
-#include "../plugin.hpp"
+#include "iir.hpp"
 
 // first order shelving filter
-class ShelfFilter : public dsp::IIRFilter<2, 2, float> {
+class ShelfFilter : public OnePole {
 public:
     ShelfFilter() {}
 
@@ -33,7 +33,7 @@ public:
 
         b[0] = (b0*K + b1) / a0_z;
         b[1] = (-b0*K + b1) / a0_z;
-        a[0] = (-a0*K + a1) / a0_z;
+        a[1] = (-a0*K + a1) / a0_z;
     }
 };
 

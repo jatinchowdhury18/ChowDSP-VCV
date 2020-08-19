@@ -1,4 +1,5 @@
 #include "../plugin.hpp"
+#include "../shared/iir.hpp"
 #include "HysteresisProcessing.hpp"
 #include "../shared/oversampling.hpp"
 
@@ -56,7 +57,7 @@ struct ChowTape : Module {
         float y = oversample.process(x);
 
         // process DC blocker
-        dcBlocker.setParameters(dsp::BiquadFilter::HIGHPASS, 30.0f / args.sampleRate, M_SQRT1_2, 1.0f);
+        dcBlocker.setParameters(BiquadFilter::HIGHPASS, 30.0f / args.sampleRate, M_SQRT1_2, 1.0f);
         y = std::tanh(dcBlocker.process (y));
 
         outputs[AUDIO_OUTPUT].setVoltage(y * 5.0f);
@@ -72,7 +73,7 @@ private:
     };
 
     HysteresisProcessing hysteresis;
-    dsp::BiquadFilter dcBlocker;
+    BiquadFilter dcBlocker;
     OversampledProcess<OSRatio> oversample;
     bool needsSRUpdate = true;
 };
