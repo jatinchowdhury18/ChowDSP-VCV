@@ -1,4 +1,4 @@
-/build
+/build*
 /dist
 /plugin.so
 /plugin.dylib
@@ -6,3 +6,4 @@
 .DS_Store
 /.vscode
 /dep
+*.exe

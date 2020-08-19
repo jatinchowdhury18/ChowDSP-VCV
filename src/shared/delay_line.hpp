@@ -8,7 +8,7 @@
 #ifndef DELAYLINE_H_INCLUDED
 #define DELAYLINE_H_INCLUDED
 
-#include <plugin.hpp>
+#include "../plugin.hpp"
 #include <type_traits>
 
 //==============================================================================

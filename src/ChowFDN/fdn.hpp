@@ -1,10 +1,10 @@
 #ifndef FDN_H_INCLUDED
 #define FDN_H_INCLUDED
 
-#include <plugin.hpp>
+#include "../plugin.hpp"
 #include "mixing_matrix_utils.hpp"
-#include <shared/delay_line.hpp>
-#include <shared/shelf_filter.hpp>
+#include "../shared/delay_line.hpp"
+#include "../shared/shelf_filter.hpp"
 #include <numeric>
 
 template<size_t N>

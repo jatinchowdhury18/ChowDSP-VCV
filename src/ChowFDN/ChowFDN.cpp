@@ -1,5 +1,5 @@
-#include <plugin.hpp>
-#include <shared/delay_line.hpp>
+#include "../plugin.hpp"
+#include "../shared/delay_line.hpp"
 #include "fdn.hpp"
 
 struct ChowFDN : Module {

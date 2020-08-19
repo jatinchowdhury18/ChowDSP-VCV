@@ -2,7 +2,7 @@
 RACK_DIR ?= ../..
 
 # FLAGS will be passed to both the C and C++ compiler
-FLAGS += -Ilib -Isrc -DUSE_EIGEN
+FLAGS += -Ilib -DUSE_EIGEN
 CFLAGS +=
 CXXFLAGS +=
 
@@ -42,3 +42,5 @@ azure-win-dist: all
 	@# Create ZIP package
 	cd dist && 7z a -tzip -mx=9 $(SLUG)-$(VERSION)-$(ARCH).zip -r $(SLUG)
 endif
+
+include bench.mk

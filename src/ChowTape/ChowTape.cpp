@@ -1,6 +1,6 @@
-#include <plugin.hpp>
+#include "../plugin.hpp"
 #include "HysteresisProcessing.hpp"
-#include <shared/oversampling.hpp>
+#include "../shared/oversampling.hpp"
 
 struct ChowTape : Module {
 	enum ParamIds {
