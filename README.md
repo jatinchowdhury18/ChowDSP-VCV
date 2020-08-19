@@ -5,12 +5,7 @@
 
 This repository contains [ChowDSP](https://ccrma.stanford.edu/~jatin/chowdsp) plugins built as VCV Rack modules.
 
-<img src="./doc/ChowTape_cap.PNG" alt="Pic" height="300">
-<img src="./doc/ChowPhaseFeedback_cap.PNG" alt="Pic" height="300">
-<img src="./doc/ChowPhaseMod_cap.PNG" alt="Pic" height="300">
-<img src="./doc/ChowFDN_cap.PNG" alt="Pic" height="300">
-<img src="./doc/ChowRNN_cap.PNG" alt="Pic" height="300">
-<img src="./doc/ChowModal_cap.PNG" alt="Pic" height="300">
+<img src="./doc/ChowTape_cap.PNG" alt="Pic" height="300"><img src="./doc/ChowPhaseFeedback_cap.PNG" alt="Pic" height="300"><img src="./doc/ChowPhaseMod_cap.PNG" alt="Pic" height="300"><img src="./doc/ChowFDN_cap.PNG" alt="Pic" height="300"><img src="./doc/ChowRNN_cap.PNG" alt="Pic" height="300"><img src="./doc/ChowModal_cap.PNG" alt="Pic" height="300">
 
 For more information, see the [User Manual](./doc/manual.md).
 
