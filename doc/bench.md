@@ -14,6 +14,12 @@ $ cd ChowDSP-VCV/
 $ make
 ```
 
+Next, set the location of your Rack folder in the `bench.mk` file:
+```mk
+# Set this for yourself
+MY_RACK = ~/Rack
+```
+
 We are now ready to build and run the benchmarking suite.
 ```bash
 $ make bench

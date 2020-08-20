@@ -5,7 +5,7 @@ namespace {
     constexpr float fs = 44100.0f;
 
     enum {
-        NUM_SECONDS = 10,
+        NUM_SECONDS = 5,
         NUM_SAMPLES = (int) fs * NUM_SECONDS,
     };
 }
@@ -36,7 +36,8 @@ void ModuleBench::setParams (ParamVec params) {
 void ModuleBench::generateBuffers() {
     const int numChannels = module->inputs.size();
 
-    std::default_random_engine generator;
+    int seed = 0x1234;
+    std::default_random_engine generator(seed);
     std::uniform_real_distribution<float> dist(-5.0f, 5.0f);
 
     inputs.clear();

@@ -1,7 +1,6 @@
 #include <iostream>
 #include "../src/plugin.hpp"
 #include "modulebench.hpp"
-#include "benchmark.hpp"
 
 void runModuleBench(rack::plugin::Model* model, ParamVec params = {}) {
     std::cout << "Running " << model->slug << " bench..." << std::endl;

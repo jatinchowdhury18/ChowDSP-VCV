@@ -31,6 +31,6 @@ public:
 
 private:
     enum {
-        NUM_ITER = 10,
+        NUM_ITER = 30,
     };
 };
