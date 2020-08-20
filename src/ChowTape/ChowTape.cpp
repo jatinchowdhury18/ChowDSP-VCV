@@ -29,7 +29,7 @@ struct ChowTape : Module {
 		configParam(DRIVE_PARAM, 0.f, 1.f, 0.5f, "");
 
         hysteresis.reset();
-        hysteresis.setSolver (SolverType::NR5);
+        hysteresis.setSolver (SolverType::NR4);
 
         oversample.osProcess = [=] (float x) { return (float) hysteresis.process((double) x); };
 	}

@@ -71,12 +71,12 @@ void HysteresisProcessing::setSolver (SolverType solverType)
         solver = &HysteresisProcessing::RK4;
         return;
 
-    case SolverType::NR5:
-        numIter = 5;
+    case SolverType::NR4:
+        numIter = 4;
         return;
 
-    case SolverType::NR10:
-        numIter = 10;
+    case SolverType::NR8:
+        numIter = 8;
         return;
 
     default: // RK2
@@ -167,12 +167,33 @@ inline double HysteresisProcessing::NR (double H, double H_d) noexcept
 {
     double M = M_n1;
     const double last_dMdt = hysteresisFunc (M_n1, H_n1, H_d_n1);
-    for (int n = 0; n < numIter; ++n)
-    {
-        const double dMdt = hysteresisFunc (M, H, H_d);
-        const double dMdtPrime = hysteresisFuncPrime (H_d, dMdt);
 
-        const double deltaNR = (M - M_n1 - Talpha * (dMdt + last_dMdt)) / (1.0 - Talpha * dMdtPrime);
+    // loop unrolled for speed
+    double dMdt, dMdtPrime, deltaNR;
+    for (int n = 0; n < numIter; n += 4)
+    {
+        // loop #1
+        dMdt = hysteresisFunc (M, H, H_d);
+        dMdtPrime = hysteresisFuncPrime (H_d, dMdt);
+        deltaNR = (M - M_n1 - Talpha * (dMdt + last_dMdt)) / (1.0 - Talpha * dMdtPrime);
+        M -= deltaNR;
+
+        // loop #2
+        dMdt = hysteresisFunc (M, H, H_d);
+        dMdtPrime = hysteresisFuncPrime (H_d, dMdt);
+        deltaNR = (M - M_n1 - Talpha * (dMdt + last_dMdt)) / (1.0 - Talpha * dMdtPrime);
+        M -= deltaNR;
+
+        // loop #3
+        dMdt = hysteresisFunc (M, H, H_d);
+        dMdtPrime = hysteresisFuncPrime (H_d, dMdt);
+        deltaNR = (M - M_n1 - Talpha * (dMdt + last_dMdt)) / (1.0 - Talpha * dMdtPrime);
+        M -= deltaNR;
+
+        // loop #4
+        dMdt = hysteresisFunc (M, H, H_d);
+        dMdtPrime = hysteresisFuncPrime (H_d, dMdt);
+        deltaNR = (M - M_n1 - Talpha * (dMdt + last_dMdt)) / (1.0 - Talpha * dMdtPrime);
         M -= deltaNR;
     }
 
