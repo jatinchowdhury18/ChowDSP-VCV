@@ -18,3 +18,11 @@ void init(Plugin* p) {
 	// Any other plugin initialization may go here.
 	// As an alternative, consider lazy-loading assets and lookup tables when your module is created to reduce startup times of Rack.
 }
+
+void createScrews(ModuleWidget& mw)
+{
+    mw.addChild(createWidget<ScrewBlack>(Vec(0, 0)));
+	mw.addChild(createWidget<ScrewBlack>(Vec(mw.box.size.x - 15, 0)));
+	mw.addChild(createWidget<ScrewBlack>(Vec(0, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+	mw.addChild(createWidget<ScrewBlack>(Vec(mw.box.size.x - 15, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+}

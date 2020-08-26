@@ -153,20 +153,15 @@ struct ChowRNNWidget : ModuleWidget {
 	ChowRNNWidget(ChowRNN* module) {
 		setModule(module);
 		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/ChowRNN.svg")));
+        createScrews(*this);
 
-		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+        addParam(createParamCentered<PinwheelTeal>(mm2px(Vec(15.25, 97.25)), module, ChowRNN::RANDOM_PARAM));
 
-        addParam(createParamCentered<LEDBezel>(mm2px(Vec(22.875, 83.0)), module, ChowRNN::RANDOM_PARAM));
-
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.625, 33.0)), module, ChowRNN::IN1));
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.625, 53.0)), module, ChowRNN::IN2));
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.625, 73.0)), module, ChowRNN::IN3));
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(7.625, 93.0)), module, ChowRNN::IN4));
-
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(22.875, 63.0)), module, ChowRNN::OUT1));
+        addInput(createInputCentered<ChowPort>(mm2px(Vec(15.25, 23.75)), module, ChowRNN::IN1));
+        addInput(createInputCentered<ChowPort>(mm2px(Vec(15.25, 40.5)), module, ChowRNN::IN2));
+        addInput(createInputCentered<ChowPort>(mm2px(Vec(15.25, 57.5)), module, ChowRNN::IN3));
+        addInput(createInputCentered<ChowPort>(mm2px(Vec(15.25, 74.5)), module, ChowRNN::IN4));
+		addOutput(createOutputCentered<ChowPort>(mm2px(Vec(15.15, 115.0)), module, ChowRNN::OUT1));
 	}
 };
 

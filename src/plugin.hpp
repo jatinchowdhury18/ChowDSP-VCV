@@ -1,6 +1,6 @@
 #pragma once
 #include <rack.hpp>
-
+#include "shared/components.hpp"
 
 using namespace rack;
 
@@ -14,3 +14,5 @@ extern Model* modelChowPhaserMod;
 extern Model* modelChowFDN;
 extern Model* modelChowRNN;
 extern Model* modelChowModal;
+
+void createScrews(ModuleWidget& mw);

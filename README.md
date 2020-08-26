@@ -22,6 +22,12 @@ $ make install
 
 The ChowDSP-VCV repository also contains a benchmarking suite. For more information on building and running benchmarks, see the [benchmark documentation](./doc/bench.md).
 
+## Credits
+
+ChowDSP VCV uses the [Eigen](http://eigen.tuxfamily.org/) and [r8lib](https://people.sc.fsu.edu/~jburkardt/f_src/r8lib/r8lib.html) libraries for linear algebra, as well as Stefano D'Angelo's [Wright Omega function approximations](http://www.dangelo.audio/dafx2019-omega.html).
+
+Module design by [Margus Mets](mailto:hello@mmcreative.eu).
+
 ## License
 
 ChowDSP VCV Modules are licensed under the GPLv3 license. Enjoy!

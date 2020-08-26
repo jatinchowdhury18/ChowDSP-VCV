@@ -83,19 +83,14 @@ struct ChowTapeWidget : ModuleWidget {
 	ChowTapeWidget(ChowTape* module) {
 		setModule(module);
 		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/ChowTape.svg")));
+		createScrews(*this);
 
-		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+        addParam(createParamCentered<ChowKnob>(mm2px(Vec(15.25, 26.75)), module, ChowTape::BIAS_PARAM));
+        addParam(createParamCentered<ChowKnob>(mm2px(Vec(15.25, 51.0)), module, ChowTape::SAT_PARAM));
+        addParam(createParamCentered<ChowKnob>(mm2px(Vec(15.25, 75.5)), module, ChowTape::DRIVE_PARAM));
 
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(15.25, 23.0)), module, ChowTape::BIAS_PARAM));
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(15.25, 43.0)), module, ChowTape::SAT_PARAM));
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(15.25, 63.0)), module, ChowTape::DRIVE_PARAM));
-
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(15.25, 93.0)), module, ChowTape::AUDIO_INPUT));
-
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(15.25, 113.0)), module, ChowTape::AUDIO_OUTPUT));
+        addInput(createInputCentered<ChowPort>(mm2px(Vec(15.25, 97.5)), module, ChowTape::AUDIO_INPUT));
+        addOutput(createOutputCentered<ChowPort>(mm2px(Vec(15.25, 115.0)), module, ChowTape::AUDIO_OUTPUT));
 	}
 };
 

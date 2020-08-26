@@ -85,19 +85,14 @@ struct ChowPhaserFeedbackWidget : ModuleWidget {
 	ChowPhaserFeedbackWidget(ChowPhaserFeedback* module) {
 		setModule(module);
 		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/ChowPhaseFB.svg")));
+        createScrews(*this);
 
-		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		addParam(createParamCentered<ChowKnob>(mm2px(Vec(15.25, 26.75)), module, ChowPhaserFeedback::SKEW_PARAM));
+		addParam(createParamCentered<ChowKnob>(mm2px(Vec(15.25, 51.0)), module, ChowPhaserFeedback::FB_PARAM));
 
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(15.25, 28.0)), module, ChowPhaserFeedback::SKEW_PARAM));
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(15.25, 48.0)), module, ChowPhaserFeedback::FB_PARAM));
-
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(15.25, 73.0)), module, ChowPhaserFeedback::LFO_INPUT));
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(15.25, 93.0)), module, ChowPhaserFeedback::IN_INPUT));
-
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(15.25, 113.0)), module, ChowPhaserFeedback::OUT_OUTPUT));
+		addInput(createInputCentered<ChowPort>(mm2px(Vec(9.13, 97.5)), module, ChowPhaserFeedback::LFO_INPUT));
+		addInput(createInputCentered<ChowPort>(mm2px(Vec(21.3, 97.5)), module, ChowPhaserFeedback::IN_INPUT));
+		addOutput(createOutputCentered<ChowPort>(mm2px(Vec(15.25, 115.0)), module, ChowPhaserFeedback::OUT_OUTPUT));
 	}
 };
 

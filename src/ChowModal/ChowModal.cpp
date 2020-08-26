@@ -79,25 +79,20 @@ struct ChowModalWidget : ModuleWidget {
 	ChowModalWidget(ChowModal* module) {
 		setModule(module);
 		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/ChowModal.svg")));
+        createScrews(*this);
 
-		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+        addInput(createInputCentered<ChowPort>(mm2px(Vec(10.85, 23.75)), module, ChowModal::FREQ_IN));
+        addInput(createInputCentered<ChowPort>(mm2px(Vec(10.85, 42.75)), module, ChowModal::DECAY_IN));
+        addInput(createInputCentered<ChowPort>(mm2px(Vec(10.85, 61.75)), module, ChowModal::AMP_IN));
+        addInput(createInputCentered<ChowPort>(mm2px(Vec(10.85, 81.0)), module, ChowModal::PHASE_IN));
 
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(9.0, 25.0)), module, ChowModal::FREQ_IN));
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(9.0, 42.5)), module, ChowModal::DECAY_IN));
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(9.0, 60.0)), module, ChowModal::AMP_IN));
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(9.0, 77.5)), module, ChowModal::PHASE_IN));
+        addParam(createParamCentered<ChowKnob>(mm2px(Vec(29.9, 26.75)), module, ChowModal::FREQ_PARAM));
+		addParam(createParamCentered<ChowKnob>(mm2px(Vec(29.9, 45.75)), module, ChowModal::DECAY_PARAM));
+		addParam(createParamCentered<ChowKnob>(mm2px(Vec(29.9, 64.75)), module, ChowModal::AMP_PARAM));
+		addParam(createParamCentered<ChowKnob>(mm2px(Vec(29.9, 84.0)), module, ChowModal::PHASE_PARAM));
 
-        addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(21.5, 25.0)), module, ChowModal::FREQ_PARAM));
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(21.5, 42.5)), module, ChowModal::DECAY_PARAM));
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(21.5, 60.0)), module, ChowModal::AMP_PARAM));
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(21.5, 77.5)), module, ChowModal::PHASE_PARAM));
-
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(15.25, 93.0)), module, ChowModal::AUDIO_IN));
-
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(15.25, 113.0)), module, ChowModal::AUDIO_OUT));
+        addInput(createInputCentered<ChowPort>(mm2px(Vec(20.5, 97.5)), module, ChowModal::AUDIO_IN));
+		addOutput(createOutputCentered<ChowPort>(mm2px(Vec(20.5, 115.0)), module, ChowModal::AUDIO_OUT));
 	}
 };
 

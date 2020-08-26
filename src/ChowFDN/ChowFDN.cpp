@@ -67,25 +67,20 @@ struct ChowFDNWidget : ModuleWidget {
     ChowFDNWidget(ChowFDN* module) {
 		setModule(module);
 		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/ChowFDN.svg")));
+        createScrews(*this);
 
-        addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+        const double x1 = 10.85;
+        const double x2 = 29.9;
 
-        const double x1 = 10.16;
-        const double x2 = 30.48;
+        addParam(createParamCentered<ChowKnob>(mm2px(Vec(x1, 26.75)), module, ChowFDN::PRE_DELAY_PARAM));
+        addParam(createParamCentered<ChowKnob>(mm2px(Vec(x2, 26.75)), module, ChowFDN::SIZE_PARAM));
+        addParam(createParamCentered<ChowKnob>(mm2px(Vec(x1, 51.0)), module, ChowFDN::T60_LOW_PARAM));
+        addParam(createParamCentered<ChowKnob>(mm2px(Vec(x2, 51.0)), module, ChowFDN::T60_HIGH_PARAM));
+        addParam(createParamCentered<ChowKnob>(mm2px(Vec(x1, 75.5)), module, ChowFDN::NUM_DELAYS_PARAM));
+        addParam(createParamCentered<ChowKnob>(mm2px(Vec(x2, 75.5)), module, ChowFDN::DRYWET_PARAM));
 
-        addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(x1, 24.0)), module, ChowFDN::PRE_DELAY_PARAM));
-        addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(x2, 24.0)), module, ChowFDN::SIZE_PARAM));
-        addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(x1, 54.0)), module, ChowFDN::T60_LOW_PARAM));
-        addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(x2, 54.0)), module, ChowFDN::T60_HIGH_PARAM));
-        addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(x1, 84.0)), module, ChowFDN::NUM_DELAYS_PARAM));
-        addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(x2, 84.0)), module, ChowFDN::DRYWET_PARAM));
-
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x1, 113.0)), module, ChowFDN::AUDIO_INPUT));
-
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x2, 113.0)), module, ChowFDN::AUDIO_OUTPUT));
+        addInput(createInputCentered<ChowPort>(mm2px(Vec(20.5, 97.5)), module, ChowFDN::AUDIO_INPUT));
+		addOutput(createOutputCentered<ChowPort>(mm2px(Vec(20.5, 115.0)), module, ChowFDN::AUDIO_OUTPUT));
     }
 
 };
