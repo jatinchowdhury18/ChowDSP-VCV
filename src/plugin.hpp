@@ -14,5 +14,6 @@ extern Model* modelChowPhaserMod;
 extern Model* modelChowFDN;
 extern Model* modelChowRNN;
 extern Model* modelChowModal;
+extern Model* modelChowDer;
 
 void createScrews(ModuleWidget& mw);
