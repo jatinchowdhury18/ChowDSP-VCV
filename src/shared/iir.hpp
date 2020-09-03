@@ -100,7 +100,7 @@ struct TOnePole : IIRFilter<2, T> {
         setParameters(LOWPASS, 0.0f);
     }
 
-    /** Calculates and sets the biquad transfer function coefficients.
+    /** Calculates and sets the one-pole transfer function coefficients.
 	f: normalized frequency (cutoff frequency / sample rate), must be less than 0.5
 	*/
     void setParameters(Type type, float f) {
