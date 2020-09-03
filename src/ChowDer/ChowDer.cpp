@@ -83,13 +83,15 @@ struct ChowDerWidget : ModuleWidget {
 		setModule(module);
 		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/ChowDer.svg")));
 
-        addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(15.0, 25.0)), module, ChowDer::BASS_PARAM));
-        addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(15.0, 40.0)), module, ChowDer::TREBLE_PARAM));
-        addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(15.0, 55.0)), module, ChowDer::DRIVE_PARAM));
-        addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(15.0, 70.0)), module, ChowDer::BIAS_PARAM));
+        createScrews (*this);
 
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(8.0, 113.0)), module, ChowDer::AUDIO_IN));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(22.0, 113.0)), module, ChowDer::AUDIO_OUT));
+        addParam(createParamCentered<ChowKnob>(mm2px(Vec(15.25, 23.0)), module, ChowDer::BASS_PARAM));
+        addParam(createParamCentered<ChowKnob>(mm2px(Vec(15.25, 43.0)), module, ChowDer::TREBLE_PARAM));
+        addParam(createParamCentered<ChowKnob>(mm2px(Vec(15.25, 63.0)), module, ChowDer::DRIVE_PARAM));
+        addParam(createParamCentered<ChowKnob>(mm2px(Vec(15.25, 83.0)), module, ChowDer::BIAS_PARAM));
+
+        addInput(createInputCentered<ChowPort>(mm2px(Vec(15.25, 99.0)), module, ChowDer::AUDIO_IN));
+        addOutput(createOutputCentered<ChowPort>(mm2px(Vec(15.25, 115.0)), module, ChowDer::AUDIO_OUT));
 	}
 };
 
