@@ -6,6 +6,7 @@ ChowDSP-VCV contains the following modules:
   - [CHOW FDN](#chow-fdn)
   - [CHOW RNN](#chow-rnn)
   - [CHOW Modal](#chow-modal)
+  - [CHOW Der](#chow-der)
 
 ## CHOW Tape
 <img src="./ChowTape.png" alt="Pic" height="300">
@@ -39,8 +40,17 @@ A [Recurrent Neural Network](https://en.wikipedia.org/wiki/Recurrent_neural_netw
 
 To use this module, you can connect almost any signal to the inputs, and expect to get a bipolar output (+/- 5V). A simple example using the RNN module as a waveshaping distortion effect can be seen in the [demo patch](../examples/rnn.vcv).
 
+Under the hood, this module uses a custom-built [RNN inferencing engine](https://github.com/jatinchowdhury18/ChowDSP-VCV/tree/master/lib/MLUtils), powered by the [Eigen](http://eigen.tuxfamily.org/) linear algebra library. If you are a developer looking to use an RNN in your own module, please contact me.
+
 ## CHOW Modal
 <img src="./ChowModal.png" alt="Pic" height="300">
 
 A modal filter implemented using the [Max Mathews phasor filter](https://ccrma.stanford.edu/~jos/smac03maxjos/). Includes controls for the mode's
-**Frequency**, **Decay Time**, **Amplitude**,, and **Phase**. These filters can be combined to synthesize things like [carillon bells](https://www.dafx.de/paper-archive/2019/DAFx2019_paper_34.pdf), or [waterbottles](https://github.com/jatinchowdhury18/modal-waterbottles). For an example see the [demo patch](../examples/modal.vcv).
+**Frequency**, **Decay Time**, **Amplitude**, and **Phase**. These filters can be combined to synthesize things like [carillon bells](https://www.dafx.de/paper-archive/2019/DAFx2019_paper_34.pdf), or [waterbottles](https://github.com/jatinchowdhury18/modal-waterbottles). For an example see the [demo patch](../examples/modal.vcv).
+
+## CHOW Der
+<img src="./ChowDer.png" alt="Pic" height="300">
+
+A vintage distortion effect. The **Bass** and **Treble** knobs control the parameters of a vintage EQ circuit, based on the [Baxandall EQ](https://en.wikipedia.org/wiki/Peter_Baxandall), while the **Drive** knob controls the input level to a distortion circuit inspired by guitar pedals like the Klon Centaur and the Ibanez Tube Screamer. The **Bias** knob controls the mix of odd/even harmonics produced by the distortion stage.
+
+Under the hood, this module uses a [real-time Wave Digital Filter library](https://github.com/jatinchowdhury18/WaveDigitalFilters), along with approximations of the Wright Omega function borrowed from [Stephano D'Angelo](http://www.dangelo.audio/dafx2019-omega.html). For more information on Wave Digital Filters and how they can be used to model analog circuits, see the original work by [Alfred Fettweis](https://www.eit.lth.se/fileadmin/eit/courses/eit085f/Fettweis_Wave_Digital_Filters_Theory_and_Practice_IEEE_Proc_1986_-_This_is_a_real_challange.pdf), as well as some more recent research by [Kurt Werner](https://searchworks.stanford.edu/view/11891203).
