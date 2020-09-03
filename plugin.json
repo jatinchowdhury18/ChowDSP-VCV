@@ -71,10 +71,11 @@
     {
       "slug": "ChowDer",
       "name": "ChowDer",
-      "description": "Truculent distortion effect",
+      "description": "Truculent analog distortion effect",
       "tags": [
         "Effect",
-        "Distortion"
+        "Distortion",
+        "Physical modeling"
       ]
     }
   ]

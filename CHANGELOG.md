@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in
 this file.
 
+## [Unreleased]
+- New analog distortion module (ChowDer)
+- Implement new GUI designs
+- Improved performance for Tape module Newton-Raphson solver
+- Improved performance for all IIR filters
+- Improved documentation
+
 ## [1.1.0] - 2020-08-16
 - New Recurrent Neural Network module.
 - New modal filter module.
