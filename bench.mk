@@ -47,6 +47,7 @@ ifdef ARCH_WIN
 endif
 
 BENCH_OBJECTS = $(patsubst %, build_bench/%.o, $(BENCH_SOURCES))
+CXXFLAGS += -DCHOWDSP_BENCH
 
 build_bench/%.cpp.o: %.cpp
 	mkdir -p $(@D)

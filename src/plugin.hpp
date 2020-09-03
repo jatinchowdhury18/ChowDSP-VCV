@@ -14,5 +14,15 @@ extern Model* modelChowPhaserMod;
 extern Model* modelChowFDN;
 extern Model* modelChowRNN;
 extern Model* modelChowModal;
+extern Model* modelChowDer;
 
 void createScrews(ModuleWidget& mw);
+
+inline float getSampleRate() noexcept {
+// in benchmarking app, sample rate is not defined    
+#ifndef CHOWDSP_BENCH
+    return APP->engine->getSampleRate();
+#else
+    return 48000.0f;
+#endif
+}

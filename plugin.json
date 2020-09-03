@@ -67,6 +67,15 @@
         "Oscillator",
         "Filter"
       ]
+    },
+    {
+      "slug": "ChowDer",
+      "name": "ChowDer",
+      "description": "Truculent distortion effect",
+      "tags": [
+        "Effect",
+        "Distortion"
+      ]
     }
   ]
 }
