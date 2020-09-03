@@ -38,7 +38,7 @@ struct ChowDer : Module {
 	}
 
     void onSampleRateChange() override {
-        float newSampleRate = APP->engine->getSampleRate();
+        float newSampleRate = getSampleRate();
         oversample.reset(newSampleRate);
         baxandall.reset((double) newSampleRate * OSRatio);
         clipper.reset((double) newSampleRate * OSRatio);
@@ -68,7 +68,7 @@ struct ChowDer : Module {
 
 private:
 enum {
-        OSRatio = 1,
+        OSRatio = 2,
     };
 
     BiquadFilter dcBlocker;

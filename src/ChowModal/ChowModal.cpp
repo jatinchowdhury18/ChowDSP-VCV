@@ -33,11 +33,11 @@ struct ChowModal : Module {
         configParam(AMP_PARAM, 0.0f, 1.0f, 0.25f, "Amplitude");
         configParam(PHASE_PARAM, 0.0f, 1.0f, 0.0f, "Phase");
 
-        mode.prepare((double) APP->engine->getSampleRate());
+        onSampleRateChange();
 	}
 
     void onSampleRateChange() override {
-        mode.prepare((double) APP->engine->getSampleRate());
+        mode.prepare((double) getSampleRate());
     }
 
 	void process(const ProcessArgs& args) override {
