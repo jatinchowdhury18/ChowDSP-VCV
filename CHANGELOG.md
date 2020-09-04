@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in
 this file.
 
-## [Unreleased]
+## [1.2.0] - 2020-09-03
 - New analog distortion module (ChowDer)
 - Implement new GUI designs
 - Improved performance for Tape module Newton-Raphson solver
