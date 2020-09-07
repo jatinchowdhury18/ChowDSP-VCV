@@ -1,8 +1,6 @@
 #pragma once
 #include <wdf/wdf.h>
 
-namespace WDF = WaveDigitalFilter;
-
 class ClippingStage {
 public:
     ClippingStage() = default;

@@ -1,8 +1,6 @@
 #pragma once
 #include <wdf/wdf.h>
 
-namespace WDF = WaveDigitalFilter;
-
 /** Wave digital filters to eumlate the Baxandall EQ circuit. */
 
 class BaxandallTreble {
