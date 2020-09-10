@@ -29,12 +29,12 @@ public:
         return Qs;
     }
 
-    void reset(float sampleRate) {
+    void reset(float sampleRate, int osRatio) {
         float fc = 0.98f * (sampleRate / 2.0f);
         auto Qs = calculateButterQs(2*N);
 
         for(int i = 0; i < N; ++i)
-            filters[i].setParameters(BiquadFilter::Type::LOWPASS, fc / sampleRate, Qs[i], 1.0f);
+            filters[i].setParameters(BiquadFilter::Type::LOWPASS, fc / (osRatio * sampleRate), Qs[i], 1.0f);
     }
     
     inline float process(float x) noexcept {
@@ -58,8 +58,8 @@ public:
     OversampledProcess() = default;
 
     void reset(float baseSampleRate) {
-        aaFilter.reset(baseSampleRate);
-        aiFilter.reset(baseSampleRate);
+        aaFilter.reset(baseSampleRate, ratio);
+        aiFilter.reset(baseSampleRate, ratio);
     }
 
     using OSProcess = std::function<float(float)>;

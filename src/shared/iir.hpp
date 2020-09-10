@@ -216,22 +216,22 @@ struct TBiquadFilter : IIRFilter<3, T> {
 			} break;
 
 			case PEAK: {
-				if (V >= 1.f) {
-					float norm = 1.f / (1.f + K / Q + K * K);
-					this->b[0] = (1.f + K / Q * V + K * K) * norm;
-					this->b[1] = 2.f * (K * K - 1.f) * norm;
-					this->b[2] = (1.f - K / Q * V + K * K) * norm;
-					this->a[1] = this->b[1];
-					this->a[2] = (1.f - K / Q + K * K) * norm;
-				}
-				else {
-					float norm = 1.f / (1.f + K / Q / V + K * K);
-					this->b[0] = (1.f + K / Q + K * K) * norm;
-					this->b[1] = 2.f * (K * K - 1.f) * norm;
-					this->b[2] = (1.f - K / Q + K * K) * norm;
-					this->a[1] = this->b[1];
-					this->a[2] = (1.f - K / Q / V + K * K) * norm;
-				}
+                float c = 1.0f / K;
+                float phi = c * c;
+                float Knum = c / Q;
+                float Kdenom = Knum;
+
+                if(V > 1.0f)
+                    Knum *= V;
+                else
+                    Kdenom /= V;
+
+                float norm = phi + Kdenom + 1.0;
+                this->b[0] = (phi + Knum + 1.0f) / norm;
+                this->b[1] = 2.0f * (1.0f - phi) / norm;
+                this->b[2] = (phi - Knum + 1.0f) / norm;
+                this->a[1] = 2.0f * (1.0f - phi) / norm;
+                this->a[2] = (phi - Kdenom + 1.0f) / norm;
 			} break;
 
 			case NOTCH: {
