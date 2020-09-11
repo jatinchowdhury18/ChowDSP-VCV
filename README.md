@@ -3,7 +3,7 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Build Status](https://dev.azure.com/jatinchowdhury18/ChowDSP-VCV/_apis/build/status/jatinchowdhury18.ChowDSP-VCV?branchName=master)](https://dev.azure.com/jatinchowdhury18/ChowDSP-VCV/_build/latest?definitionId=1&branchName=master)
 
-This repository contains [ChowDSP](https://ccrma.stanford.edu/~jatin/chowdsp) plugins built as VCV Rack modules.
+This repository contains [ChowDSP](https://ccrma.stanford.edu/~jatin/chowdsp) modules for [VCV Rack](https://vcvrack.com/). Official releases can be installed from the [VCV Rack Library](https://library.vcvrack.com/?brand=chowdsp).
 
 <img src="./doc/ChowTape.png" alt="Pic" height="300"><img src="./doc/ChowPhaserFeedback.png" alt="Pic" height="300"><img src="./doc/ChowPhaserMod.png" alt="Pic" height="300"><img src="./doc/ChowFDN.png" alt="Pic" height="300"><img src="./doc/ChowRNN.png" alt="Pic" height="300"><img src="./doc/ChowModal.png" alt="Pic" height="300"><img src="./doc/ChowDer.png" alt="Pic" height="300">
 
