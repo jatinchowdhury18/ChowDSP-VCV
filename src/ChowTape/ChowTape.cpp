@@ -92,6 +92,10 @@ struct ChowTapeWidget : ModuleWidget {
         addInput(createInputCentered<ChowPort>(mm2px(Vec(15.25, 97.5)), module, ChowTape::AUDIO_INPUT));
         addOutput(createOutputCentered<ChowPort>(mm2px(Vec(15.25, 115.0)), module, ChowTape::AUDIO_OUTPUT));
 	}
+
+    void appendContextMenu(Menu *menu) override {
+        addPubToMenu(menu, "http://dafx2019.bcu.ac.uk/papers/DAFx2019_paper_3.pdf");
+    }
 };
 
 

@@ -94,6 +94,10 @@ struct ChowModalWidget : ModuleWidget {
         addInput(createInputCentered<ChowPort>(mm2px(Vec(20.5, 97.5)), module, ChowModal::AUDIO_IN));
 		addOutput(createOutputCentered<ChowPort>(mm2px(Vec(20.5, 115.0)), module, ChowModal::AUDIO_OUT));
 	}
+
+    void appendContextMenu(Menu *menu) override {
+        addPubToMenu(menu, "https://ccrma.stanford.edu/~jos/smac03maxjos/");
+    }
 };
 
 

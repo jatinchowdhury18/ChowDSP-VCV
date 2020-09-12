@@ -17,6 +17,7 @@ extern Model* modelChowModal;
 extern Model* modelChowDer;
 
 void createScrews(ModuleWidget& mw);
+void addPubToMenu(Menu *menu, const std::string& pub);
 
 inline float getSampleRate() noexcept {
 // in benchmarking app, sample rate is not defined    
