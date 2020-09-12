@@ -16,6 +16,7 @@ extern Model* modelChowRNN;
 extern Model* modelChowModal;
 extern Model* modelChowDer;
 extern Model* modelFilter;
+extern Model* modelWerner;
 
 void createScrews(ModuleWidget& mw);
 void addPubToMenu(Menu *menu, const std::string& pub);

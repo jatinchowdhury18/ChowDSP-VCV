@@ -86,12 +86,23 @@
       ]
     },
     {
-        "slug": "Filter",
-        "name": "Filter",
-        "description": "A filter",
-        "tags": [
-          "Effect"
-        ]
-      }
+      "slug": "Filter",
+      "name": "Filter",
+      "description": "A filter??",
+      "tags": [
+        "Effect",
+        "Filter",
+        "Distortion"
+      ]
+    },
+    {
+      "slug": "Werner",
+      "name": "Werner",
+      "description": "SVF based on a generalized Moog-Octave CAT architecture",
+      "tags": [
+        "Effect",
+        "Filter"
+      ]
+    }
   ]
 }
