@@ -84,6 +84,14 @@
         "Distortion",
         "Physical modeling"
       ]
-    }
+    },
+    {
+        "slug": "Filter",
+        "name": "Filter",
+        "description": "A filter",
+        "tags": [
+          "Effect"
+        ]
+      }
   ]
 }
