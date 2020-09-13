@@ -35,9 +35,9 @@ void HysteresisProcessing::setSampleRate (double newSR)
 
 void HysteresisProcessing::cook (float drive, float width, float sat, bool v1)
 {
-    M_s = 0.5 + 1.5 * (1.0 - (double) sat);
-    a = M_s / (0.01 + 6.0 * (double) drive);
-    c = std::sqrt (1.0f - (double) width) - 0.01;
+    M_s = 0.5 + (1.0 - (double) sat);
+    a = M_s / (1.0e-6 + 6.0 * (double) drive);
+    c = std::sqrt(1.0f - (double) width) - 0.01;
     k = 0.47875;
     upperLim = 1.2;
 

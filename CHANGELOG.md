@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in
 this file.
 
+## [1.2.1] - 2020-09-12
+- Fixed oversampling bug
+- Fixed tape bug at low saturation levels
+- Fixed IIR coefficient calculation for peaking filter
+- Added manual links for individual modules
+- Added publication links for Tape and Modal modules
+
 ## [1.2.0] - 2020-09-03
 - New analog distortion module (ChowDer)
 - Implement new GUI designs
