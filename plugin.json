@@ -97,11 +97,12 @@
     },
     {
       "slug": "Werner",
-      "name": "Werner",
+      "name": "Werner Filter",
       "description": "SVF based on a generalized Moog-Octave CAT architecture",
       "tags": [
         "Effect",
-        "Filter"
+        "Filter",
+        "Physical modeling"
       ]
     }
   ]

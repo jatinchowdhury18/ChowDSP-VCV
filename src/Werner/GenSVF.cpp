@@ -16,6 +16,12 @@ void GeneralSVF::reset() {
     v_n1 = Matrix<float, 4, 1>::Zero();
 }
 
+void GeneralSVF::setDrive (float newDrive) {
+    drive = newDrive;
+    invDrive = 1.0f / drive;
+    makeup = std::max(1.0f, (float) pow(drive, 0.75f));
+}
+
 void GeneralSVF::calcCoefs(float r, float k, float wc) {
     // cook parameters
     g = std::tan(wc);
