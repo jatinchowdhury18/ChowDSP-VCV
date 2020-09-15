@@ -45,7 +45,6 @@ struct Filter : Module {
         configParam(FB_DRIVE_PARAM, 1.0f, 10.0f, 1.0f, "FB Drive");
         configParam(FB_PARAM, 0.0f, 0.95f, 0.0f, "Feedback");
 
-        oversample.osProcess = std::bind(&Filter::processOS, this, _1);
         onSampleRateChange();
 
         nrSolver.f_NL = [=] (float x) -> float {
@@ -75,7 +74,12 @@ struct Filter : Module {
         nrSolver.fbParam = params[FB_PARAM].getValue();
 
         float x = inputs[AUDIO_IN].getVoltage();
-        float y = oversample.process(x);
+        
+        oversample.upsample(x);
+        for(int k = 0; k < OSRatio; k++)
+            oversample.osBuffer[k] = processOS(oversample.osBuffer[k]);
+        float y = oversample.downsample();
+
         outputs[AUDIO_OUT].setVoltage(y);
 	}
 
@@ -91,7 +95,6 @@ enum {
 
     OversampledProcess<OSRatio> oversample;
     NLBiquad filter;
-    // BiquadFilter filter;
     DFLFilter<4> nrSolver;
 };
 

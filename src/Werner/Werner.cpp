@@ -48,8 +48,6 @@ struct Werner : Module {
         configParam(DRIVE_PARAM, 0.0f, 1.0f, 0.0f, "Drive", "", highDrive / lowDrive, lowDrive);
 
         svf.reset();
-
-        oversample.osProcess = std::bind(&GeneralSVF::process, &svf, _1);
         onSampleRateChange();
     }
 
@@ -84,7 +82,12 @@ struct Werner : Module {
         svf.setDrive(drive);
 
         float x = inputs[AUDIO_IN].getVoltage();
-        float y = oversample.process(x);
+        
+        oversample.upsample(x);
+        for(int k = 0; k < OSRatio; k++)
+            oversample.osBuffer[k] = svf.process(oversample.osBuffer[k]);
+        float y = oversample.downsample();
+
         outputs[AUDIO_OUT].setVoltage(y);
 	}
 
