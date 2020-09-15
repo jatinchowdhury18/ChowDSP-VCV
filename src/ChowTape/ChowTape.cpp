@@ -30,17 +30,17 @@ struct ChowTape : Module {
 
         hysteresis.reset();
         hysteresis.setSolver (SolverType::NR4);
+
+        onSampleRateChange();
 	}
 
+    void onSampleRateChange() override {
+        float newSampleRate = getSampleRate();
+        hysteresis.setSampleRate(newSampleRate * OSRatio);
+        oversample.reset(newSampleRate);
+    }
+
 	void process(const ProcessArgs& args) override {
-        if(needsSRUpdate) {
-            // set hysteresis sample rate
-            hysteresis.setSampleRate(args.sampleRate * OSRatio);
-
-            // set oversampling sample rate
-            oversample.reset(args.sampleRate);
-        }
-
         // set hysteresis params
         float width = 1.0f - params[BIAS_PARAM].getValue();
         float sat = params[SAT_PARAM].getValue();
@@ -59,14 +59,9 @@ struct ChowTape : Module {
 
         // process DC blocker
         dcBlocker.setParameters(BiquadFilter::HIGHPASS, 30.0f / args.sampleRate, M_SQRT1_2, 1.0f);
-        y = std::tanh(dcBlocker.process (y));
 
         outputs[AUDIO_OUTPUT].setVoltage(y * 5.0f);
 	}
-
-    void onSampleRateChange() override {
-        needsSRUpdate = true;
-    }
 
 private:
     enum {
@@ -76,7 +71,6 @@ private:
     HysteresisProcessing hysteresis;
     BiquadFilter dcBlocker;
     OversampledProcess<OSRatio> oversample;
-    bool needsSRUpdate = true;
 };
 
 
