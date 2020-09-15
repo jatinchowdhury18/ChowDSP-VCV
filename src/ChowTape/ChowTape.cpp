@@ -60,7 +60,7 @@ struct ChowTape : Module {
         // process DC blocker
         dcBlocker.setParameters(BiquadFilter::HIGHPASS, 30.0f / args.sampleRate, M_SQRT1_2, 1.0f);
 
-        outputs[AUDIO_OUTPUT].setVoltage(y * 5.0f);
+        outputs[AUDIO_OUTPUT].setVoltage(y * 4.18f);
 	}
 
 private:

@@ -65,7 +65,7 @@ void FDN<N>::prepare(const Module::ProcessArgs& args, float size, float t60Low, 
 
     if(needsShelfUpdate) {
         for(int dInd = 0; dInd < curDelays; ++dInd)
-            shelfs[dInd].calcCoefs(gLow[dInd], gHigh[dInd], 1000.0f, fs);
+            shelfs[dInd].calcCoefs(clamp(gLow[dInd], -1.0f, 1.0f), clamp(gHigh[dInd], -1.0f, 1.0f), 800.0f, fs);
     }
 
     oldCurDelays = curDelays;

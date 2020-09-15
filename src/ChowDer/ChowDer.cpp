@@ -29,8 +29,8 @@ struct ChowDer : Module {
 	ChowDer() {
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 
-        configParam(BASS_PARAM, 0.0f, 1.0f, 0.5f, "Bass");
-        configParam(TREBLE_PARAM, 0.0f, 1.0f, 0.5f, "Treble");
+        configParam(BASS_PARAM, -1.0f, 1.0f, 0.0f, "Bass");
+        configParam(TREBLE_PARAM, -1.0f, 1.0f, 0.0f, "Treble");
         configParam(DRIVE_PARAM, 0.0f, 1.0f, 0.5f, "Drive");
         configParam(BIAS_PARAM, 0.0f, 1.0f, 0.0f, "Bias");
 
@@ -47,12 +47,12 @@ struct ChowDer : Module {
     }
 
     void cookParams(float fs) {
-        auto lowGain = dsp::dbToAmplitude(params[BASS_PARAM].getValue() * 12.0f - 6.0f);
-            auto highGain = dsp::dbToAmplitude(params[TREBLE_PARAM].getValue() * 12.0f - 6.0f);
-            shelfFilter.calcCoefs(lowGain, highGain, 500.0f, fs);
+        auto lowGain = dsp::dbToAmplitude(params[BASS_PARAM].getValue() * 9.0f - 20.0f);
+        auto highGain = dsp::dbToAmplitude(params[TREBLE_PARAM].getValue() * 9.0f - 20.0f);
+        shelfFilter.calcCoefs(lowGain, highGain, 600.0f, fs);
 
-            driveGain = dsp::dbToAmplitude(params[DRIVE_PARAM].getValue() * 30.0f);
-            bias = params[BIAS_PARAM].getValue() * 2.5f;
+        driveGain = dsp::dbToAmplitude(params[DRIVE_PARAM].getValue() * 30.0f);
+        bias = params[BIAS_PARAM].getValue() * 2.5f;
     }
 
 	void process(const ProcessArgs& args) override {

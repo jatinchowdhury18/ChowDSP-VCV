@@ -64,7 +64,7 @@ public:
     }
 
     inline void upsample(float x) noexcept {
-        osBuffer[0] = x;
+        osBuffer[0] = ratio * x;
         std::fill(&osBuffer[1], &osBuffer[ratio], 0.0f);
 
         for(int k = 0; k < ratio; k++)
