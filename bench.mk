@@ -59,7 +59,7 @@ build_bench/%.m.o: %.m
 
 build_bench/%.c.o: %.c
 	mkdir -p $(@D)
-	$(CC) -c -o $@ $<
+	$(CC) $(CXXFLAGS) -c -o $@ $<
 
 bench : bench.exe
 

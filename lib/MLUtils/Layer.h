@@ -18,7 +18,7 @@ public:
 
     virtual ~Layer() {}
 
-    inline virtual void forward (const T* input, T* out) = 0;
+    virtual void forward (const T* input, T* out) = 0;
 
     const size_t in_size;
     const size_t out_size;

@@ -9,14 +9,11 @@ public:
     ShelfFilter() {}
 
     void calcCoefs(float lowGain, float highGain, float fc, float fs) {
-        lowGain = clamp(lowGain, -1.0f, 1.0f);
-        highGain = clamp(highGain, -1.0f, 1.0f);
-
         // reduce to simple gain element
         if (lowGain == highGain)
         {
             b[0] = lowGain; b[1] = 0.0f;
-            a[0] = 0.0f;
+            a[0] = 0.0f;    a[1] = 0.0f;
             return;
         }
 
@@ -31,7 +28,8 @@ public:
 
         auto a0_z = a0*K + a1;
 
-        b[0] = (b0*K + b1) / a0_z;
+        // bilinear transform
+        b[0] = ( b0*K + b1) / a0_z;
         b[1] = (-b0*K + b1) / a0_z;
         a[1] = (-a0*K + a1) / a0_z;
     }

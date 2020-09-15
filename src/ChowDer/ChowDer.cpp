@@ -2,6 +2,7 @@
 #include "BaxandallEQ.hpp"
 #include "ClippingStage.hpp"
 #include "../shared/oversampling.hpp"
+#include "../shared/shelf_filter.hpp"
 
 using namespace std::placeholders;
 
@@ -28,52 +29,60 @@ struct ChowDer : Module {
 	ChowDer() {
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 
-        configParam(BASS_PARAM, 0.0f, 1.0f, 0.5f, "Bass");
-        configParam(TREBLE_PARAM, 0.0f, 1.0f, 0.5f, "Treble");
+        configParam(BASS_PARAM, -1.0f, 1.0f, 0.0f, "Bass");
+        configParam(TREBLE_PARAM, -1.0f, 1.0f, 0.0f, "Treble");
         configParam(DRIVE_PARAM, 0.0f, 1.0f, 0.5f, "Drive");
         configParam(BIAS_PARAM, 0.0f, 1.0f, 0.0f, "Bias");
 
-        oversample.osProcess = std::bind(&ChowDer::processOS, this, _1);
         onSampleRateChange();
+        paramDivider.setDivision(ParamDivide);
 	}
 
     void onSampleRateChange() override {
         float newSampleRate = getSampleRate();
         oversample.reset(newSampleRate);
-        baxandall.reset((double) newSampleRate * OSRatio);
         clipper.reset((double) newSampleRate * OSRatio);
         dcBlocker.setParameters(BiquadFilter::HIGHPASS, 30.0f / newSampleRate, M_SQRT1_2, 1.0f);
+        cookParams(newSampleRate);
+    }
+
+    void cookParams(float fs) {
+        auto lowGain = dsp::dbToAmplitude(params[BASS_PARAM].getValue() * 9.0f - 20.0f);
+        auto highGain = dsp::dbToAmplitude(params[TREBLE_PARAM].getValue() * 9.0f - 20.0f);
+        shelfFilter.calcCoefs(lowGain, highGain, 600.0f, fs);
+
+        driveGain = dsp::dbToAmplitude(params[DRIVE_PARAM].getValue() * 30.0f);
+        bias = params[BIAS_PARAM].getValue() * 2.5f;
     }
 
 	void process(const ProcessArgs& args) override {
-        // handle parameters
-        baxandall.setBass(params[BASS_PARAM].getValue());
-        baxandall.setTreble(params[TREBLE_PARAM].getValue());
+        if(paramDivider.process())
+            cookParams(args.sampleRate);
 
-        float driveGain = dsp::dbToAmplitude(params[DRIVE_PARAM].getValue() * 30.0f);
-        float bias = params[BIAS_PARAM].getValue() * 2.5f;
+        float x = inputs[AUDIO_IN].getVoltage();
+        x = driveGain * shelfFilter.process(x) + bias;
 
-        float x = driveGain * (inputs[AUDIO_IN].getVoltage() + bias);
-        float y = oversample.process(x);
+        oversample.upsample(x);
+        for(int k = 0; k < OSRatio; k++)
+            oversample.osBuffer[k] = clipper.processSample(oversample.osBuffer[k]);
+        float y = oversample.downsample();
+
         outputs[AUDIO_OUT].setVoltage(dcBlocker.process(y));
 	}
 
-    // oversampled process
-    inline float processOS(float x) {
-        float y = baxandall.processSample(x);
-        y = clipper.processSample(y);
-
-        return y;
-    }
-
 private:
-enum {
+    enum {
         OSRatio = 2,
+        ParamDivide = 64,
     };
+
+    float driveGain = 1.0f;
+    float bias = 0.0f;
+    dsp::ClockDivider paramDivider;
 
     BiquadFilter dcBlocker;
     OversampledProcess<OSRatio> oversample;
-    BaxandallEQ baxandall;
+    ShelfFilter shelfFilter;
     ClippingStage clipper;
 };
 
