@@ -33,7 +33,6 @@ struct ChowDer : Module {
         configParam(DRIVE_PARAM, 0.0f, 1.0f, 0.5f, "Drive");
         configParam(BIAS_PARAM, 0.0f, 1.0f, 0.0f, "Bias");
 
-        oversample.osProcess = std::bind(&ChowDer::processOS, this, _1);
         onSampleRateChange();
 	}
 
@@ -54,7 +53,12 @@ struct ChowDer : Module {
         float bias = params[BIAS_PARAM].getValue() * 2.5f;
 
         float x = driveGain * (inputs[AUDIO_IN].getVoltage() + bias);
-        float y = oversample.process(x);
+
+        oversample.upsample(x);
+        for(int k = 0; k < OSRatio; k++)
+            oversample.osBuffer[k] = processOS(oversample.osBuffer[k]);
+        float y = oversample.downsample();
+
         outputs[AUDIO_OUT].setVoltage(dcBlocker.process(y));
 	}
 

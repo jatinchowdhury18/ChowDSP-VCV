@@ -30,8 +30,6 @@ struct ChowTape : Module {
 
         hysteresis.reset();
         hysteresis.setSolver (SolverType::NR4);
-
-        oversample.osProcess = [=] (float x) { return (float) hysteresis.process((double) x); };
 	}
 
 	void process(const ProcessArgs& args) override {
@@ -54,7 +52,10 @@ struct ChowTape : Module {
         float x = clamp(inputs[AUDIO_INPUT].getVoltage() / 5.0f, -1.0f, 1.0f);
 
         // process hysteresis
-        float y = oversample.process(x);
+        oversample.upsample(x);
+        for(int k = 0; k < OSRatio; k++)
+            oversample.osBuffer[k] = (float) hysteresis.process((double) oversample.osBuffer[k]);
+        float y = oversample.downsample();
 
         // process DC blocker
         dcBlocker.setParameters(BiquadFilter::HIGHPASS, 30.0f / args.sampleRate, M_SQRT1_2, 1.0f);

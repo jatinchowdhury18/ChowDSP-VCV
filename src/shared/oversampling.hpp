@@ -60,29 +60,26 @@ public:
     void reset(float baseSampleRate) {
         aaFilter.reset(baseSampleRate, ratio);
         aiFilter.reset(baseSampleRate, ratio);
+        std::fill(osBuffer, &osBuffer[ratio], 0.0f);
     }
 
-    using OSProcess = std::function<float(float)>;
-    OSProcess osProcess = [] (float x) { return x; };
+    inline void upsample(float x) noexcept {
+        osBuffer[0] = x;
+        std::fill(&osBuffer[1], &osBuffer[ratio], 0.0f);
 
-    inline float process(float x) noexcept {
+        for(int k = 0; k < ratio; k++)
+            osBuffer[k] = aiFilter.process(osBuffer[k]);
+    }
+
+    inline float downsample() noexcept {
         float y = 0.0f;
-		for (int k = 0; k < ratio; k++) {
-			// upsample (insert zeros) and apply upsampling gain
-            float upSample = (k == ratio - 1) ? ratio * x : 0.0f;
-            
-			// apply antiimaging filter
-			upSample = aiFilter.process(upSample);
-            
-			// apply processing
-            float procSample = osProcess(upSample);
-
-			// apply antialiasing filter
-			y = aaFilter.process(procSample);
-		}
+        for(int k = 0; k < ratio; k++)
+            y = aaFilter.process(osBuffer[k]);
 
         return y;
     }
+
+    float osBuffer[ratio];
 
 private:
     AAFilter<filtN> aaFilter; // anti-aliasing filter
