@@ -12,6 +12,7 @@ namespace {
 
     enum {
         OSRatio = 2,
+        ParamDivide = 16,
     };
 }
 
@@ -49,6 +50,7 @@ struct Werner : Module {
 
         svf.reset();
         onSampleRateChange();
+        paramDivider.setDivision(ParamDivide);
     }
 
     void onReset() override {
@@ -59,9 +61,10 @@ struct Werner : Module {
     void onSampleRateChange() override {
         float newSampleRate = getSampleRate();
         oversample.reset(newSampleRate);
+        cookParams(newSampleRate);
     }
 
-    void process(const ProcessArgs& args) override {
+    void cookParams(float fs) {
         // calc filter params
         float r = params[DAMPING_PARAM].getValue() + inputs[DAMPING_IN].getVoltage() / 10.0f;
         r = clamp(r, 0.25f, 1.25f);
@@ -72,7 +75,7 @@ struct Werner : Module {
         float freqParam = params[FREQ_PARAM].getValue() + inputs[FREQ_IN].getVoltage() / 10.0f;
         freqParam = clamp(freqParam, 0.0f, 1.0f);
         auto freq = pow(highFreq / lowFreq, freqParam) * lowFreq;
-        float wc = (freq / args.sampleRate) * M_PI_2;
+        float wc = (freq / fs) * M_PI_2;
         svf.calcCoefs(r, k, wc);
 
         // calc drive param
@@ -80,6 +83,11 @@ struct Werner : Module {
         driveParam = clamp(driveParam, 0.0f, 1.0f);
         float drive = pow(highDrive / lowDrive, pow(driveParam, 0.33f)) * lowDrive;
         svf.setDrive(drive);
+    }
+
+    void process(const ProcessArgs& args) override {
+        if(paramDivider.process())
+            cookParams(args.sampleRate);
 
         float x = inputs[AUDIO_IN].getVoltage();
         
@@ -94,6 +102,7 @@ struct Werner : Module {
 private:
     GeneralSVF svf;
     OversampledProcess<OSRatio> oversample;
+    dsp::ClockDivider paramDivider;
 };
 
 struct WernerWidget : ModuleWidget {
