@@ -15,7 +15,7 @@ extern Model* modelChowFDN;
 extern Model* modelChowRNN;
 extern Model* modelChowModal;
 extern Model* modelChowDer;
-// extern Model* modelFilter; // (WIP)
+extern Model* modelFilter; // (WIP)
 extern Model* modelWerner;
 
 void createScrews(ModuleWidget& mw);

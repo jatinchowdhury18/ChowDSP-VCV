@@ -15,7 +15,7 @@ void init(Plugin* p) {
     p->addModel(modelChowRNN);
     p->addModel(modelChowModal);
     p->addModel(modelChowDer);
-    // p->addModel(modelFilter); // (WIP)
+    p->addModel(modelFilter); // (WIP)
     p->addModel(modelWerner);
 
 	// Any other plugin initialization may go here.
