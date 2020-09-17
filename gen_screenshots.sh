@@ -7,4 +7,3 @@ rm /c/Users/jatin/OneDrive/Documents/Rack/screenshots/ChowDSP/*
 
 # copy new screenshots
 cp /c/Users/jatin/OneDrive/Documents/Rack/screenshots/ChowDSP/*.png doc/
-

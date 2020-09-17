@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in
 this file.
 
+## [Unreleased]
+- Added new filter based on Kurt Werner's SVF
+- Improved performance of modules with oversampling
+- Improved performance of ChowDer tone stage
+
 ## [1.2.1] - 2020-09-12
 - Fixed oversampling bug
 - Fixed tape bug at low saturation levels
