@@ -2,8 +2,6 @@
 #include "GenSVF.hpp"
 #include "../shared/oversampling.hpp"
 
-using namespace std::placeholders;
-
 namespace {
     constexpr float highFreq = 20000.0f;
     constexpr float lowFreq = 20.0f;

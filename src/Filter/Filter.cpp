@@ -3,8 +3,6 @@
 #include "../shared/nl_biquad.hpp"
 #include "NewtonRaphson.hpp"
 
-using namespace std::placeholders;
-
 namespace {
     constexpr float highFreq = 2000.0f;
     constexpr float lowFreq = 5.0f;

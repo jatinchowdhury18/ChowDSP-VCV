@@ -8,6 +8,9 @@
 /** 
     High-order filter to be used for anti-aliasing or anti-imaging.
     The template parameter N should be 1/2 the desired filter order.
+
+    Currently uses an 2*N-th order Butterworth filter.
+    @TODO: implement Chebyshev, Elliptic filter options.
 */
 template<int N>
 class AAFilter
@@ -50,6 +53,15 @@ private:
 
 /** 
     Class to implement an oversampled process.
+    To use, create an object and prepare using `reset()`.
+    
+    Then use the following code to process samples:
+    @code
+    oversample.upsample(x);
+    for(int k = 0; k < OSRatio; k++)
+        oversample.osBuffer[k] = processSample(oversample.osBuffer[k]);
+    float y = oversample.downsample();
+    @endcode
 */
 template<int ratio, int filtN = 4>
 class OversampledProcess

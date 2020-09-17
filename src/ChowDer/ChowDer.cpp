@@ -4,8 +4,6 @@
 #include "../shared/oversampling.hpp"
 #include "../shared/shelf_filter.hpp"
 
-using namespace std::placeholders;
-
 struct ChowDer : Module {
 	enum ParamIds {
         BASS_PARAM,
