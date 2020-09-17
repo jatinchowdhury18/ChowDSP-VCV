@@ -26,7 +26,7 @@ The ChowDSP-VCV repository also contains a benchmarking suite. For more informat
 
 ChowDSP VCV uses the [Eigen](http://eigen.tuxfamily.org/) and [r8lib](https://people.sc.fsu.edu/~jburkardt/f_src/r8lib/r8lib.html) libraries for linear algebra, as well as Stefano D'Angelo's [Wright Omega function approximations](http://www.dangelo.audio/dafx2019-omega.html).
 
-Module design by [Margus Mets](mailto:hello@mmcreative.eu).
+Module design assisted by [Margus Mets](mailto:hello@mmcreative.eu).
 
 ## License
 

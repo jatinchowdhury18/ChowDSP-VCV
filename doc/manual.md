@@ -7,6 +7,7 @@ ChowDSP-VCV contains the following modules:
   - [CHOW RNN](#chow-rnn)
   - [CHOW Modal](#chow-modal)
   - [CHOW Der](#chow-der)
+  - [Werner Filter](#werner-filter)
 
 ## CHOW Tape
 <img src="./ChowTape.png" alt="Pic" height="300">
@@ -54,3 +55,13 @@ A modal filter implemented using the [Max Mathews phasor filter](https://ccrma.s
 A vintage distortion effect. The **Bass** and **Treble** knobs control the parameters of a vintage EQ circuit, based on the [Baxandall EQ](https://en.wikipedia.org/wiki/Peter_Baxandall), while the **Drive** knob controls the input level to a distortion circuit inspired by guitar pedals like the Klon Centaur and the Ibanez Tube Screamer. The **Bias** knob controls the mix of odd/even harmonics produced by the distortion stage.
 
 Under the hood, this module uses a [real-time Wave Digital Filter library](https://github.com/jatinchowdhury18/WaveDigitalFilters), along with approximations of the Wright Omega function borrowed from [Stephano D'Angelo](http://www.dangelo.audio/dafx2019-omega.html). For more information on Wave Digital Filters and how they can be used to model analog circuits, see the original work by [Alfred Fettweis](https://www.eit.lth.se/fileadmin/eit/courses/eit085f/Fettweis_Wave_Digital_Filters_Theory_and_Practice_IEEE_Proc_1986_-_This_is_a_real_challange.pdf), as well as some more recent research by [Kurt Werner](https://searchworks.stanford.edu/view/11891203).
+
+## Werner Filter
+<img src="./Werner.png" alt="Pic" height="300">
+
+This filter is a VCV Rack implementation of a generalized State Variable Filter architecture, presented by Kurt James Werner and Russell McClellan at the 2020 Digital Audio Effects (DAFx) conference, with a couple nonlinear modifications. The filter has modular controls for the **frequency**, resonant **feedback**, passband **damping**, and nonlinear **drive**.
+
+For more information, see the original [DAFx paper](https://dafx2020.mdw.ac.at/proceedings/papers/DAFx2020_paper_70.pdf), or the corresponding [DAFx presentation](https://dafx2020.mdw.ac.at/proceedings/presentations/paper_70.mp4). Many thanks to Kurt for his wonderful research and inspiration.
+
+# Questions?
+If you are unsure about the functionality of any of these modules, or have any questions at all, please create a [GitHub issue](https://github.com/jatinchowdhury18/ChowDSP-VCV/issues).
