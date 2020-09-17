@@ -5,7 +5,7 @@
 
 This repository contains [ChowDSP](https://ccrma.stanford.edu/~jatin/chowdsp) modules for [VCV Rack](https://vcvrack.com/). Official releases can be installed from the [VCV Rack Library](https://library.vcvrack.com/ChowDSP).
 
-<img src="./doc/ChowTape.png" alt="Pic" height="300"><img src="./doc/ChowPhaserFeedback.png" alt="Pic" height="300"><img src="./doc/ChowPhaserMod.png" alt="Pic" height="300"><img src="./doc/ChowFDN.png" alt="Pic" height="300"><img src="./doc/ChowRNN.png" alt="Pic" height="300"><img src="./doc/ChowModal.png" alt="Pic" height="300"><img src="./doc/ChowDer.png" alt="Pic" height="300">
+<img src="./doc/ChowTape.png" alt="Pic" height="300"><img src="./doc/ChowPhaserFeedback.png" alt="Pic" height="300"><img src="./doc/ChowPhaserMod.png" alt="Pic" height="300"><img src="./doc/ChowFDN.png" alt="Pic" height="300"><img src="./doc/ChowRNN.png" alt="Pic" height="300"><img src="./doc/ChowModal.png" alt="Pic" height="300"><img src="./doc/ChowDer.png" alt="Pic" height="300"><img src="./doc/Werner.png" alt="Pic" height="300">
 
 For more information, see the [User Manual](./doc/manual.md).
 
