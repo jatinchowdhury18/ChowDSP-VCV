@@ -17,9 +17,13 @@ namespace {
 struct Werner : Module {
     enum ParamIds {
         FREQ_PARAM,
+        FREQ_ATTEN_PARAM,
         FB_PARAM,
+        FB_ATTEN_PARAM,
         DAMPING_PARAM,
+        DAMPING_ATTEN_PARAM,
         DRIVE_PARAM,
+        DRIVE_ATTEN_PARAM,
 		NUM_PARAMS
 	};
 	enum InputIds {
@@ -42,9 +46,13 @@ struct Werner : Module {
         config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 
         configParam(FREQ_PARAM, 0.0f, 1.0f, 0.5f, "Freq.", " Hz", highFreq / lowFreq, lowFreq);
+        configParam(FREQ_ATTEN_PARAM, -1.0, 1.f, 0.0f, "Freq atten");
         configParam(DAMPING_PARAM, 0.25f, 1.25f, 0.5f, "Damp");
+        configParam(DAMPING_ATTEN_PARAM, -1.0, 1.f, 0.0f, "Damp atten");
         configParam(FB_PARAM, 0.0f, 0.95f, 0.5f, "Feedback");
+        configParam(FB_ATTEN_PARAM, -1.0, 1.f, 0.0f, "Feedback atten");
         configParam(DRIVE_PARAM, 0.0f, 1.0f, 0.0f, "Drive", "", highDrive / lowDrive, lowDrive);
+        configParam(DRIVE_ATTEN_PARAM, -1.0, 1.f, 0.0f, "Drive atten");
 
         svf.reset();
         onSampleRateChange();
@@ -64,20 +72,20 @@ struct Werner : Module {
 
     void cookParams(float fs) {
         // calc filter params
-        float r = params[DAMPING_PARAM].getValue() + inputs[DAMPING_IN].getVoltage() / 10.0f;
+        float r = params[DAMPING_PARAM].getValue() + (inputs[DAMPING_IN].getVoltage() * params[DAMPING_ATTEN_PARAM].getValue() / 10.0f);
         r = clamp(r, 0.25f, 1.25f);
 
-        float k = params[FB_PARAM].getValue() + inputs[FB_IN].getVoltage() / 10.0f;
+        float k = params[FB_PARAM].getValue() + (inputs[FB_IN].getVoltage() * params[FB_ATTEN_PARAM].getValue() / 10.0f);
         k = clamp(k, 0.0f, 1.0f);
 
-        float freqParam = params[FREQ_PARAM].getValue() + inputs[FREQ_IN].getVoltage() / 10.0f;
+        float freqParam = params[FREQ_PARAM].getValue() + (inputs[FREQ_IN].getVoltage() * params[FREQ_ATTEN_PARAM].getValue() / 10.0f);
         freqParam = clamp(freqParam, 0.0f, 1.0f);
         auto freq = pow(highFreq / lowFreq, freqParam) * lowFreq;
         float wc = (freq / fs) * M_PI_2;
         svf.calcCoefs(r, k, wc);
 
         // calc drive param
-        float driveParam = params[DRIVE_PARAM].getValue() + inputs[DRIVE_IN].getVoltage() / 10.0f;
+        float driveParam = params[DRIVE_PARAM].getValue() + (inputs[DRIVE_IN].getVoltage() * params[DRIVE_ATTEN_PARAM].getValue() / 10.0f);
         driveParam = clamp(driveParam, 0.0f, 1.0f);
         float drive = pow(highDrive / lowDrive, pow(driveParam, 0.33f)) * lowDrive;
         svf.setDrive(drive);
@@ -115,13 +123,18 @@ struct WernerWidget : ModuleWidget {
         addInput(createInputCentered<ChowPort>(mm2px(Vec(10.85, 61.75)), module, Werner::DAMPING_IN));
         addInput(createInputCentered<ChowPort>(mm2px(Vec(10.85, 81.0)),  module, Werner::DRIVE_IN));
 
-        addParam(createParamCentered<ChowKnob>(mm2px(Vec(29.9, 26.75)), module, Werner::FREQ_PARAM));
-        addParam(createParamCentered<ChowKnob>(mm2px(Vec(29.9, 45.75)), module, Werner::FB_PARAM));
-        addParam(createParamCentered<ChowKnob>(mm2px(Vec(29.9, 64.75)), module, Werner::DAMPING_PARAM));
-        addParam(createParamCentered<ChowKnob>(mm2px(Vec(29.9, 84.0)),  module, Werner::DRIVE_PARAM));
+        addParam(createParamCentered<ChowKnob>(mm2px(Vec(39.4, 26.75)), module, Werner::FREQ_PARAM));
+        addParam(createParamCentered<ChowKnob>(mm2px(Vec(39.4, 45.75)), module, Werner::FB_PARAM));
+        addParam(createParamCentered<ChowKnob>(mm2px(Vec(39.4, 64.75)), module, Werner::DAMPING_PARAM));
+        addParam(createParamCentered<ChowKnob>(mm2px(Vec(39.4, 84.0)),  module, Werner::DRIVE_PARAM));
 
-        addInput(createInputCentered<ChowPort>(mm2px(Vec(20.5, 97.5)), module, Werner::AUDIO_IN));
-        addOutput(createOutputCentered<ChowPort>(mm2px(Vec(20.5, 115.0)), module, Werner::AUDIO_OUT));
+        addParam(createParamCentered<ChowSmallKnob>(mm2px(Vec(25.4, 22.7)), module, Werner::FREQ_ATTEN_PARAM));
+        addParam(createParamCentered<ChowSmallKnob>(mm2px(Vec(25.4, 41.8)), module, Werner::FB_ATTEN_PARAM));
+        addParam(createParamCentered<ChowSmallKnob>(mm2px(Vec(25.4, 60.9)), module, Werner::DAMPING_ATTEN_PARAM));
+        addParam(createParamCentered<ChowSmallKnob>(mm2px(Vec(25.4, 79.9)),  module, Werner::DRIVE_ATTEN_PARAM));
+
+        addInput(createInputCentered<ChowPort>(mm2px(Vec(25.4, 97.5)), module, Werner::AUDIO_IN));
+        addOutput(createOutputCentered<ChowPort>(mm2px(Vec(25.4, 115.0)), module, Werner::AUDIO_OUT));
 	}
 
     void appendContextMenu(Menu *menu) override {
