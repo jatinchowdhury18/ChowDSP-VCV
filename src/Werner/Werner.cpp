@@ -128,10 +128,10 @@ struct WernerWidget : ModuleWidget {
         addParam(createParamCentered<ChowKnob>(mm2px(Vec(39.4, 64.75)), module, Werner::DAMPING_PARAM));
         addParam(createParamCentered<ChowKnob>(mm2px(Vec(39.4, 84.0)),  module, Werner::DRIVE_PARAM));
 
-        addParam(createParamCentered<ChowSmallKnob>(mm2px(Vec(25.4, 22.7)), module, Werner::FREQ_ATTEN_PARAM));
-        addParam(createParamCentered<ChowSmallKnob>(mm2px(Vec(25.4, 41.8)), module, Werner::FB_ATTEN_PARAM));
-        addParam(createParamCentered<ChowSmallKnob>(mm2px(Vec(25.4, 60.9)), module, Werner::DAMPING_ATTEN_PARAM));
-        addParam(createParamCentered<ChowSmallKnob>(mm2px(Vec(25.4, 79.9)),  module, Werner::DRIVE_ATTEN_PARAM));
+        addParam(createParamCentered<ChowSmallKnob>(mm2px(Vec(24.4, 25.25)), module, Werner::FREQ_ATTEN_PARAM));
+        addParam(createParamCentered<ChowSmallKnob>(mm2px(Vec(24.4, 44.25)), module, Werner::FB_ATTEN_PARAM));
+        addParam(createParamCentered<ChowSmallKnob>(mm2px(Vec(24.4, 63.25)), module, Werner::DAMPING_ATTEN_PARAM));
+        addParam(createParamCentered<ChowSmallKnob>(mm2px(Vec(24.4, 82.5)),  module, Werner::DRIVE_ATTEN_PARAM));
 
         addInput(createInputCentered<ChowPort>(mm2px(Vec(25.4, 97.5)), module, Werner::AUDIO_IN));
         addOutput(createOutputCentered<ChowPort>(mm2px(Vec(25.4, 115.0)), module, Werner::AUDIO_OUT));
