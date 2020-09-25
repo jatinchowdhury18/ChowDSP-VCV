@@ -1,3 +1,5 @@
+include $(RACK_DIR)/arch.mk
+
 # If RACK_DIR is not defined when calling the Makefile, default to two directories above
 RACK_DIR ?= ../..
 
@@ -13,6 +15,26 @@ LDFLAGS +=
 # Add .cpp files to the build
 SOURCES += $(wildcard src/*.cpp) $(wildcard src/**/*.cpp)
 SOURCES += $(wildcard lib/r8lib/*.cpp)
+
+# compile osdialog
+SOURCES += lib/osdialog/osdialog.c
+
+ifdef ARCH_LIN
+  CFLAGS += $(shell pkg-config --cflags gtk+-2.0)
+  LDFLAGS += $(shell pkg-config --libs gtk+-2.0)
+  SOURCES += lib/osdialog/osdialog_gtk2.c
+endif
+
+ifdef ARCH_MAC
+  LDFLAGS += -framework AppKit
+  SOURCES += lib/osdialog/osdialog_mac.m
+  CFLAGS += -mmacosx-version-min=10.7
+endif
+
+ifdef ARCH_WIN
+  LDFLAGS += -lcomdlg32
+  SOURCES += lib/osdialog/osdialog_win.c
+endif
 
 # Add files to the ZIP package when running `make dist`
 # The compiled plugin and "plugin.json" are automatically added.
