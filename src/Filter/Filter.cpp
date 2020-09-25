@@ -4,7 +4,7 @@
 #include "NewtonRaphson.hpp"
 
 namespace {
-    constexpr float highFreq = 2000.0f;
+    constexpr float highFreq = 1000.0f;
     constexpr float lowFreq = 5.0f;
     constexpr float qMult = 0.25f;
     constexpr float qBase = 19.75f;
@@ -37,11 +37,11 @@ struct Filter : Module {
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 
         configParam(FREQ_PARAM, 0.0f, 1.0f, 0.5f, "Freq.", " Hz", highFreq / lowFreq, lowFreq);
-        configParam(Q_PARAM, 0.0f, 1.0f, 0.324f, "Q", "", qBase, qMult, qOff);
-        configParam(GAIN_PARAM, -30.0f, 30.0f, -6.0f, "Gain", " dB");
+        configParam(Q_PARAM, 0.15f, 1.0f, 0.324f, "Q", "", qBase, qMult, qOff);
+        configParam(GAIN_PARAM, -24.0f, 24.0f, -6.0f, "Gain", " dB");
         configParam(DRIVE_PARAM, 1.0f, 10.0f, 1.0f, "Drive");
         configParam(FB_DRIVE_PARAM, 1.0f, 10.0f, 1.0f, "FB Drive");
-        configParam(FB_PARAM, 0.0f, 0.95f, 0.0f, "Feedback");
+        configParam(FB_PARAM, 0.0f, 0.9f, 0.0f, "Feedback");
 
         onSampleRateChange();
 
