@@ -78,7 +78,7 @@ stages:
       condition: variables.isMac
     - bash: |
         sudo apt-get update
-        sudo apt install -y libglu-dev
+        sudo apt install -y libglu-dev libgtk2.0-dev
         export RACK_DIR=$AGENT_TEMPDIRECTORY/Rack-SDK
         make dist
         mkdir artifacts_lin/
