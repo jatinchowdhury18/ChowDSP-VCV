@@ -26,3 +26,11 @@ struct PinwheelTeal : app::SvgSwitch {
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/components/PinwheelTeal_1.svg")));
 	}
 };
+
+struct PinwheelRust : app::SvgSwitch {
+	PinwheelRust() {
+		momentary = true;
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/components/PinwheelRust_0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/components/PinwheelRust_1.svg")));
+	}
+};

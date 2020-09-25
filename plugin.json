@@ -94,6 +94,14 @@
         "Filter",
         "Physical modeling"
       ]
+    },
+    {
+      "slug": "Credit",
+      "name": "Credit",
+      "description": "Creates a text file that credits all the modules used in your patch",
+      "tags": [
+        "utility"
+      ]
     }
   ]
 }

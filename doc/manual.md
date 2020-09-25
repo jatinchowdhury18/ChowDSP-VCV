@@ -8,6 +8,7 @@ ChowDSP-VCV contains the following modules:
   - [CHOW Modal](#chow-modal)
   - [CHOW Der](#chow-der)
   - [Werner Filter](#werner-filter)
+  - [Credit](#credit)
 
 ## CHOW Tape
 <img src="./ChowTape.png" alt="Pic" height="300">
@@ -59,9 +60,14 @@ Under the hood, this module uses a [real-time Wave Digital Filter library](https
 ## Werner Filter
 <img src="./Werner.png" alt="Pic" height="300">
 
-This filter is a VCV Rack implementation of a generalized State Variable Filter architecture, presented by Kurt James Werner and Russell McClellan at the 2020 Digital Audio Effects (DAFx) conference, with a couple nonlinear modifications. The filter has modular controls for the **frequency**, resonant **feedback**, passband **damping**, and nonlinear **drive**.
+This filter is an implementation of a generalized State Variable Filter architecture, presented by Kurt James Werner and Russell McClellan at the 2020 Digital Audio Effects (DAFx) conference, with a couple nonlinear modifications. The filter has modular controls for the **frequency**, resonant **feedback**, passband **damping**, and nonlinear **drive**.
 
 For more information, see the original [DAFx paper](https://dafx2020.mdw.ac.at/proceedings/papers/DAFx2020_paper_70.pdf), or the corresponding [DAFx presentation](https://dafx2020.mdw.ac.at/proceedings/presentations/paper_70.mp4). Many thanks to Kurt for his wonderful research and inspiration.
+
+## Credit
+<img src="./Credit.png" alt="Pic" height="300">
+
+The "Credit" module allows users to generate a text file containing credits for the modules used in a patch. To generate credits, press the red button and select a text file to save to.
 
 # Questions?
 If you are unsure about the functionality of any of these modules, or have any questions at all, please create a [GitHub issue](https://github.com/jatinchowdhury18/ChowDSP-VCV/issues).
