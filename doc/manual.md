@@ -64,6 +64,11 @@ This filter is an implementation of a generalized State Variable Filter architec
 
 For more information, see the original [DAFx paper](https://dafx2020.mdw.ac.at/proceedings/papers/DAFx2020_paper_70.pdf), or the corresponding [DAFx presentation](https://dafx2020.mdw.ac.at/proceedings/presentations/paper_70.mp4). Many thanks to Kurt for his wonderful research and inspiration.
 
+## ChowPulse
+<img src="./ChowPulse.png" alt="Pic" height="300">
+
+ChowPulse is a pulse shaper, modelled after the pulse shaping circuit from the TR-808 Kick Drum circuit. The module contains controls for the **width** and **decay** time of the pulse. The pulse shaper produces a second "spike" at the end of the pulse the level of which is controlled by the **double tap** knob. The pulse shaper can function as an envelope generator, or as a pulse input for a resonant filter, such as [ChowModal](#chow-modal).
+
 ## Credit
 <img src="./Credit.png" alt="Pic" height="300">
 

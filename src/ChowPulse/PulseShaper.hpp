@@ -2,6 +2,11 @@
 
 #include <wdf/wdf.h>
 
+/**
+ * Wave digital filter model of the pulse shaper
+ * from the TR-808 kick drum circuit. For more information,
+ * see: https://searchworks.stanford.edu/view/11891203
+ */ 
 class PulseShaper
 {
 public:
