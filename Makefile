@@ -1,7 +1,7 @@
-include $(RACK_DIR)/arch.mk
-
 # If RACK_DIR is not defined when calling the Makefile, default to two directories above
 RACK_DIR ?= ../..
+
+include $(RACK_DIR)/arch.mk
 
 # FLAGS will be passed to both the C and C++ compiler
 FLAGS += -Ilib -DUSE_EIGEN

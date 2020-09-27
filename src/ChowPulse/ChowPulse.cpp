@@ -41,6 +41,7 @@ struct ChowPulse : Module {
         configParam(DOUBLE_PARAM, -1.0f, 1.0f, 0.0f, "Double Tap");
 
         onSampleRateChange();
+        paramDivider.setDivision(ParamDivide);
     }
 
     void onSampleRateChange() override {
@@ -74,7 +75,8 @@ struct ChowPulse : Module {
     }
 
     void process(const ProcessArgs& args) override {
-        cookParams(args);
+        if(paramDivider.process())
+            cookParams(args);
 
         float pulse = getPulse();
         float env = pulseShaper.processSample(pulse);
@@ -84,8 +86,13 @@ struct ChowPulse : Module {
     }
 
 private:
+    enum {
+        ParamDivide = 16,
+    };
+
     PulseShaper pulseShaper;
 
+    dsp::ClockDivider paramDivider;
     dsp::SchmittTrigger trigger;
     int pulseWidthSamples = 0;
     int sampleCount = 0;

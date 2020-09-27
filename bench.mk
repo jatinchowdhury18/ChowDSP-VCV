@@ -16,6 +16,7 @@ BENCH_SOURCES += $(MY_RACK)/src/Quantity.cpp $(MY_RACK)/src/app.cpp $(MY_RACK)/s
 BENCH_SOURCES += $(wildcard $(MY_RACK)/src/*/*.cpp)
 
 BENCH_SOURCES := $(filter-out $(MY_RACK)/src/main.cpp, $(BENCH_SOURCES))
+BENCH_SOURCES := $(filter-out $(wildcard lib/osdialog/*.c), $(BENCH_SOURCES))
 BENCH_LDFLAGS = 
 
 ifdef ARCH_LIN
@@ -30,7 +31,7 @@ build_bench/$(MY_RACK)/dep/osdialog/osdialog_gtk2.c.o: CXXFLAGS += $(shell pkg-c
 endif
 
 ifdef ARCH_MAC
-  BENCH_SOURCES += $(MY_RACK)/dep/osdialog/osdialog_mac.m
+#   BENCH_SOURCES += $(MY_RACK)/dep/osdialog/osdialog_mac.m
 
   BENCH_LDFLAGS += -lpthread -ldl \
 		-framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo -framework CoreAudio -framework CoreMIDI \
@@ -39,7 +40,7 @@ ifdef ARCH_MAC
 endif
 
 ifdef ARCH_WIN
-  BENCH_SOURCES += $(MY_RACK)/dep/osdialog/osdialog_win.c
+#   BENCH_SOURCES += $(MY_RACK)/dep/osdialog/osdialog_win.c
 
   BENCH_LDFLAGS += -Wl,--export-all-symbols,--out-implib,libRack.a -mwindows \
   	$(MY_RACK)/dep/lib/libglew32.a $(MY_RACK)/dep/lib/libglfw3.a $(MY_RACK)/dep/lib/libjansson.a $(MY_RACK)/dep/lib/libspeexdsp.a $(MY_RACK)/dep/lib/libsamplerate.a $(MY_RACK)/dep/lib/libzip.a $(MY_RACK)/dep/lib/libz.a $(MY_RACK)/dep/lib/libcurl.a $(MY_RACK)/dep/lib/libssl.a $(MY_RACK)/dep/lib/libcrypto.a $(MY_RACK)/dep/lib/librtaudio.a $(MY_RACK)/dep/lib/librtmidi.a \
@@ -47,7 +48,7 @@ ifdef ARCH_WIN
 endif
 
 BENCH_OBJECTS = $(patsubst %, build_bench/%.o, $(BENCH_SOURCES))
-CXXFLAGS += -DCHOWDSP_BENCH
+bench: CXXFLAGS += -DCHOWDSP_BENCH
 
 build_bench/%.cpp.o: %.cpp
 	mkdir -p $(@D)
