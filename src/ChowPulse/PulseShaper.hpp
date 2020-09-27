@@ -9,12 +9,12 @@ public:
 
     void reset (double sampleRate)
     {
-        c40 = std::make_unique<WDF::Capacitor> (0.015e-6, sampleRate, 0.029);
-        P1 = std::make_unique<WDF::WDFParallel> (c40.get(), &r163);
-        S1 = std::make_unique<WDF::WDFSeries> (&Vs, P1.get());
+        c40 = WDF::make_unique<WDF::Capacitor> (0.015e-6, sampleRate, 0.029);
+        P1 = WDF::make_unique<WDF::WDFParallel> (c40.get(), &r163);
+        S1 = WDF::make_unique<WDF::WDFSeries> (&Vs, P1.get());
 
-        I1 = std::make_unique<WDF::PolarityInverter> (&r162);
-        P2 = std::make_unique<WDF::WDFParallel> (I1.get(), S1.get());
+        I1 = WDF::make_unique<WDF::PolarityInverter> (&r162);
+        P2 = WDF::make_unique<WDF::WDFParallel> (I1.get(), S1.get());
 
         d53.connectToNode (P2.get());
     }
