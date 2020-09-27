@@ -2,8 +2,10 @@
 All notable changes to this project will be documented in
 this file.
 
-## [Unreleased]
+## [1.3.0] - 2020-09-27
 - Added new filter based on Kurt Werner's SVF
+- Added new pulse shaper module (ChowPulse)
+- Added new module to generate patch credits
 - Improved performance of modules with oversampling
 - Improved performance of ChowDer tone stage
 
