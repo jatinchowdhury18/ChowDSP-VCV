@@ -102,6 +102,15 @@
       "tags": [
         "utility"
       ]
+    },
+    {
+      "slug": "ChowPulse",
+      "name": "ChowPulse",
+      "description": "Pulse shaper based on the TR-808 Kick Drum circuit",
+      "tags": [
+        "envelope generator",
+        "physical modeling"
+      ]
     }
   ]
 }

@@ -16,6 +16,7 @@ BENCH_SOURCES += $(MY_RACK)/src/Quantity.cpp $(MY_RACK)/src/app.cpp $(MY_RACK)/s
 BENCH_SOURCES += $(wildcard $(MY_RACK)/src/*/*.cpp)
 
 BENCH_SOURCES := $(filter-out $(MY_RACK)/src/main.cpp, $(BENCH_SOURCES))
+BENCH_SOURCES := $(filter-out $(wildcard lib/osdialog/*.c), $(BENCH_SOURCES))
 BENCH_LDFLAGS = 
 
 ifdef ARCH_LIN
@@ -47,7 +48,7 @@ ifdef ARCH_WIN
 endif
 
 BENCH_OBJECTS = $(patsubst %, build_bench/%.o, $(BENCH_SOURCES))
-CXXFLAGS += -DCHOWDSP_BENCH
+bench: CXXFLAGS += -DCHOWDSP_BENCH
 
 build_bench/%.cpp.o: %.cpp
 	mkdir -p $(@D)

@@ -22,10 +22,14 @@ int main()
 
     ParamVec fdnParams { { 4, 16.0f } };
     runModuleBench(modelChowFDN, fdnParams);
-    
+
     runModuleBench(modelChowRNN);
     runModuleBench(modelChowModal);
     runModuleBench(modelChowDer);
+
+    // runModuleBench(modelFilter);
+    runModuleBench(modelWerner);
+    runModuleBench(modelChowPulse);
 
     return 0;
 }
