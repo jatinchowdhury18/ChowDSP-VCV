@@ -23,11 +23,11 @@ struct PluginInfo {
     }
 
     /** Prints plugin info to a string */
-    std::string print() const {
+    std::string print(bool printURL) const {
         std::stringstream ss; // { brand + ": " + name + " (" + url + ")" + '\n' };
         ss << brand << ": " << name;
         
-        if(! url.empty())
+        if(! url.empty() && printURL)
             ss << " (" << url << ")";
         ss << '\n';
 
@@ -40,6 +40,7 @@ struct PluginInfo {
 
 struct ModuleWriter {
     std::vector<PluginInfo> plugins;
+    bool writeURLs = true;
 
     /** Returns the plugin info object wth this name, or nullptr if plugin hasn't been loaded */
     PluginInfo* getPlugin(const std::string& name) {
@@ -73,7 +74,7 @@ struct ModuleWriter {
         loadPlugins();
 
         for(const auto& p : plugins) {
-            auto pStr = p.print();
+            auto pStr = p.print(writeURLs);
             fprintf(file, pStr.c_str());
         }
     }

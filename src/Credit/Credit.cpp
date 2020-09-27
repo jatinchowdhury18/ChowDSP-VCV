@@ -20,6 +20,9 @@ std::future<typename std::result_of<Function(Args...)>::type> myAsync( Function&
 }
 
 struct Credit : Module {
+    ModuleWriter mWriter;
+    std::atomic_bool saving;
+
 	enum ParamIds {
         SAVE_PARAM,
 		NUM_PARAMS
@@ -58,7 +61,6 @@ struct Credit : Module {
 	    	return; // Fail silently
         }
 
-        ModuleWriter mWriter;
         mWriter(file.get());
 
         saving.store(false);
@@ -70,9 +72,6 @@ struct Credit : Module {
             myAsync(&Credit::saveModules, this);
         }
 	}
-
-private:
-    std::atomic_bool saving;
 };
 
 
@@ -84,6 +83,26 @@ struct CreditWidget : ModuleWidget {
 
         addParam(createParamCentered<PinwheelRust>(mm2px(Vec(7.62, 105.25)), module, Credit::SAVE_PARAM));
 	}
+
+    void appendContextMenu(Menu *menu) override {
+        Credit* creditModule = dynamic_cast<Credit*>(module);
+
+        struct URLOptionItem : MenuItem {
+            ModuleWriter& mw;
+
+            URLOptionItem(ModuleWriter& mw) : mw(mw) {
+                text = "Include plugin URLs";
+                rightText = CHECKMARK(mw.writeURLs);
+            }
+
+	    	void onAction(const event::Action& e) override {
+	    		mw.writeURLs ^= true;
+	    	}
+	    };
+
+        URLOptionItem* urlOptionItem = new URLOptionItem(creditModule->mWriter);
+        menu->addChild(urlOptionItem);
+    }
 };
 
 
