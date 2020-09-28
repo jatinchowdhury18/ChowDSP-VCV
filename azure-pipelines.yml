@@ -55,22 +55,26 @@ stages:
         uname -a
         git submodule update --init --recursive
         pushd $AGENT_TEMPDIRECTORY
-        curl -o Rack-SDK.zip https://vcvrack.com/downloads/Rack-SDK-$(rack-sdk-version).zip
-        unzip Rack-SDK.zip
+        git clone https://github.com/VCVRack/Rack
+        cd Rack
+        git submodule update --init --recursive
+        make dep -j4
       displayName: Get Rack-SDK
     - bash: |
         $(add-gitrev-to-plugin-version)
       displayName: Update Version in plugins.json
     - bash: |
-        export RACK_DIR=$AGENT_TEMPDIRECTORY/Rack-SDK
+        # export RACK_DIR=$AGENT_TEMPDIRECTORY/Rack-SDK
         export CC=gcc
+        cp -R . $AGENT_TEMPDIRECTORY/Rack/plugins/ && cd $AGENT_TEMPDIRECTORY/Rack/plugins/ChowDSP-VCV
         make azure-win-dist
         mkdir artifacts_win/
         cp dist/*zip artifacts_win/
       displayName: Build Windows Plugin
       condition: variables.isWindows
     - bash: |
-        export RACK_DIR=$AGENT_TEMPDIRECTORY/Rack-SDK
+        # export RACK_DIR=$AGENT_TEMPDIRECTORY/Rack-SDK
+        cp -R . $AGENT_TEMPDIRECTORY/Rack/plugins/ && cd $AGENT_TEMPDIRECTORY/Rack/plugins/ChowDSP-VCV
         make dist
         mkdir artifacts_mac/
         cp dist/*zip artifacts_mac/
@@ -79,7 +83,8 @@ stages:
     - bash: |
         sudo apt-get update
         sudo apt install -y libglu-dev libgtk2.0-dev
-        export RACK_DIR=$AGENT_TEMPDIRECTORY/Rack-SDK
+        # export RACK_DIR=$AGENT_TEMPDIRECTORY/Rack-SDK
+        cp -R . $AGENT_TEMPDIRECTORY/Rack/plugins/ && cd $AGENT_TEMPDIRECTORY/Rack/plugins/ChowDSP-VCV
         make dist
         mkdir artifacts_lin/
         cp dist/*zip artifacts_lin/
