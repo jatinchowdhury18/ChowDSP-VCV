@@ -1,5 +1,5 @@
-# Use full Rack repo as RACK_DIR (needed for osdialog)
-RACK_DIR = ../..
+# If RACK_DIR is not defined when calling the Makefile, default to two directories above
+RACK_DIR ?= ../..
 
 include $(RACK_DIR)/arch.mk
 
