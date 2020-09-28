@@ -21,6 +21,29 @@ SOURCES += $(wildcard lib/r8lib/*.cpp)
 DISTRIBUTABLES += res
 DISTRIBUTABLES += $(wildcard LICENSE*)
 
+ifeq ($(wildcard $(RACK_DIR)/dep/osdialog/*),)
+	# compile osdialog
+	SOURCES += lib/osdialog-local/osdialog.c
+	FLAGS += -Ilib/osdialog-local
+
+	ifdef ARCH_LIN
+	  CFLAGS += $(shell pkg-config --cflags gtk+-2.0)
+	  LDFLAGS += $(shell pkg-config --libs gtk+-2.0)
+	  SOURCES += lib/osdialog-local/osdialog_gtk2.c
+	endif
+
+	ifdef ARCH_MAC
+	  LDFLAGS += -framework AppKit
+	  SOURCES += lib/osdialog-local/osdialog_mac.m
+	  CFLAGS += -mmacosx-version-min=10.7
+	endif
+
+	ifdef ARCH_WIN
+	  LDFLAGS += -lcomdlg32
+	  SOURCES += lib/osdialog-local/osdialog_win.c
+	endif
+endif
+
 # Include the Rack plugin Makefile framework
 include $(RACK_DIR)/plugin.mk
 
