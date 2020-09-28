@@ -1,6 +1,6 @@
 #pragma once
 
-#include <osdialog/osdialog.h>
+#include <osdialog.h>
 #include <patch.hpp>
 #include "../plugin.hpp"
 
