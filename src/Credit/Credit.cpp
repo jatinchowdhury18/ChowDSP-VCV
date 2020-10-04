@@ -1,3 +1,4 @@
+#include <atomic>
 #include "../plugin.hpp"
 #include "FileUtils.hpp"
 #include "ModuleWriter.hpp"
