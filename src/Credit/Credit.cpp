@@ -1,28 +1,8 @@
-#include <future>
-#include <chrono>
-#include <thread>
-#include <functional>
 #include "../plugin.hpp"
 #include "FileUtils.hpp"
 #include "ModuleWriter.hpp"
 
-/** Non-blocking version of std::async */
-template< class Function, class... Args>
-std::future<typename std::result_of<Function(Args...)>::type> myAsync( Function&& f, Args&&... args ) 
-{
-    typedef typename std::result_of<Function(Args...)>::type R;
-    auto bound_task = std::bind(std::forward<Function>(f), std::forward<Args>(args)...);
-    std::packaged_task<R()> task(std::move(bound_task));
-    auto ret = task.get_future();
-    std::thread t(std::move(task));
-    t.detach();
-    return ret;   
-}
-
 struct Credit : Module {
-    ModuleWriter mWriter;
-    std::atomic_bool saving;
-
 	enum ParamIds {
         SAVE_PARAM,
 		NUM_PARAMS
@@ -40,11 +20,15 @@ struct Credit : Module {
 	Credit() {
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
         configParam(SAVE_PARAM, 0.0f, 1.0f, 0.0f, "Save");
-
-        saving.store(false);
 	}
 
-    void saveModules() {
+	void process(const ProcessArgs& args) override {}
+};
+
+struct CreditWidget : ModuleWidget {
+    ModuleWriter mWriter;
+
+    static void saveModules(ModuleWriter& mWriter) {
         auto pathC = file_utils::getChosenFilePath();
         if (pathC == nullptr) {
             return; // fail silently
@@ -62,31 +46,42 @@ struct Credit : Module {
         }
 
         mWriter(file.get());
-
-        saving.store(false);
     }
 
-	void process(const ProcessArgs& args) override {
-        if(params[SAVE_PARAM].getValue() && ! saving.load()) {
-            saving.store(true);
-            myAsync(&Credit::saveModules, this);
-        }
-	}
-};
-
-
-struct CreditWidget : ModuleWidget {
 	CreditWidget(Credit* module) {
 		setModule(module);
 		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Credit.svg")));
         createScrews(*this);
 
-        addParam(createParamCentered<PinwheelRust>(mm2px(Vec(7.62, 105.25)), module, Credit::SAVE_PARAM));
+        struct SaveButton : public PinwheelRust {
+            ModuleWriter& mw;
+            std::atomic_bool saving;
+
+            SaveButton(ModuleWriter& mw) :
+                PinwheelRust(),
+                mw(mw) {
+                saving.store(true);
+            }
+
+            void onButton(const event::Button& e) override {
+                saving.store(! saving.load());
+
+                if(saving.load())
+                    saveModules(mw);
+            }
+        };
+
+        auto saveButton = new SaveButton(mWriter);
+        saveButton->box.pos = mm2px(Vec(7.62, 105.25));
+        saveButton->box.pos = saveButton->box.pos.minus(saveButton->box.size.div(2)); // center
+
+        if(module)
+            saveButton->paramQuantity = module->paramQuantities[Credit::SAVE_PARAM];
+        
+        addParam(saveButton);
 	}
 
     void appendContextMenu(Menu *menu) override {
-        Credit* creditModule = dynamic_cast<Credit*>(module);
-
         struct URLOptionItem : MenuItem {
             ModuleWriter& mw;
 
@@ -100,7 +95,7 @@ struct CreditWidget : ModuleWidget {
 	    	}
 	    };
 
-        URLOptionItem* urlOptionItem = new URLOptionItem(creditModule->mWriter);
+        URLOptionItem* urlOptionItem = new URLOptionItem(mWriter);
         menu->addChild(urlOptionItem);
     }
 };
