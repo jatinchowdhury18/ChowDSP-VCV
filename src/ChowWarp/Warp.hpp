@@ -4,7 +4,7 @@
 #include "WarpFilter.hpp"
 #include "../shared/ParamMap.hpp"
 
-struct ChowWarp : Module {
+struct Warp : Module {
 	enum ParamIds {
         CUTOFF_PARAM,
         HEAT_PARAM,
@@ -25,7 +25,7 @@ struct ChowWarp : Module {
 		NUM_LIGHTS
 	};
 
-	ChowWarp();
+	Warp();
 
     void onSampleRateChange() override;
 	void process(const ProcessArgs& args) override;

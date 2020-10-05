@@ -15,7 +15,7 @@ extern Model* modelChowFDN;
 extern Model* modelChowRNN;
 extern Model* modelChowModal;
 extern Model* modelChowDer;
-extern Model* modelChowWarp;
+extern Model* modelWarp;
 extern Model* modelWerner;
 extern Model* modelCredit;
 extern Model* modelChowPulse;

@@ -86,8 +86,8 @@
       ]
     },
     {
-      "slug": "ChowWarp",
-      "name": "ChowWarp",
+      "slug": "Warp",
+      "name": "Warp",
       "description": "A warping distortion, developed in collaboration with IggyLabs",
       "tags": [
         "Effect",
