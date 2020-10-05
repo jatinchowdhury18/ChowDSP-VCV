@@ -86,12 +86,11 @@
       ]
     },
     {
-      "slug": "Filter",
-      "name": "Filter",
-      "description": "A freaky filter",
+      "slug": "ChowWarp",
+      "name": "ChowWarp",
+      "description": "A warping distortion, developed in collaboration with IggyLabs",
       "tags": [
         "Effect",
-        "Filter",
         "Distortion"
       ]
     },

@@ -15,7 +15,7 @@ void init(Plugin* p) {
     p->addModel(modelChowRNN);
     p->addModel(modelChowModal);
     p->addModel(modelChowDer);
-    p->addModel(modelFilter); // (WIP)
+    p->addModel(modelChowWarp); // (WIP)
     p->addModel(modelWerner);
     p->addModel(modelCredit);
     p->addModel(modelChowPulse);
