@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in
 this file.
 
+## [1.3.1] - 2020-10-06
+- Fixed Credit crashes on OSX
+- Added attenuverters for Werner Filter
+- Changed default save file for Credit
+
 ## [1.3.0] - 2020-09-27
 - Added new filter based on Kurt Werner's SVF
 - Added new pulse shaper module (ChowPulse)
