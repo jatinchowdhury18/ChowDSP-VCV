@@ -104,6 +104,7 @@ struct ChowDerWidget : ModuleWidget {
 	}
 
     void appendContextMenu(Menu *menu) override {
+        menu->addChild(new MenuSeparator());
         dynamic_cast<ChowDer*> (module)->oversample.addContextMenu(menu, module);
     }
 };

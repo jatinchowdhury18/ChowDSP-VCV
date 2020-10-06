@@ -37,8 +37,12 @@ private:
 
     enum {
         ParamDivide = 16,
+        FadeCount = 2048,
     };
 
     std::vector<ParamMap::ParamMapSet> paramMapSets;
     dsp::ClockDivider paramDivider;
+
+    size_t fadeCounter = 0;
+    int prevMapChoice = 0;
 };

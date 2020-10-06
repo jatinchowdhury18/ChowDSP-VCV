@@ -83,6 +83,8 @@ struct CreditWidget : ModuleWidget {
 	}
 
     void appendContextMenu(Menu *menu) override {
+        menu->addChild(new MenuSeparator());
+        
         struct URLOptionItem : MenuItem {
             ModuleWriter& mw;
 

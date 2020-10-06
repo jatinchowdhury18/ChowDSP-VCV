@@ -1,0 +1,39 @@
+\documentclass[tikz]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes,backgrounds}
+\usepackage{tkz-euclide}
+\usepackage[american]{circuitikz}
+\standaloneenv{circuitikz}
+
+\begin{document}
+
+\begin{circuitikz}[background rectangle/.style={fill=white}, show background rectangle]
+    \draw (0, 0) 
+        to[V, l_=$V_{in}$] (0, -2)
+        to[short,-o] (6.5, -2);
+
+    \draw (0, 0)
+        to[short,-*] (1, 0)
+        to (1, 0.5)
+        to[C, l=$C_{40}$] (3, 0.5)
+        to[short,-*] (3, 0)
+        to (3, -0.5)
+        to[R, l=$R_{163}$] (1, -0.5)
+        to (1, 0);
+    
+    \draw (3, 0)
+        to[short,-*] (4, 0)
+        to[R, l=$R_{162}$, -*] (4, -2);
+    
+    \draw (4, 0)
+        to[short,-*] (5.5, 0)
+        to[full diode, l=$D_{53}$, -*] (5.5, -2);
+
+    \draw (5.5, 0) to[short,-o] (6.5, 0);
+    \draw (7, 0) to[open, v^>=$V_{out}$] (7, -2);
+
+    \draw (4, -2) node[ground]() {};
+\end{circuitikz}
+
+\end{document}

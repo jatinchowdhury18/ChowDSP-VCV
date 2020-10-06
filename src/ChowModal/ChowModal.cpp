@@ -96,6 +96,7 @@ struct ChowModalWidget : ModuleWidget {
 	}
 
     void appendContextMenu(Menu *menu) override {
+        menu->addChild(new MenuSeparator());
         addPubToMenu(menu, "https://ccrma.stanford.edu/~jos/smac03maxjos/");
     }
 };

@@ -3,7 +3,9 @@ All notable changes to this project will be documented in
 this file.
 
 ## [Unreleased]
+- Added new distortion module (Warp)
 - Added variable oversampling options for ChowTape, ChowDer, Werner
+- Updated documentation with technical diagrams
 
 ## [1.3.1] - 2020-10-06
 - Fixed Credit crashes on OSX

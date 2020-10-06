@@ -18,6 +18,7 @@ Warp::Warp() {
 
     paramMapSets.push_back(WarpMappings::mapping1(*this, warpFilter));
     paramMapSets.push_back(WarpMappings::mapping2(*this, warpFilter));
+    paramMapSets.push_back(WarpMappings::mapping3(*this, warpFilter));
 
     paramDivider.setDivision(ParamDivide);
 }
@@ -32,6 +33,12 @@ void Warp::cookParams(float sampleRate) noexcept {
 #else
     int mapChoice = (int) paramQuantities[MODE_PARAM]->getDisplayValue();
 #endif
+
+    if(mapChoice != prevMapChoice && fadeCounter == 0) {
+        fadeCounter = FadeCount;
+        prevMapChoice = mapChoice;
+    }
+
     ParamMap::applySet(paramMapSets[mapChoice]);
     warpFilter.cookParams(sampleRate);
 }
@@ -42,27 +49,57 @@ void Warp::process(const ProcessArgs& args) {
 
     warpFilter.inputs[0].setVoltage(inputs[AUDIO_IN].getVoltage());
     warpFilter.process(args);
-    outputs[AUDIO_OUT].setVoltage(10.0f * warpFilter.outputs[0].getVoltage());
+
+    float outGain = 10.0f;
+    if(fadeCounter > 0) {
+        fadeCounter--;
+        outGain *= 1.0f - ((float) fadeCounter / (float) FadeCount);
+    }
+
+    outputs[AUDIO_OUT].setVoltage(outGain * warpFilter.outputs[0].getVoltage());
 }
 
 struct WarpWidget : ModuleWidget {
+    ChowLabel* modeLabel;
+
 	WarpWidget(Warp* module) {
 		setModule(module);
 		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Warp.svg")));
         createScrews (*this);
 
-        addParam(createParamCentered<ChowKnob>(mm2px(Vec(15.25,  5.0)), module, Warp::CUTOFF_PARAM));
-        addParam(createParamCentered<ChowKnob>(mm2px(Vec(15.25, 20.0)), module, Warp::HEAT_PARAM));
-        addParam(createParamCentered<ChowKnob>(mm2px(Vec(15.25, 35.0)), module, Warp::WIDTH_PARAM));
-        addParam(createParamCentered<ChowKnob>(mm2px(Vec(15.25, 50.0)), module, Warp::DRIVE_PARAM));
-        addParam(createParamCentered<ChowKnob>(mm2px(Vec(15.25, 65.0)), module, Warp::MODE_PARAM));
+        constexpr double x1 = 10.85;
+        constexpr double x2 = 29.9;
 
-        addInput(createInputCentered<ChowPort>(mm2px(Vec(15.25, 99.0)), module, Warp::AUDIO_IN));
-        addOutput(createOutputCentered<ChowPort>(mm2px(Vec(15.25, 115.0)), module, Warp::AUDIO_OUT));
+        addParam(createParamCentered<ChowKnob>(mm2px(Vec(x1, 26.75)), module, Warp::CUTOFF_PARAM));
+        addParam(createParamCentered<ChowKnob>(mm2px(Vec(x2, 26.75)), module, Warp::HEAT_PARAM));
+        addParam(createParamCentered<ChowKnob>(mm2px(Vec(x1, 51.0)), module, Warp::WIDTH_PARAM));
+        addParam(createParamCentered<ChowKnob>(mm2px(Vec(x2, 51.0)), module, Warp::DRIVE_PARAM));
+        addParam(createParamCentered<ChowKnobLarge>(mm2px(Vec(20.5, 76.0)), module, Warp::MODE_PARAM));
+
+        modeLabel = createWidget<ChowLabel>(mm2px(Vec(20.5, 90.0)));
+        modeLabel->box.size = mm2px(Vec(20.0, 15.0));
+        modeLabel->fontSize = 15.0f;
+        modeLabel->alignment = Label::Alignment::CENTER_ALIGNMENT;
+        modeLabel->font = APP->window->loadFont(asset::plugin(pluginInstance, "res/fonts/RobotoCondensed-Bold.ttf"));
+        if(! module)
+            modeLabel->text = "Mode: 0";
+        addChild(modeLabel);
+
+        addInput(createInputCentered<ChowPort>(mm2px(Vec(20.5, 99.0)), module, Warp::AUDIO_IN));
+        addOutput(createOutputCentered<ChowPort>(mm2px(Vec(20.5, 115.0)), module, Warp::AUDIO_OUT));
 	}
 
     void appendContextMenu(Menu *menu) override {
+        menu->addChild(new MenuSeparator());
         dynamic_cast<Warp*> (module)->warpFilter.oversample.addContextMenu(menu, module);
+    }
+
+    void step() override {
+        ModuleWidget::step();
+        if (auto mod = dynamic_cast<Warp*> (module)) {
+            int mapChoice = (int) mod->paramQuantities[Warp::MODE_PARAM]->getDisplayValue();
+            modeLabel->text = "Mode: " + std::to_string(mapChoice);
+        }
     }
 };
 

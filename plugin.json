@@ -114,6 +114,16 @@
         "envelope generator",
         "physical modeling"
       ]
+    },
+    {
+      "slug": "Warp",
+      "name": "Warp",
+      "description": "A warping distortion, developed in collaboration with IggyLabs",
+      "manualUrl": "https://github.com/jatinchowdhury18/ChowDSP-VCV/blob/master/doc/manual.md#warp",
+      "tags": [
+        "Effect",
+        "Distortion"
+      ]
     }
   ]
 }

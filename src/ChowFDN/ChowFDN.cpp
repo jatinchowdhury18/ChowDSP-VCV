@@ -69,8 +69,8 @@ struct ChowFDNWidget : ModuleWidget {
 		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/ChowFDN.svg")));
         createScrews(*this);
 
-        const double x1 = 10.85;
-        const double x2 = 29.9;
+        constexpr double x1 = 10.85;
+        constexpr double x2 = 29.9;
 
         addParam(createParamCentered<ChowKnob>(mm2px(Vec(x1, 26.75)), module, ChowFDN::PRE_DELAY_PARAM));
         addParam(createParamCentered<ChowKnob>(mm2px(Vec(x2, 26.75)), module, ChowFDN::SIZE_PARAM));

@@ -88,6 +88,7 @@ struct ChowTapeWidget : ModuleWidget {
 	}
 
     void appendContextMenu(Menu *menu) override {
+        menu->addChild(new MenuSeparator());
         addPubToMenu(menu, "http://dafx2019.bcu.ac.uk/papers/DAFx2019_paper_3.pdf");
         dynamic_cast<ChowTape*> (module)->oversample.addContextMenu(menu, module);
     }

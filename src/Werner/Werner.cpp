@@ -140,6 +140,7 @@ struct WernerWidget : ModuleWidget {
 	}
 
     void appendContextMenu(Menu *menu) override {
+        menu->addChild(new MenuSeparator());
         addPubToMenu(menu, "https://dafx2020.mdw.ac.at/proceedings/papers/DAFx2020_paper_70.pdf");
         dynamic_cast<Werner*> (module)->oversample.addContextMenu(menu, module);
     }
