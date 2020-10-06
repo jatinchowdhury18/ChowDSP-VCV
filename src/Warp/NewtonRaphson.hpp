@@ -7,9 +7,8 @@
  */
 template<size_t MAX_ITER=4>
 struct DFLFilter {
-    float driveParam = 0.5f;
+    float driveParam = 1.0f;
     float fbParam = 0.0f;
-    float fbDriveParam = 1.0f;
     float y1 = 0.0f;
 
     void reset() { y1 = 0.0f; }
@@ -38,12 +37,11 @@ struct DFLFilter {
     }
 
     inline float f_NL(float x) const noexcept {
-        return std::tanh(x) / fbDriveParam;
+        return std::tanh(x) / driveParam;
     };
 
     inline float f_NL_prime(float x) const noexcept {
         const auto coshX = std::cosh(x);
         return 1.0f / (coshX * coshX);
     };
-
 };

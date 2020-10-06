@@ -24,6 +24,7 @@ WarpFilter::WarpFilter() {
 void WarpFilter::onSampleRateChange() {
     float newSampleRate = getSampleRate();
     oversample.reset(newSampleRate);
+    cookParams(newSampleRate);
 }
 
 void WarpFilter::cookParams(float sampleRate) noexcept {
@@ -36,7 +37,6 @@ void WarpFilter::cookParams(float sampleRate) noexcept {
 
     nrSolver.driveParam = params[FB_DRIVE_PARAM].getValue();
     nrSolver.fbParam = params[FB_PARAM].getValue();
-    nrSolver.fbDriveParam = params[FB_DRIVE_PARAM].getValue();
 }
 
 void WarpFilter::process(const ProcessArgs& args) {
@@ -56,7 +56,3 @@ float WarpFilter::processOS(float x) noexcept {
     filter.process(y0_y1.first);
     return y0_y1.second;
 }
-
-float WarpFilter::f_NL (float x) noexcept {
-    return std::tanh(x) / params[FB_DRIVE_PARAM].getValue();
-};

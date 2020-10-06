@@ -36,8 +36,6 @@ struct WarpFilter : Module {
 private:
     inline float processOS(float x) noexcept;
 
-    inline float f_NL(float x) noexcept;
-
     enum {
         OSRatio = 2,
     };
