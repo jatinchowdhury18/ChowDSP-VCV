@@ -27,7 +27,7 @@ int main()
     runModuleBench(modelChowModal);
     runModuleBench(modelChowDer);
 
-    // runModuleBench(modelFilter);
+    runModuleBench(modelWarp);
     runModuleBench(modelWerner);
     runModuleBench(modelChowPulse);
 

@@ -19,15 +19,6 @@ WarpFilter::WarpFilter() {
     configParam(FB_PARAM, 0.0f, 0.9f, 0.0f, "Feedback");
 
     onSampleRateChange();
-
-    nrSolver.f_NL = [=] (float x) -> float {
-        return std::tanh(x) / params[FB_DRIVE_PARAM].getValue();
-    };
-
-    nrSolver.f_NL_prime = [=] (float x) -> float {
-        const auto coshX = std::cosh(x);
-        return 1.0f / (coshX * coshX);
-    };
 }
 
 void WarpFilter::onSampleRateChange() {
@@ -35,17 +26,20 @@ void WarpFilter::onSampleRateChange() {
     oversample.reset(newSampleRate);
 }
 
-void WarpFilter::process(const ProcessArgs& args) {
+void WarpFilter::cookParams(float sampleRate) noexcept {
     auto freq = pow(highFreq / lowFreq, params[FREQ_PARAM].getValue()) * lowFreq;
     auto q = pow(qBase, params[Q_PARAM].getValue()) * qMult + qOff;
     auto gain = pow(10.0f, params[GAIN_PARAM].getValue() / 20.0f);
 
-    filter.setParameters(BiquadFilter::PEAK, freq / (OSRatio * args.sampleRate), q, gain);
+    filter.setParameters(BiquadFilter::PEAK, freq / (OSRatio * sampleRate), q, gain);
     filter.setDrive(params[DRIVE_PARAM].getValue());
 
     nrSolver.driveParam = params[FB_DRIVE_PARAM].getValue();
     nrSolver.fbParam = params[FB_PARAM].getValue();
+    nrSolver.fbDriveParam = params[FB_DRIVE_PARAM].getValue();
+}
 
+void WarpFilter::process(const ProcessArgs& args) {
     float x = inputs[AUDIO_IN].getVoltage();
     
     oversample.upsample(x);
@@ -57,6 +51,12 @@ void WarpFilter::process(const ProcessArgs& args) {
 }
 
 // oversampled process
-float WarpFilter::processOS(float x) {
-    return nrSolver.process(x, filter.b[0], filter.z[1], [=] (float x) { filter.process(x); });
+float WarpFilter::processOS(float x) noexcept {
+    auto y0_y1 = nrSolver.process(x, filter.b[0], filter.z[1]);
+    filter.process(y0_y1.first);
+    return y0_y1.second;
 }
+
+float WarpFilter::f_NL (float x) noexcept {
+    return std::tanh(x) / params[FB_DRIVE_PARAM].getValue();
+};

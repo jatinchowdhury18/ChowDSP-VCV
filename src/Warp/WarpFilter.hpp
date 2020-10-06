@@ -30,10 +30,13 @@ struct WarpFilter : Module {
 	WarpFilter();
 
     void onSampleRateChange() override;
+    void cookParams(float sampleRate) noexcept;
 	void process(const ProcessArgs& args) override;
 
 private:
-    inline float processOS(float x);
+    inline float processOS(float x) noexcept;
+
+    inline float f_NL(float x) noexcept;
 
     enum {
         OSRatio = 2,

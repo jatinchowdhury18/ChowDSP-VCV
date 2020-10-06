@@ -31,6 +31,13 @@ struct Warp : Module {
 	void process(const ProcessArgs& args) override;
 
 private:
+    inline void cookParams(float sampleRate) noexcept;
+
+    enum {
+        ParamDivide = 16,
+    };
+
     std::vector<ParamMap::ParamMapSet> paramMapSets;
+    dsp::ClockDivider paramDivider;
     WarpFilter warpFilter;
 };

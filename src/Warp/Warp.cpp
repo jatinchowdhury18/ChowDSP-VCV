@@ -18,15 +18,27 @@ Warp::Warp() {
 
     paramMapSets.push_back(WarpMappings::mapping1(*this, warpFilter));
     paramMapSets.push_back(WarpMappings::mapping2(*this, warpFilter));
+
+    paramDivider.setDivision(ParamDivide);
 }
 
 void Warp::onSampleRateChange() {
     warpFilter.onSampleRateChange();
 }
 
-void Warp::process(const ProcessArgs& args) {
+void Warp::cookParams(float sampleRate) noexcept {
+#if CHOWDSP_BENCH
+    int mapChoice = 0;
+#else
     int mapChoice = (int) paramQuantities[MODE_PARAM]->getDisplayValue();
+#endif
     ParamMap::applySet(paramMapSets[mapChoice]);
+    warpFilter.cookParams(sampleRate);
+}
+
+void Warp::process(const ProcessArgs& args) {
+    if(paramDivider.process())
+        cookParams(args.sampleRate);
 
     warpFilter.inputs[0].setVoltage(inputs[AUDIO_IN].getVoltage());
     warpFilter.process(args);
