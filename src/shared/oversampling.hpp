@@ -1,54 +1,26 @@
-#ifndef OVERSAMPLING_H_INCLUDED
-#define OVERSAMPLING_H_INCLUDED
+#pragma once
 
-#include "iir.hpp"
-#include <type_traits>
-#include <functional>
+#include "AAFilter.hpp"
 
-/** 
-    High-order filter to be used for anti-aliasing or anti-imaging.
-    The template parameter N should be 1/2 the desired filter order.
-
-    Currently uses an 2*N-th order Butterworth filter.
-    @TODO: implement Chebyshev, Elliptic filter options.
-*/
-template<int N>
-class AAFilter
-{
+/**
+ * Base class for oversampling of any order
+ */ 
+class BaseOversampling {
 public:
-    AAFilter() = default;
+    BaseOversampling() = default;
+    virtual ~BaseOversampling() {}
 
-    /** Calculate Q values for a Butterworth filter of a given order */
-    static std::vector<float> calculateButterQs(int order) {
-        const int lim = int (order / 2);
-        std::vector<float> Qs;
+    /** Resets the oversampler for processing at some base sample rate */
+    virtual void reset(float /*baseSampleRate*/) = 0;
 
-        for(int k = 1; k <= lim; ++k) {
-            auto b = -2.0f * std::cos((2.0f * k + order - 1) * 3.14159 / (2.0f * order));
-            Qs.push_back(1.0f / b);
-        }
+    /** Upsample a single input sample and update the oversampled buffer */
+    virtual void upsample(float) noexcept = 0;
 
-        std::reverse(Qs.begin(), Qs.end());
-        return Qs;
-    }
+    /** Output a downsampled output sample from the current oversampled buffer */
+    virtual float downsample() noexcept = 0;
 
-    void reset(float sampleRate, int osRatio) {
-        float fc = 0.98f * (sampleRate / 2.0f);
-        auto Qs = calculateButterQs(2*N);
-
-        for(int i = 0; i < N; ++i)
-            filters[i].setParameters(BiquadFilter::Type::LOWPASS, fc / (osRatio * sampleRate), Qs[i], 1.0f);
-    }
-    
-    inline float process(float x) noexcept {
-        for(int i = 0; i < N; ++i)
-            x = filters[i].process(x);
-        
-        return x;
-    }
-
-private:
-    BiquadFilter filters[N];
+    /** Returns a pointer to the oversampled buffer */
+    virtual float* getOSBuffer() noexcept = 0;
 };
 
 /** 
@@ -58,24 +30,25 @@ private:
     Then use the following code to process samples:
     @code
     oversample.upsample(x);
-    for(int k = 0; k < OSRatio; k++)
+    for(int k = 0; k < ratio; k++)
         oversample.osBuffer[k] = processSample(oversample.osBuffer[k]);
     float y = oversample.downsample();
     @endcode
 */
 template<int ratio, int filtN = 4>
-class OversampledProcess
+class Oversampling : public BaseOversampling
 {
 public:
-    OversampledProcess() = default;
+    Oversampling() = default;
+    virtual ~Oversampling() {}
 
-    void reset(float baseSampleRate) {
+    void reset(float baseSampleRate) override {
         aaFilter.reset(baseSampleRate, ratio);
         aiFilter.reset(baseSampleRate, ratio);
         std::fill(osBuffer, &osBuffer[ratio], 0.0f);
     }
 
-    inline void upsample(float x) noexcept {
+    inline void upsample(float x) noexcept override {
         osBuffer[0] = ratio * x;
         std::fill(&osBuffer[1], &osBuffer[ratio], 0.0f);
 
@@ -83,12 +56,16 @@ public:
             osBuffer[k] = aiFilter.process(osBuffer[k]);
     }
 
-    inline float downsample() noexcept {
+    inline float downsample() noexcept override {
         float y = 0.0f;
         for(int k = 0; k < ratio; k++)
             y = aaFilter.process(osBuffer[k]);
 
         return y;
+    }
+
+    inline float* getOSBuffer() noexcept override {
+        return osBuffer;
     }
 
     float osBuffer[ratio];
@@ -97,5 +74,3 @@ private:
     AAFilter<filtN> aaFilter; // anti-aliasing filter
     AAFilter<filtN> aiFilter; // anti-imaging filter
 };
-
-#endif // OVERSAMPLING_H_INCLUDED

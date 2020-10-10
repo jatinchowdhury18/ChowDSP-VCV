@@ -1,6 +1,6 @@
 #include "../plugin.hpp"
 #include "GenSVF.hpp"
-#include "../shared/oversampling.hpp"
+#include "../shared/VariableOversampling.hpp"
 
 namespace {
     constexpr float highFreq = 20000.0f;
@@ -9,7 +9,6 @@ namespace {
     constexpr float lowDrive = 0.1f;
 
     enum {
-        OSRatio = 2,
         ParamDivide = 16,
     };
 }
@@ -55,6 +54,7 @@ struct Werner : Module {
         configParam(DRIVE_ATTEN_PARAM, -1.0, 1.f, 0.0f, "Drive atten");
 
         svf.reset();
+        oversample.setOversamplingIndex(1); // default 2x oversampling
         onSampleRateChange();
         paramDivider.setDivision(ParamDivide);
     }
@@ -81,7 +81,7 @@ struct Werner : Module {
         float freqParam = params[FREQ_PARAM].getValue() + (inputs[FREQ_IN].getVoltage() * params[FREQ_ATTEN_PARAM].getValue() / 10.0f);
         freqParam = clamp(freqParam, 0.0f, 1.0f);
         auto freq = pow(highFreq / lowFreq, freqParam) * lowFreq;
-        float wc = (freq / fs) * M_PI_2;
+        float wc = (freq / (fs * oversample.getOversamplingRatio())) * M_PI;
         svf.calcCoefs(r, k, wc);
 
         // calc drive param
@@ -98,16 +98,18 @@ struct Werner : Module {
         float x = inputs[AUDIO_IN].getVoltage();
         
         oversample.upsample(x);
-        for(int k = 0; k < OSRatio; k++)
-            oversample.osBuffer[k] = svf.process(oversample.osBuffer[k]);
+        float* osBuffer = oversample.getOSBuffer();
+        for(int k = 0; k < oversample.getOversamplingRatio(); k++)
+            osBuffer[k] = svf.process(osBuffer[k]);
         float y = oversample.downsample();
 
         outputs[AUDIO_OUT].setVoltage(y);
 	}
 
+    VariableOversampling<> oversample;
+
 private:
     GeneralSVF svf;
-    OversampledProcess<OSRatio> oversample;
     dsp::ClockDivider paramDivider;
 };
 
@@ -139,6 +141,7 @@ struct WernerWidget : ModuleWidget {
 
     void appendContextMenu(Menu *menu) override {
         addPubToMenu(menu, "https://dafx2020.mdw.ac.at/proceedings/papers/DAFx2020_paper_70.pdf");
+        dynamic_cast<Werner*> (module)->oversample.addContextMenu(menu, module);
     }
 };
 

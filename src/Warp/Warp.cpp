@@ -60,6 +60,10 @@ struct WarpWidget : ModuleWidget {
         addInput(createInputCentered<ChowPort>(mm2px(Vec(15.25, 99.0)), module, Warp::AUDIO_IN));
         addOutput(createOutputCentered<ChowPort>(mm2px(Vec(15.25, 115.0)), module, Warp::AUDIO_OUT));
 	}
+
+    void appendContextMenu(Menu *menu) override {
+        dynamic_cast<Warp*> (module)->warpFilter.oversample.addContextMenu(menu, module);
+    }
 };
 
 

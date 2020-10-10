@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../plugin.hpp"
-#include "../shared/oversampling.hpp"
+#include "../shared/VariableOversampling.hpp"
 #include "../shared/nl_biquad.hpp"
 #include "NewtonRaphson.hpp"
 
@@ -33,14 +33,11 @@ struct WarpFilter : Module {
     void cookParams(float sampleRate) noexcept;
 	void process(const ProcessArgs& args) override;
 
+    VariableOversampling<> oversample;
+
 private:
     inline float processOS(float x) noexcept;
 
-    enum {
-        OSRatio = 2,
-    };
-
-    OversampledProcess<OSRatio> oversample;
     NLBiquad filter;
     DFLFilter<4> nrSolver;
 };

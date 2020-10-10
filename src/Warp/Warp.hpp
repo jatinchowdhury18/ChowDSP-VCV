@@ -30,6 +30,8 @@ struct Warp : Module {
     void onSampleRateChange() override;
 	void process(const ProcessArgs& args) override;
 
+    WarpFilter warpFilter;
+
 private:
     inline void cookParams(float sampleRate) noexcept;
 
@@ -39,5 +41,4 @@ private:
 
     std::vector<ParamMap::ParamMapSet> paramMapSets;
     dsp::ClockDivider paramDivider;
-    WarpFilter warpFilter;
 };

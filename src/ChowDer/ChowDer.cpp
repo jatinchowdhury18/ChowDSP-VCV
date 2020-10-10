@@ -1,7 +1,7 @@
 #include "../plugin.hpp"
 #include "BaxandallEQ.hpp"
 #include "ClippingStage.hpp"
-#include "../shared/oversampling.hpp"
+#include "../shared/VariableOversampling.hpp"
 #include "../shared/shelf_filter.hpp"
 
 struct ChowDer : Module {
@@ -32,6 +32,7 @@ struct ChowDer : Module {
         configParam(DRIVE_PARAM, 0.0f, 1.0f, 0.5f, "Drive");
         configParam(BIAS_PARAM, 0.0f, 1.0f, 0.0f, "Bias");
 
+        oversample.setOversamplingIndex(1); // default 2x oversampling
         onSampleRateChange();
         paramDivider.setDivision(ParamDivide);
 	}
@@ -39,7 +40,7 @@ struct ChowDer : Module {
     void onSampleRateChange() override {
         float newSampleRate = getSampleRate();
         oversample.reset(newSampleRate);
-        clipper.reset((double) newSampleRate * OSRatio);
+        clipper.reset((double) newSampleRate * oversample.getOversamplingRatio());
         dcBlocker.setParameters(BiquadFilter::HIGHPASS, 30.0f / newSampleRate, M_SQRT1_2, 1.0f);
         cookParams(newSampleRate);
     }
@@ -61,16 +62,18 @@ struct ChowDer : Module {
         x = driveGain * shelfFilter.process(x) + bias;
 
         oversample.upsample(x);
-        for(int k = 0; k < OSRatio; k++)
-            oversample.osBuffer[k] = clipper.processSample(oversample.osBuffer[k]);
+        float* osBuffer = oversample.getOSBuffer();
+        for(int k = 0; k < oversample.getOversamplingRatio(); k++)
+            osBuffer[k] = clipper.processSample(osBuffer[k]);
         float y = oversample.downsample();
 
         outputs[AUDIO_OUT].setVoltage(dcBlocker.process(y));
 	}
 
+    VariableOversampling<> oversample;
+
 private:
     enum {
-        OSRatio = 2,
         ParamDivide = 64,
     };
 
@@ -79,7 +82,6 @@ private:
     dsp::ClockDivider paramDivider;
 
     BiquadFilter dcBlocker;
-    OversampledProcess<OSRatio> oversample;
     ShelfFilter shelfFilter;
     ClippingStage clipper;
 };
@@ -100,6 +102,10 @@ struct ChowDerWidget : ModuleWidget {
         addInput(createInputCentered<ChowPort>(mm2px(Vec(15.25, 99.0)), module, ChowDer::AUDIO_IN));
         addOutput(createOutputCentered<ChowPort>(mm2px(Vec(15.25, 115.0)), module, ChowDer::AUDIO_OUT));
 	}
+
+    void appendContextMenu(Menu *menu) override {
+        dynamic_cast<ChowDer*> (module)->oversample.addContextMenu(menu, module);
+    }
 };
 
 

@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in
 this file.
 
+## [Unreleased]
+- Added variable oversampling options for ChowTape, ChowDer, Werner
+
 ## [1.3.1] - 2020-10-06
 - Fixed Credit crashes on OSX
 - Added attenuverters for Werner Filter

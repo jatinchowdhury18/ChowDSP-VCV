@@ -1,7 +1,7 @@
 #include "../plugin.hpp"
 #include "../shared/iir.hpp"
 #include "HysteresisProcessing.hpp"
-#include "../shared/oversampling.hpp"
+#include "../shared/VariableOversampling.hpp"
 
 struct ChowTape : Module {
 	enum ParamIds {
@@ -29,14 +29,15 @@ struct ChowTape : Module {
 		configParam(DRIVE_PARAM, 0.f, 1.f, 0.5f, "");
 
         hysteresis.reset();
-        hysteresis.setSolver (SolverType::NR4);
+        hysteresis.setSolver(SolverType::NR4);
+        oversample.setOversamplingIndex(2); // default 4x oversampling
 
         onSampleRateChange();
 	}
 
     void onSampleRateChange() override {
         float newSampleRate = getSampleRate();
-        hysteresis.setSampleRate(newSampleRate * OSRatio);
+        hysteresis.setSampleRate(newSampleRate * oversample.getOversamplingRatio());
         oversample.reset(newSampleRate);
     }
 
@@ -53,8 +54,9 @@ struct ChowTape : Module {
 
         // process hysteresis
         oversample.upsample(x);
-        for(int k = 0; k < OSRatio; k++)
-            oversample.osBuffer[k] = (float) hysteresis.process((double) oversample.osBuffer[k]);
+        float* osBuffer = oversample.getOSBuffer();
+        for(int k = 0; k < oversample.getOversamplingRatio(); k++)
+            osBuffer[k] = (float) hysteresis.process((double) osBuffer[k]);
         float y = oversample.downsample();
 
         // process DC blocker
@@ -63,14 +65,11 @@ struct ChowTape : Module {
         outputs[AUDIO_OUTPUT].setVoltage(y * 4.18f);
 	}
 
-private:
-    enum {
-        OSRatio = 4,
-    };
+    VariableOversampling<> oversample;
 
+private:
     HysteresisProcessing hysteresis;
     BiquadFilter dcBlocker;
-    OversampledProcess<OSRatio> oversample;
 };
 
 
@@ -90,6 +89,7 @@ struct ChowTapeWidget : ModuleWidget {
 
     void appendContextMenu(Menu *menu) override {
         addPubToMenu(menu, "http://dafx2019.bcu.ac.uk/papers/DAFx2019_paper_3.pdf");
+        dynamic_cast<ChowTape*> (module)->oversample.addContextMenu(menu, module);
     }
 };
 

@@ -18,6 +18,7 @@ WarpFilter::WarpFilter() {
     configParam(FB_DRIVE_PARAM, 1.0f, 10.0f, 1.0f, "FB Drive");
     configParam(FB_PARAM, 0.0f, 0.9f, 0.0f, "Feedback");
 
+    oversample.setOversamplingIndex(1); // default 2x oversampling
     onSampleRateChange();
 }
 
@@ -32,7 +33,7 @@ void WarpFilter::cookParams(float sampleRate) noexcept {
     auto q = pow(qBase, params[Q_PARAM].getValue()) * qMult + qOff;
     auto gain = pow(10.0f, params[GAIN_PARAM].getValue() / 20.0f);
 
-    filter.setParameters(BiquadFilter::PEAK, freq / (OSRatio * sampleRate), q, gain);
+    filter.setParameters(BiquadFilter::PEAK, freq / (oversample.getOversamplingRatio() * sampleRate), q, gain);
     filter.setDrive(params[DRIVE_PARAM].getValue());
 
     nrSolver.driveParam = params[FB_DRIVE_PARAM].getValue();
@@ -43,8 +44,9 @@ void WarpFilter::process(const ProcessArgs& args) {
     float x = inputs[AUDIO_IN].getVoltage();
     
     oversample.upsample(x);
-    for(int k = 0; k < OSRatio; k++)
-        oversample.osBuffer[k] = processOS(oversample.osBuffer[k]);
+    float* osBuffer = oversample.getOSBuffer();
+    for(int k = 0; k < oversample.getOversamplingRatio(); k++)
+        osBuffer[k] = processOS(osBuffer[k]);
     float y = oversample.downsample();
 
     outputs[AUDIO_OUT].setVoltage(y);
