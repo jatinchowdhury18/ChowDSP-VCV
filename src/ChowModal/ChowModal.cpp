@@ -43,8 +43,8 @@ struct ChowModal : Module {
 	void process(const ProcessArgs& args) override {
         // set mode frequency
         float freqParam = params[FREQ_PARAM].getValue();
-        freqParam += 2 * inputs[FREQ_IN].getVoltage();
         float freq = std::pow(dsp::FREQ_SEMITONE, freqParam) * dsp::FREQ_C4;
+        freq *= std::pow(2, inputs[FREQ_IN].getVoltage());
         mode.setFreq(freq);
         
         // set mode decay
