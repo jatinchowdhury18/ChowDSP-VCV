@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in
 this file.
 
-## [Unreleased]
+## [1.4.0] - 2020-10-21
 - Added new distortion module (Warp)
 - Added variable oversampling options for ChowTape, ChowDer, Werner
 - Fixed control voltage for freq. parameter in ChowModal, now tuned to V/Oct
