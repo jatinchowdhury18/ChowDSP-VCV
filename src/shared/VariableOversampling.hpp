@@ -31,6 +31,9 @@ public:
     /** Sets the oversampling factor as 2^idx */
     void setOversamplingIndex (int newIdx) { osIdx = newIdx; }
 
+    /** Returns the oversampling index */
+    int getOversamplingIndex() const noexcept { return osIdx; }
+
     /** Upsample a single input sample and update the oversampled buffer */
     inline void upsample(float x) noexcept { oss[osIdx]->upsample(x); }
 

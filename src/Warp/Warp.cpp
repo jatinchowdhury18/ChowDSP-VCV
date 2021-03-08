@@ -59,6 +59,17 @@ void Warp::process(const ProcessArgs& args) {
     outputs[AUDIO_OUT].setVoltage(outGain * warpFilter.outputs[0].getVoltage());
 }
 
+json_t* Warp::dataToJson() {
+	json_t* rootJ = json_object();
+	json_object_set_new(rootJ, "osIdx", json_integer(warpFilter.oversample.getOversamplingIndex()));
+    return rootJ;
+}
+
+void Warp::dataFromJson(json_t* rootJ) {
+    if(auto* osJson = json_object_get(rootJ, "osIdx"))
+        warpFilter.oversample.setOversamplingIndex (json_integer_value(osJson));
+}
+
 struct WarpWidget : ModuleWidget {
     ChowLabel* modeLabel;
 

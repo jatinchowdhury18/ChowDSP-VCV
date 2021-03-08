@@ -106,6 +106,17 @@ struct Werner : Module {
         outputs[AUDIO_OUT].setVoltage(y);
 	}
 
+    json_t* dataToJson() override {
+		json_t* rootJ = json_object();
+		json_object_set_new(rootJ, "osIdx", json_integer(oversample.getOversamplingIndex()));
+        return rootJ;
+    }
+
+    void dataFromJson(json_t* rootJ) override {
+        if(auto* osJson = json_object_get(rootJ, "osIdx"))
+            oversample.setOversamplingIndex (json_integer_value(osJson));
+    }
+
     VariableOversampling<> oversample;
 
 private:
