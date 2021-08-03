@@ -82,8 +82,8 @@ struct WarpWidget : ModuleWidget {
         constexpr double x2 = 29.9;
 
         addParam(createParamCentered<ChowKnob>(mm2px(Vec(x1, 26.75)), module, Warp::CUTOFF_PARAM));
-        addParam(createParamCentered<ChowKnob>(mm2px(Vec(x2, 26.75)), module, Warp::HEAT_PARAM));
-        addParam(createParamCentered<ChowKnob>(mm2px(Vec(x1, 51.0)), module, Warp::WIDTH_PARAM));
+        addParam(createParamCentered<ChowKnob>(mm2px(Vec(x1, 51.0)), module, Warp::HEAT_PARAM));
+        addParam(createParamCentered<ChowKnob>(mm2px(Vec(x2, 26.75)), module, Warp::WIDTH_PARAM));
         addParam(createParamCentered<ChowKnob>(mm2px(Vec(x2, 51.0)), module, Warp::DRIVE_PARAM));
         addParam(createParamCentered<ChowKnobLarge>(mm2px(Vec(20.5, 76.0)), module, Warp::MODE_PARAM));
 
