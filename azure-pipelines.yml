@@ -8,7 +8,7 @@ pr:
 - master
 
 variables:
-  rack-sdk-version: 1.1.6
+  rack-sdk-version: 2.git.b04e4117
 
   add-gitrev-to-plugin-version: |
     gitrev=`git rev-parse --short HEAD`
