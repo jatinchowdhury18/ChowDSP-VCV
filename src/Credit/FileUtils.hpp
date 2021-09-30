@@ -14,8 +14,8 @@ void getDefaultFilePath (std::string& dir, std::string& filename) {
     	system::createDirectory(dir);
     }
     else {
-    	dir = string::directory(path);
-    	filename = string::filename(path);
+    	dir = system::getDirectory(path);
+    	filename = system::getFilename(path);
     }
 }
 
@@ -25,7 +25,7 @@ std::unique_ptr<char> getChosenFilePath() {
     std::string filename;
     getDefaultFilePath(dir, filename);
 
-    if(string::filenameExtension(string::filename(filename)) == "vcv") {
+    if(system::getStem(filename) == "vcv") {
         filename.erase(filename.end() - 4, filename.end());
         filename += ".txt";
     }
@@ -40,7 +40,7 @@ using FilePtr = std::unique_ptr<FILE, decltype(&std::fclose)>;
 
 /** Returns a FilePtr to the file at the given path */
 FilePtr getFilePtr(std::string pathStr) {
-    if(string::filenameExtension(string::filename(pathStr)) == "") {
+    if(system::getStem(pathStr) == "") {
     	pathStr += ".txt";
     }
 

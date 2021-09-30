@@ -37,7 +37,7 @@ struct CreditWidget : ModuleWidget {
 
 	    // Append .txt extension if no extension was given.
 	    std::string pathStr = pathC.get();
-	    if (string::filenameExtension(string::filename(pathStr)) == "") {
+	    if (system::getStem(pathStr) == "") {
 	    	pathStr += ".txt";
 	    }
 
@@ -76,8 +76,9 @@ struct CreditWidget : ModuleWidget {
         saveButton->box.pos = mm2px(Vec(7.62, 105.25));
         saveButton->box.pos = saveButton->box.pos.minus(saveButton->box.size.div(2)); // center
 
-        if(module)
-            saveButton->paramQuantity = module->paramQuantities[Credit::SAVE_PARAM];
+        // @TODO: figure out what to do here...
+        // if(module)
+        //     saveButton->getParamQuantity() = module->paramQuantities[Credit::SAVE_PARAM];
         
         addParam(saveButton);
 	}

@@ -53,7 +53,7 @@ struct ModuleWriter {
 
     /** Loads plugin info from current Rack session */
     void loadPlugins() {
-        auto moduleContainer = APP->scene->rack->moduleContainer;
+        auto* moduleContainer = APP->scene->rack->getModuleContainer();
 
         for (widget::Widget* w : moduleContainer->children) {
 	    	ModuleWidget* moduleWidget = dynamic_cast<ModuleWidget*>(w);
