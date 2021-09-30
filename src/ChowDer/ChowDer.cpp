@@ -27,6 +27,10 @@ struct ChowDer : Module {
 	ChowDer() {
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 
+        configInput(AUDIO_IN, "Audio");
+        configOutput(AUDIO_OUT, "Audio");
+        configBypass(AUDIO_IN, AUDIO_OUT);
+
         configParam(BASS_PARAM, -1.0f, 1.0f, 0.0f, "Bass");
         configParam(TREBLE_PARAM, -1.0f, 1.0f, 0.0f, "Treble");
         configParam(DRIVE_PARAM, 0.0f, 1.0f, 0.5f, "Drive");

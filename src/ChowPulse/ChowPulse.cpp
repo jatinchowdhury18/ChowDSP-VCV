@@ -36,6 +36,12 @@ struct ChowPulse : Module {
     ChowPulse() {
         config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 
+        configInput(WIDTH_IN, "Pulse width mod.");
+        configInput(DECAY_IN, "Decay mod.");
+        configInput(DOUBLE_IN, "Double tap mod.");
+        configInput(TRIG_IN, "Trigger");
+        configOutput(ENV_OUT, "Envelope");
+
         configParam(WIDTH_PARAM, 0.0f, 1.0f, 0.5f, "Pulse Width", " ms", widthBase, widthMult);
         configParam(DECAY_PARAM, 0.0f, 1.0f, 0.5f, "Decay Time", " ms", decayBase, decayMult);
         configParam(DOUBLE_PARAM, -1.0f, 1.0f, 0.0f, "Double Tap");

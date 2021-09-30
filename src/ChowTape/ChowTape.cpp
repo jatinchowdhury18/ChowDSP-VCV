@@ -24,6 +24,11 @@ struct ChowTape : Module {
 
 	ChowTape() {
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+
+        configInput(AUDIO_INPUT, "Audio");
+        configOutput(AUDIO_OUTPUT, "Audio");
+        configBypass(AUDIO_INPUT, AUDIO_OUTPUT);
+
 		configParam(BIAS_PARAM, 0.f, 1.f, 0.5f, "");
 		configParam(SAT_PARAM, 0.f, 1.f, 0.5f, "");
 		configParam(DRIVE_PARAM, 0.f, 1.f, 0.5f, "");

@@ -29,6 +29,13 @@ struct ChowRNN : Module {
 
 	ChowRNN() {
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+
+        configInput(IN1, "Channel 1");
+        configInput(IN2, "Channel 2");
+        configInput(IN3, "Channel 3");
+        configInput(IN4, "Channel 4");
+        configOutput(OUT1, "Audio");
+
         configParam(RANDOM_PARAM, 0.0f, 1.0f, 0.0f, "Randomise");
 
         // model architecture: input -> Dense(4) -> Tanh Activation(4) -> GRU(4) -> Dense(1)
