@@ -10,6 +10,10 @@ namespace {
 Warp::Warp() {
 	config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 
+    configInput(AUDIO_IN, "Audio");
+    configOutput(AUDIO_OUT, "Audio");
+    configBypass(AUDIO_IN, AUDIO_OUT);
+
     configParam(CUTOFF_PARAM, 0.0f, 1.0f, 0.5f, "Cutoff", " Hz", highFreq / lowFreq, lowFreq);
     configParam(HEAT_PARAM, 0.0f, 1.0f, 0.5f, "Heat");
     configParam(WIDTH_PARAM, 0.0f, 1.0f, 0.5f, "Width");

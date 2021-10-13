@@ -5,7 +5,6 @@
 
 struct Credit : Module {
 	enum ParamIds {
-        SAVE_PARAM,
 		NUM_PARAMS
 	};
 	enum InputIds {
@@ -20,7 +19,6 @@ struct Credit : Module {
 
 	Credit() {
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-        configParam(SAVE_PARAM, 0.0f, 1.0f, 0.0f, "Save");
 	}
 
 	void process(const ProcessArgs& args) override {}
@@ -37,7 +35,7 @@ struct CreditWidget : ModuleWidget {
 
 	    // Append .txt extension if no extension was given.
 	    std::string pathStr = pathC.get();
-	    if (string::filenameExtension(string::filename(pathStr)) == "") {
+	    if (system::getExtension(pathStr) == "") {
 	    	pathStr += ".txt";
 	    }
 
@@ -75,11 +73,8 @@ struct CreditWidget : ModuleWidget {
         auto saveButton = new SaveButton(mWriter);
         saveButton->box.pos = mm2px(Vec(7.62, 105.25));
         saveButton->box.pos = saveButton->box.pos.minus(saveButton->box.size.div(2)); // center
-
-        if(module)
-            saveButton->paramQuantity = module->paramQuantities[Credit::SAVE_PARAM];
         
-        addParam(saveButton);
+        addChild(saveButton);
 	}
 
     void appendContextMenu(Menu *menu) override {

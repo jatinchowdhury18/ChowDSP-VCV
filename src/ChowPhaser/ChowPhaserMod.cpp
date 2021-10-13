@@ -23,6 +23,12 @@ struct ChowPhaserMod : Module {
 
 	ChowPhaserMod() {
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+
+        configInput(IN_INPUT, "Audio");
+        configInput(LFO_INPUT, "LFO");
+        configOutput(OUT_OUTPUT, "Audio");
+        configBypass(IN_INPUT, OUT_OUTPUT);
+
 		configParam(SKEW_PARAM, -1.f, 1.f, 0.f, "");
 		configParam(MOD_PARAM, 0.f, 1.f, 0.f, "");
         configParam(STAGES_PARAM, 1.0f, 50.0f, 8.0f, "");

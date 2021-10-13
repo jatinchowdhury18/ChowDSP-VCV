@@ -44,6 +44,14 @@ struct Werner : Module {
     Werner() {
         config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 
+        configInput(AUDIO_IN, "Audio");
+        configInput(FREQ_IN, "Frequency mod.");
+        configInput(FB_IN, "Feedback mod.");
+        configInput(DAMPING_IN, "Damping mod.");
+        configInput(DRIVE_IN, "Drive mod.");
+        configOutput(AUDIO_OUT, "Audio");
+        configBypass(AUDIO_IN, AUDIO_OUT);
+
         configParam(FREQ_PARAM, 0.0f, 1.0f, 0.5f, "Freq.", " Hz", highFreq / lowFreq, lowFreq);
         configParam(FREQ_ATTEN_PARAM, -1.0, 1.f, 0.0f, "Freq atten");
         configParam(DAMPING_PARAM, 0.25f, 1.25f, 0.5f, "Damp");

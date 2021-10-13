@@ -28,6 +28,14 @@ struct ChowModal : Module {
 	ChowModal() {
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 
+        configInput(AUDIO_IN, "Audio");
+        configInput(FREQ_IN, "Frequency mod.");
+        configInput(DECAY_IN, "Decay mod.");
+        configInput(AMP_IN, "Amplitude mod.");
+        configInput(PHASE_IN, "Phase mod.");
+        configOutput(AUDIO_OUT, "Audio");
+        configBypass(AUDIO_IN, AUDIO_OUT);
+
         configParam(FREQ_PARAM, -36.0f, 36.0f, 0.0f, "Frequency", " Hz", dsp::FREQ_SEMITONE, dsp::FREQ_C4);
         configParam(DECAY_PARAM, 0.0f, 1.0f, 0.2f, "Decay", " seconds", 0.0f, decayMult);
         configParam(AMP_PARAM, 0.0f, 1.0f, 0.25f, "Amplitude");

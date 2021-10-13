@@ -26,6 +26,11 @@ struct ChowFDN : Module {
 
     ChowFDN() {
         config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+
+        configInput(AUDIO_INPUT, "Audio");
+        configOutput(AUDIO_OUTPUT, "Audio");
+        configBypass(AUDIO_INPUT, AUDIO_OUTPUT);
+
         configParam(PRE_DELAY_PARAM, 0.0f, 1.0f, 0.5f, "Time", " ms", maxPreDelayMs, 1.0f);
         configParam(SIZE_PARAM, 0.1f, 1.0f, 0.5f, "Size");
         configParam(T60_LOW_PARAM, 0.5f, 10.0f, 1.0f, "T60 Low", " s");
