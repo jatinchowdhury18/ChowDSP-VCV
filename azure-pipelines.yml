@@ -37,12 +37,15 @@ stages:
         mac:
           imageName: 'macos-10.14'
           isMac: true
+          sdk-type: 'mac'
         windows:
           imageName: 'vs2017-win2016'
           isWindows: true
+          sdk-type: 'win'
         linux:
-          imageName: 'ubuntu-16.04'
+          imageName: 'ubuntu-latest'
           isLinux: true
+          sdk-type: 'lin'
 
     pool:
       vmImage: $(imageName)
@@ -55,7 +58,8 @@ stages:
         uname -a
         git submodule update --init --recursive
         pushd $AGENT_TEMPDIRECTORY
-        curl -o Rack-SDK.zip https://vcvrack.com/downloads/Rack-SDK-$(rack-sdk-version).zip
+        echo "Downloading SDK from: https://vcvrack.com/downloads/Rack-SDK-$(rack-sdk-version)-$(skd-type).zip"
+        curl -o Rack-SDK.zip https://vcvrack.com/downloads/Rack-SDK-$(rack-sdk-version)-$(skd-type).zip
         unzip Rack-SDK.zip
       displayName: Get Rack-SDK
     - bash: |

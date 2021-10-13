@@ -31,7 +31,10 @@ std::unique_ptr<char> getChosenFilePath() {
     }
 
     std::unique_ptr<char> pathC;
-    pathC.reset(osdialog_file(OSDIALOG_SAVE, dir.c_str(), filename.c_str(), NULL));
+
+    auto* filters = osdialog_filters_parse("Raw Text:txt,m;Markdown:md");
+    pathC.reset(osdialog_file(OSDIALOG_SAVE, dir.c_str(), filename.c_str(), filters));
+    osdialog_filters_free(filters);
         
     return pathC;
 }
