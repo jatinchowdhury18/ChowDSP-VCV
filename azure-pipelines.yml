@@ -58,8 +58,8 @@ stages:
         uname -a
         git submodule update --init --recursive
         pushd $AGENT_TEMPDIRECTORY
-        echo "Downloading SDK from: https://vcvrack.com/downloads/Rack-SDK-$(rack-sdk-version)-${sdk-type}.zip"
-        curl -o Rack-SDK.zip https://vcvrack.com/downloads/Rack-SDK-$(rack-sdk-version)-${sdk-type}.zip
+        echo "Downloading SDK from: https://vcvrack.com/downloads/Rack-SDK-$(rack-sdk-version)-$(sdk-type).zip"
+        curl -o Rack-SDK.zip https://vcvrack.com/downloads/Rack-SDK-$(rack-sdk-version)-$(sdk-type).zip
         unzip Rack-SDK.zip
       displayName: Get Rack-SDK
     - bash: |
