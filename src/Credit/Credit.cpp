@@ -35,7 +35,7 @@ struct CreditWidget : ModuleWidget {
 
 	    // Append .txt extension if no extension was given.
 	    std::string pathStr = pathC.get();
-	    if (system::getStem(pathStr) == "") {
+	    if (system::getExtension(pathStr) == "") {
 	    	pathStr += ".txt";
 	    }
 
@@ -63,9 +63,6 @@ struct CreditWidget : ModuleWidget {
             }
 
             void onButton(const event::Button& e) override {
-                if (e.action == GLFW_PRESS)
-                    return; // only do action on release!
-
                 saving.store(! saving.load());
 
                 if(saving.load())

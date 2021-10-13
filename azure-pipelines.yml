@@ -12,7 +12,7 @@ variables:
 
   add-gitrev-to-plugin-version: |
     gitrev=`git rev-parse --short HEAD`
-    version="1.0.${gitrev}"
+    version="2.0.${gitrev}"
     echo "Updating to version=$version"
     tf=`mktemp`
     jq --arg VERSION "$version" '.version=$VERSION' plugin.json > $tf
@@ -68,16 +68,16 @@ stages:
     - bash: |
         export RACK_DIR=$AGENT_TEMPDIRECTORY/Rack-SDK
         export CC=gcc
-        make azure-win-dist
+        make dist
         mkdir artifacts_win/
-        cp dist/*zip artifacts_win/
+        cp dist/*.vcvplugin artifacts_win/
       displayName: Build Windows Plugin
       condition: variables.isWindows
     - bash: |
         export RACK_DIR=$AGENT_TEMPDIRECTORY/Rack-SDK
         make dist
         mkdir artifacts_mac/
-        cp dist/*zip artifacts_mac/
+        cp dist/*.vcvplugin artifacts_mac/
       displayName: Build MacOS Plugin
       condition: variables.isMac
     - bash: |
@@ -86,7 +86,7 @@ stages:
         export RACK_DIR=$AGENT_TEMPDIRECTORY/Rack-SDK
         make dist
         mkdir artifacts_lin/
-        cp dist/*zip artifacts_lin/
+        cp dist/*.vcvplugin artifacts_lin/
       displayName: Build Linux Plugins
       condition: variables.isLinux
     - task: PublishPipelineArtifact@0
@@ -118,17 +118,17 @@ stages:
         - task: DownloadPipelineArtifact@2
           inputs:
             artifact: Plugin-Linux
-            patterns: "**/*.zip"
+            patterns: "**/*.vcvplugin"
             targetPath: $(Build.ArtifactStagingDirectory)
         - task: DownloadPipelineArtifact@2
           inputs:
             artifact: Plugin-MacOS
-            patterns: "**/*.zip"
+            patterns: "**/*.vcvplugin"
             targetPath: $(Build.ArtifactStagingDirectory)
         - task: DownloadPipelineArtifact@2
           inputs:
             artifact: Plugin-Windows
-            patterns: "**/*.zip"
+            patterns: "**/*.vcvplugin"
             targetPath: $(Build.ArtifactStagingDirectory)
         - bash: |
             ls -l $(Build.ArtifactStagingDirectory)
