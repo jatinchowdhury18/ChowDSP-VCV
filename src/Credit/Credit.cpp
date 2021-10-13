@@ -80,21 +80,26 @@ struct CreditWidget : ModuleWidget {
     void appendContextMenu(Menu *menu) override {
         menu->addChild(new MenuSeparator());
         
-        struct URLOptionItem : MenuItem {
+        struct OptionItem : MenuItem {
             ModuleWriter& mw;
+            bool& property;
 
-            URLOptionItem(ModuleWriter& mw) : mw(mw) {
-                text = "Include plugin URLs";
-                rightText = CHECKMARK(mw.writeURLs);
+            OptionItem(ModuleWriter& mw,
+                      const std::string& optionText,
+                      bool& optionProperty) : mw(mw),
+                                              property(optionProperty) {
+                text = optionText;
+                rightText = CHECKMARK(property);
             }
 
 	    	void onAction(const event::Action& e) override {
-	    		mw.writeURLs ^= true;
+                property ^= true;
 	    	}
-	    };
-
-        URLOptionItem* urlOptionItem = new URLOptionItem(mWriter);
-        menu->addChild(urlOptionItem);
+        };
+        
+        menu->addChild(new OptionItem(mWriter, "Include plugin URLs", mWriter.writeURLs));
+        menu->addChild(new OptionItem(mWriter, "Only include plugin names", mWriter.pluginNamesOnly));
+        menu->addChild(new OptionItem(mWriter, "ALL CAPS", mWriter.allCaps));
     }
 };
 
