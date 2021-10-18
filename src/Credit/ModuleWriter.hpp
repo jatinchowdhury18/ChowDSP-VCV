@@ -22,17 +22,38 @@ struct PluginInfo {
         modules.push_back(moduleName);
     }
 
+    /** Sorts the list of modules alphabetically */
+    void sortModules()
+    {
+        std::sort(modules.begin(), modules.end());
+    }
+
+    /** Returns an uppercase version of the string */
+    static std::string toUpper(const std::string& str) {
+        std::string result = str;
+        std::transform(result.begin(), result.end(), result.begin(), ::toupper);
+        return result;
+    }
+
     /** Prints plugin info to a string */
-    std::string print(bool printURL) const {
+    std::string print(bool printURL, bool pluginNameOnly, bool allCaps) const {
         std::stringstream ss; // { brand + ": " + name + " (" + url + ")" + '\n' };
-        ss << brand << ": " << name;
+        
+        auto printBrand = allCaps ? toUpper(brand) : brand;
+        ss << printBrand << ": " << name;
         
         if(! url.empty() && printURL)
             ss << " (" << url << ")";
         ss << '\n';
 
-        for(const auto& mod : modules)
-            ss << "    " << mod << '\n';
+        if (! pluginNameOnly)
+        {
+            for(const auto& mod : modules)
+            {
+                auto printMod = allCaps ? toUpper(mod) : mod;
+                ss << "    " << printMod << '\n';
+            }
+        }
 
         return ss.str();
     }
@@ -41,6 +62,8 @@ struct PluginInfo {
 struct ModuleWriter {
     std::vector<PluginInfo> plugins;
     bool writeURLs = true;
+    bool pluginNamesOnly = false;
+    bool allCaps = false;
 
     /** Returns the plugin info object wth this name, or nullptr if plugin hasn't been loaded */
     PluginInfo* getPlugin(const std::string& name) {
@@ -67,6 +90,19 @@ struct ModuleWriter {
 
             plugin->addModule(moduleWidget->model->name);
 	    }
+
+        sortPlugins();
+    }
+
+    /** Sorts the vector of plugins, and the modules within each plugin */
+    void sortPlugins()
+    {
+        for (auto& p : plugins)
+            p.sortModules();
+
+        std::sort(plugins.begin(), plugins.end(), [] (const PluginInfo& a, const PluginInfo& b) {
+            return std::greater<std::string>()(a.name, b.name);
+        });
     }
     
     /** Writes session modules to a file */
@@ -74,7 +110,7 @@ struct ModuleWriter {
         loadPlugins();
 
         for(const auto& p : plugins) {
-            auto pStr = p.print(writeURLs);
+            auto pStr = p.print(writeURLs, pluginNamesOnly, allCaps);
             fprintf(file, pStr.c_str());
         }
     }
