@@ -1,7 +1,7 @@
-#include "../plugin.hpp"
-#include "../shared/iir.hpp"
+#include "../../plugin.hpp"
+#include "../../shared/iir.hpp"
 #include "HysteresisProcessing.hpp"
-#include "../shared/VariableOversampling.hpp"
+#include "../../shared/VariableOversampling.hpp"
 
 struct ChowTape : Module {
 	enum ParamIds {
