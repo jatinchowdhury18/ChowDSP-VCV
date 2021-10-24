@@ -155,6 +155,16 @@
         "Effect",
         "Distortion"
       ]
+    },
+    {
+      "slug": "ChowTapeLoss",
+      "name": "ChowTape Loss",
+      "description": "Emulation of playhead loss effects for a reel-to-reel analog tape machine",
+      "manualUrl": "https://github.com/jatinchowdhury18/ChowDSP-VCV/blob/master/doc/manual.md#chow-tape-loss",
+      "tags": [
+        "Effect",
+        "Filter"
+      ]
     }
   ]
 }

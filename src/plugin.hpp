@@ -22,6 +22,7 @@ extern Model* modelChowPulse;
 extern Model* modelChowTapeCompression;
 extern Model* modelChowTapeChew;
 extern Model* modelChowTapeDegrade;
+extern Model* modelChowTapeLoss;
 
 void createScrews(ModuleWidget& mw);
 void addPubToMenu(Menu *menu, const std::string& pub);
