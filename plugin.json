@@ -124,6 +124,17 @@
         "Effect",
         "Distortion"
       ]
+    },
+    {
+      "slug": "ChowTapeComp",
+      "name": "ChowTape Compression",
+      "description": "Analog tape compression emulation",
+      "manualUrl": "https://github.com/jatinchowdhury18/ChowDSP-VCV/blob/master/doc/manual.md#chow-tape-comp",
+      "tags": [
+        "Effect",
+        "Compressor",
+        "Distortion"
+      ]
     }
   ]
 }
