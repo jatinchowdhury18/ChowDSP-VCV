@@ -145,6 +145,16 @@
         "Effect",
         "Distortion"
       ]
+    },
+    {
+      "slug": "ChowTapeDegrade",
+      "name": "ChowTape Degrade",
+      "description": "Emulation of magnetic tape that has been degraded by time and use",
+      "manualUrl": "https://github.com/jatinchowdhury18/ChowDSP-VCV/blob/master/doc/manual.md#chow-tape-degrade",
+      "tags": [
+        "Effect",
+        "Distortion"
+      ]
     }
   ]
 }

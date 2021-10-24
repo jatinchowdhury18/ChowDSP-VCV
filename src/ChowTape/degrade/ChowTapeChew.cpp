@@ -37,7 +37,7 @@ struct ChowTapeChew : Module {
     }
 
     void onSampleRateChange() override {
-        float sampleRate = getSampleRate();
+        sampleRate = getSampleRate();
         filt.reset(sampleRate, int(sampleRate * 0.02f));
         dropout.prepare((double) sampleRate);
         cookParams();
