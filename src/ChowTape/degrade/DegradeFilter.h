@@ -34,19 +34,11 @@ public:
         a[1] = (1.0f - c) / a0;
     }
 
-    inline void process (float* buffer, int numSamples)
-    {
-        for (int n = 0; n < numSamples; ++n)
-        {
-            if (freq.isSmoothing())
-                calcCoefs (freq.getNextValue());
-
-            buffer[n] = processSample (buffer[n]);
-        }
-    }
-
     inline float processSample (float x)
     {
+        if (freq.isSmoothing())
+            calcCoefs (freq.getNextValue());
+        
         float y = z[1] + x * b[0];
         z[1] = x * b[1] - y * a[1];
         return y;
