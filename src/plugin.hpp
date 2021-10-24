@@ -20,6 +20,7 @@ extern Model* modelWerner;
 extern Model* modelCredit;
 extern Model* modelChowPulse;
 extern Model* modelChowTapeCompression;
+extern Model* modelChowTapeChew;
 
 void createScrews(ModuleWidget& mw);
 void addPubToMenu(Menu *menu, const std::string& pub);

@@ -135,6 +135,16 @@
         "Compressor",
         "Distortion"
       ]
+    },
+    {
+      "slug": "ChowTapeChew",
+      "name": "ChowTape Chew",
+      "description": "Emulation of magnetic tape that has been chewed up by a tape machine",
+      "manualUrl": "https://github.com/jatinchowdhury18/ChowDSP-VCV/blob/master/doc/manual.md#chow-tape-chew",
+      "tags": [
+        "Effect",
+        "Distortion"
+      ]
     }
   ]
 }
