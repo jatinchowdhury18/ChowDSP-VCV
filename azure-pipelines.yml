@@ -151,6 +151,6 @@ stages:
             target: '$(Build.SourceVersion)'
             tag: 'AzureCI'
             releaseNotesFile: '$(Build.ArtifactStagingDirectory)/ReleaseNotes.md'
-            assets: '$(Build.ArtifactStagingDirectory)/*.zip'
+            assets: '$(Build.ArtifactStagingDirectory)/*.vcvplugin'
             addChangeLog: false
           condition: 
