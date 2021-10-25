@@ -112,6 +112,7 @@ stages:
 - stage: publish
   displayName: Publish Plugin
   dependsOn: build
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   jobs:
     - job: PublishArtifacts
       pool:
@@ -135,7 +136,7 @@ stages:
         - bash: |
             ls -l $(Build.ArtifactStagingDirectory)
             export EXTEND_TAG=`date "+%Y%m%d"`
-            for file in $(Build.ArtifactStagingDirectory)/*.zip; do mv "$file" "${file/.zip/-${EXTEND_TAG}.zip}"; done
+            for file in $(Build.ArtifactStagingDirectory)/*.vcvplugin; do mv "$file" "${file/.vcvplugin/-${EXTEND_TAG}.vcvplugin}"; done
             ls -l $(Build.ArtifactStagingDirectory)
           displayName: Tag asset names with Date
         - bash: |
