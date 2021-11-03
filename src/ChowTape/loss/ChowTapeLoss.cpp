@@ -92,17 +92,22 @@ struct ChowTapeLoss : Module {
 
     void calcCoefs()
     {
+        const auto speed = getSpeed(params[SPEED_PARAM].getValue());
+        const auto thickness = getThickness(params[THICK_PARAM].getValue());
+        const auto gap = getGap(params[GAP_PARAM].getValue());
+        const auto spacing = getSpacing(params[SPACE_PARAM].getValue());
+
         // Set freq domain multipliers
         binWidth = fs / (float) curOrder;
         auto H = Hcoefs.data();
         for (int k = 0; k < curOrder / 2; k++)
         {
             const auto freq = (float) k * binWidth;
-            const auto waveNumber = 2.0f * M_PI * std::max(freq, 20.0f) / (getSpeed(params[SPEED_PARAM].getValue()) * 0.0254f);
-            const auto thickTimesK = waveNumber * (getThickness(params[THICK_PARAM].getValue()) * (float) 1.0e-6);
-            const auto kGapOverTwo = waveNumber * (getGap(params[GAP_PARAM].getValue()) * (float) 1.0e-6) / 2.0f;
+            const auto waveNumber = 2.0f * M_PI * std::max(freq, 20.0f) / (speed * 0.0254f);
+            const auto thickTimesK = waveNumber * (thickness * (float) 1.0e-6);
+            const auto kGapOverTwo = waveNumber * (gap * (float) 1.0e-6) / 2.0f;
 
-            H[k] = expf (-waveNumber * (getSpacing(params[SPACE_PARAM].getValue()) * (float) 1.0e-6)); // Spacing loss
+            H[k] = expf (-waveNumber * (spacing * (float) 1.0e-6)); // Spacing loss
             H[k] *= (1.0f - expf (-thickTimesK)) / thickTimesK; // Thickness loss
             H[k] *= sinf (kGapOverTwo) / kGapOverTwo; // Gap loss
             H[curOrder - k - 1] = H[k];
@@ -121,7 +126,7 @@ struct ChowTapeLoss : Module {
         }
 
         // compute head bump filters
-        // calcHeadBumpFilter (*speed, *gap * (float) 1.0e-6, (double) fs, filter);
+        calcHeadBumpFilter(speed, gap * 1.0e-6f, fs);
     }
 
     void calcHeadBumpFilter(float speedIps, float gapMeters, float fs)

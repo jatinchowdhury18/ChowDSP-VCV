@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # delete existing screenshots
 rm doc/Screenshots/*.png
 rm /c/Users/jatin/OneDrive/Documents/Rack/screenshots/ChowDSP/*
