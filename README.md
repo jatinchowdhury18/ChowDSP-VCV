@@ -1,11 +1,11 @@
 # ChowDSP for VCV
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Build Status](https://dev.azure.com/jatinchowdhury18/ChowDSP-VCV/_apis/build/status/jatinchowdhury18.ChowDSP-VCV?branchName=master)](https://dev.azure.com/jatinchowdhury18/ChowDSP-VCV/_build/latest?definitionId=1&branchName=master)
+[![Build Status](https://dev.azure.com/jatinchowdhury180362/ChowDSP-VCV/_apis/build/status/jatinchowdhury18.ChowDSP-VCV?branchName=master)](https://dev.azure.com/jatinchowdhury180362/ChowDSP-VCV/_build/latest?definitionId=3&branchName=master)
 
 This repository contains [ChowDSP](https://ccrma.stanford.edu/~jatin/chowdsp) modules for [VCV Rack](https://vcvrack.com/). Official releases can be installed from the [VCV Rack Library](https://library.vcvrack.com/ChowDSP).
 
-<img src="./doc/Screenshots/ChowTape.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowPhaserFeedback.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowPhaserMod.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowFDN.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowRNN.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowModal.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowDer.png" alt="Pic" height="300"><img src="./doc/Screenshots/Werner.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowPulse.png" alt="Pic" height="300"><img src="./doc/Screenshots/Credit.png" alt="Pic" height="300"><img src="./doc/Screenshots/Warp.png" alt="Pic" height="300">
+<img src="./doc/Screenshots/ChowTape.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowTapeComp.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowTapeLoss.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowTapeDegrade.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowTapeChew.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowPhaserFeedback.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowPhaserMod.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowFDN.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowRNN.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowModal.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowDer.png" alt="Pic" height="300"><img src="./doc/Screenshots/Werner.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowPulse.png" alt="Pic" height="300"><img src="./doc/Screenshots/Credit.png" alt="Pic" height="300"><img src="./doc/Screenshots/Warp.png" alt="Pic" height="300">
 
 For more information, see the [User Manual](./doc/manual.md).
 
