@@ -1,5 +1,6 @@
 #include "../../plugin.hpp"
 #include "FIRFilter.h"
+#include "../../shared/iir.hpp"
 
 namespace
 {
@@ -123,6 +124,13 @@ struct ChowTapeLoss : Module {
         // calcHeadBumpFilter (*speed, *gap * (float) 1.0e-6, (double) fs, filter);
     }
 
+    void calcHeadBumpFilter(float speedIps, float gapMeters, float fs)
+    {
+        auto bumpFreq = speedIps * 0.0254f / (gapMeters * 500.0f);
+        auto gain = std::max(1.5f * (1000.0f - std::abs(bumpFreq - 100.0f)) / 1000.0f, 1.0f);
+        headBumpFilter.setParameters(BiquadFilter::PEAK, bumpFreq / fs, 2.0f, gain);
+    }
+
     void cookParams() {
         auto speedParam = params[SPEED_PARAM].getValue();
         auto spaceParam = params[SPACE_PARAM].getValue();
@@ -148,6 +156,7 @@ struct ChowTapeLoss : Module {
 
         float x = inputs[AUDIO_INPUT].getVoltage();
         x = filter->process(x);
+        x = headBumpFilter.process(x);
         outputs[AUDIO_OUTPUT].setVoltage(x);
     }
 
@@ -174,6 +183,7 @@ private:
     std::vector<float> Hcoefs;
 
     std::unique_ptr<FIRFilter> filter;
+    BiquadFilter headBumpFilter;
 };
 
 struct ChowTapeLossWidget : ModuleWidget {
