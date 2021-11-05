@@ -52,7 +52,7 @@ struct ChowPulse : Module {
 
     void onSampleRateChange() override {
         float newSampleRate = getSampleRate();
-        pulseShaper.reset(newSampleRate);
+        pulseShaper.reset(new PulseShaper(newSampleRate));
     }
 
     inline void cookParams(const ProcessArgs& args) {
@@ -64,7 +64,7 @@ struct ChowPulse : Module {
         float decayTimeMs = std::pow(decayBase, decayParam) * decayMult;
         float r162 = (decayTimeMs / 1000.0f) / capVal;
         float r163 = r162 * 200.0f;
-        pulseShaper.setResistors (r162, r163);
+        pulseShaper->setResistors (r162, r163);
 
         float doubleParam = params[DOUBLE_PARAM].getValue() + inputs[DOUBLE_IN].getVoltage() / 10.0f;
         doubleTapGain = -2.0f * doubleParam;
@@ -85,7 +85,7 @@ struct ChowPulse : Module {
             cookParams(args);
 
         float pulse = getPulse();
-        float env = pulseShaper.processSample(pulse);
+        float env = pulseShaper->processSample(pulse);
         env = env > 0.0f ? env : env * doubleTapGain;
 
         outputs[ENV_OUT].setVoltage(env * 10.0f);
@@ -96,7 +96,7 @@ private:
         ParamDivide = 16,
     };
 
-    PulseShaper pulseShaper;
+    std::unique_ptr<PulseShaper> pulseShaper;
 
     dsp::ClockDivider paramDivider;
     dsp::SchmittTrigger trigger;

@@ -4,7 +4,7 @@ RACK_DIR ?= ../..
 include $(RACK_DIR)/arch.mk
 
 # FLAGS will be passed to both the C and C++ compiler
-FLAGS += -Ilib -DUSE_EIGEN
+FLAGS += -Ilib -Ilib/chowdsp_utils/DSP/WDF -DUSE_EIGEN
 CFLAGS +=
 CXXFLAGS +=
 

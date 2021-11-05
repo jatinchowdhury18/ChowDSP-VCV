@@ -1,6 +1,6 @@
 #pragma once
 
-#include <wdf/wdf.h>
+#include <wdf_t.h>
 
 /**
  * Wave digital filter model of the pulse shaper
@@ -10,47 +10,38 @@
 class PulseShaper
 {
 public:
-    PulseShaper() = default;
-
-    void reset (double sampleRate)
+    PulseShaper (float sampleRate) : c40 (0.015e-6f, sampleRate, 0.029f)
     {
-        c40 = WDF::make_unique<WDF::Capacitor> (0.015e-6, sampleRate, 0.029);
-        P1 = WDF::make_unique<WDF::WDFParallel> (c40.get(), &r163);
-        S1 = WDF::make_unique<WDF::WDFSeries> (&Vs, P1.get());
-
-        I1 = WDF::make_unique<WDF::PolarityInverter> (&r162);
-        P2 = WDF::make_unique<WDF::WDFParallel> (I1.get(), S1.get());
-
-        d53.connectToNode (P2.get());
     }
 
     void setResistors (float r162_ohms, float r163_ohms)
     {
-        r162.setResistanceValue ((double) r162_ohms);
-        r163.setResistanceValue ((double) r163_ohms);
+        r162.setResistanceValue (r162_ohms);
+        r163.setResistanceValue (r163_ohms);
     }
 
     inline float processSample (float x) noexcept
     {
-        Vs.setVoltage ((double) x);
+        Vs.setVoltage (x);
 
-        d53.incident (P2->reflected());
-        double y = r162.voltage();
-        P2->incident (d53.reflected());
+        d53.incident (P2.reflected());
+        float y = chowdsp::WDFT::voltage<float> (r162);
+        P2.incident (d53.reflected());
 
-        return (float) y;
+        return y;
     }
 
 private:
-    WDF::ResistiveVoltageSource Vs;
-
-    WDF::Resistor r162 {   4700.0 };
-    WDF::Resistor r163 { 100000.0 };
-    std::unique_ptr<WDF::Capacitor> c40;
-    WDF::Diode d53 { 2.52e-9, 25.85e-3 }; // 1N4148 diode
+    chowdsp::WDFT::CapacitorAlphaT<float> c40;
+    chowdsp::WDFT::ResistorT<float> r163 { 100000.0f };
+    chowdsp::WDFT::WDFParallelT<float, decltype(c40), decltype(r163)> P1 { c40, r163 };
     
-    std::unique_ptr<WDF::PolarityInverter> I1;
-    std::unique_ptr<WDF::WDFSeries> S1;
-    std::unique_ptr<WDF::WDFParallel> P1;
-    std::unique_ptr<WDF::WDFParallel> P2;
+    chowdsp::WDFT::ResistiveVoltageSourceT<float> Vs;
+    chowdsp::WDFT::WDFSeriesT<float, decltype(Vs), decltype(P1)> S1 { Vs, P1 };
+
+    chowdsp::WDFT::ResistorT<float> r162 { 4700.0f };
+    chowdsp::WDFT::PolarityInverterT<float, decltype(r162)> I1 { r162 };
+
+    chowdsp::WDFT::WDFParallelT<float, decltype(I1), decltype(S1)> P2 { I1, S1 };
+    chowdsp::WDFT::DiodeT<float, decltype(P2)> d53 { P2, 2.52e-9f }; // 1N4148 diode
 };

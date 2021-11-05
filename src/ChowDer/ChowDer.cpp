@@ -43,8 +43,9 @@ struct ChowDer : Module {
 
     void onSampleRateChange() override {
         float newSampleRate = getSampleRate();
+
         oversample.reset(newSampleRate);
-        clipper.reset((double) newSampleRate * oversample.getOversamplingRatio());
+        clipper.reset(new ClippingStage(newSampleRate * oversample.getOversamplingRatio()));
         dcBlocker.setParameters(BiquadFilter::HIGHPASS, 30.0f / newSampleRate, M_SQRT1_2, 1.0f);
         cookParams(newSampleRate);
     }
@@ -68,7 +69,7 @@ struct ChowDer : Module {
         oversample.upsample(x);
         float* osBuffer = oversample.getOSBuffer();
         for(int k = 0; k < oversample.getOversamplingRatio(); k++)
-            osBuffer[k] = clipper.processSample(osBuffer[k]);
+            osBuffer[k] = clipper->processSample(osBuffer[k]);
         float y = oversample.downsample();
 
         outputs[AUDIO_OUT].setVoltage(dcBlocker.process(y));
@@ -98,7 +99,7 @@ private:
 
     BiquadFilter dcBlocker;
     ShelfFilter shelfFilter;
-    ClippingStage clipper;
+    std::unique_ptr<ClippingStage> clipper;
 };
 
 
