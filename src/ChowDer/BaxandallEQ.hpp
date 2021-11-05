@@ -1,4 +1,6 @@
 #pragma once
+
+#include <memory>
 #include <wdf_t.h>
 
 /** Wave digital filters to eumlate the Baxandall EQ circuit. */
