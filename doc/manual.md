@@ -2,7 +2,7 @@
 
 ChowDSP-VCV contains the following modules:
   - [CHOW Tape](#chow-tape)
-  - [CHOW Phaser (Mod and Feedback)](#chow-phaser)
+  - [CHOW Phaser](#chow-phaser)
   - [CHOW FDN](#chow-fdn)
   - [CHOW RNN](#chow-rnn)
   - [CHOW Modal](#chow-modal)
@@ -11,13 +11,12 @@ ChowDSP-VCV contains the following modules:
   - [CHOW Pulse](#chow-pulse)
   - [Credit](#credit)
   - [Warp](#warp)
+  - [CHOW Chorus](#chow-chorus)
 
 ## CHOW Tape
-<img src="./Screenshots/ChowTape.png" alt="Pic" height="300">
+<img src="./Screenshots/ChowTape.png" alt="Pic" height="300"><img src="./Screenshots/ChowTapeComp.png" alt="Pic" height="300"><img src="./Screenshots/ChowTapeLoss.png" alt="Pic" height="300"><img src="./Screenshots/ChowTapeDegrade.png" alt="Pic" height="300"><img src="./Screenshots/ChowTapeChew.png" alt="Pic" height="300">
 
-CHOW Tape is a port of the [CHOW Tape Model](https://github.com/jatinchowdhury18/AnalogTapeModel) audio plugin. Has controls for tape **bias**, **saturation**, and **drive**. The module uses 4x oversampling by default, but the oversampling factor can be controlled using the right-click menu.
-
-For more information on the physical modelling and signal processing happening internally, check out [this blog post](https://medium.com/@jatinchowdhury18/complex-nonlinearities-episode-3-hysteresis-fdeb2cd3e3f6) or for more technical readers, check out [this DAFx paper](http://dafx2019.bcu.ac.uk/papers/DAFx2019_paper_3.pdf) on tape modelling.
+The CHOW Tape modules are a port of the [CHOW Tape Model](https://github.com/jatinchowdhury18/AnalogTapeModel) audio plugin. For more information on the modules and their controls, please see the plugin's [user manual](https://chowdsp.com/manuals/ChowTapeManual.pdf), which explains each section in detail. Note that the oversampling used by the "Chow Tape" module can be controlled via the right-click menu. The tape modelling process used in these modules is explained further in this 2019 [DAFx paper](http://dafx2019.bcu.ac.uk/papers/DAFx2019_paper_3.pdf).
 
 ## CHOW Phaser
 <img src="./Screenshots/ChowPhaserFeedback.png" alt="Pic" height="300"> <img src="./Screenshots/ChowPhaserMod.png" alt="Pic" height="300">
@@ -92,6 +91,13 @@ Warp is a wonky distortion module developed in collaboration with [IggyLabs](htt
 <img src="./Diagrams/warp_arch.png" alt="Pic" width="450">
 
 The module contains four parameters **Cutoff**, **Width**, **Heat**, and **Drive**. The meaning of those parameters is in turn controlled by the **Mode** knob, which selects a mapping that connects each of the module parameters to one or more physically meaningful parameters in the DSP system. The module uses 2x oversampling by default, but the oversampling factor can be changed using the right-click menu.
+
+## CHOW Chorus
+<img src="./Screenshots/ChowChorus.png" alt="Pic" height="300">
+
+ChowChorus is an ensemble/chorus effect using delay lines that emulate a bucket-brigade device (BBD) delay circuit. The module has controls for the **rate** and **depth** of the chorusing, as well as options to control **feedback** and dry/wet **mix** over the chorus effect as a whole.
+
+The BBD emulation used in this effect was originally implemented for the [Surge Synthesizer](https://surge-synthesizer.github.io/). The implementation here borrows a little bit from their code, including a SIMD wrapper for complex numbers.
 
 # Questions?
 If you are unsure about the functionality of any of these modules, or have any questions at all, please create a [GitHub issue](https://github.com/jatinchowdhury18/ChowDSP-VCV/issues).

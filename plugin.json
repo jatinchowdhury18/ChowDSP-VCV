@@ -129,7 +129,7 @@
       "slug": "ChowTapeComp",
       "name": "ChowTape Compression",
       "description": "Analog tape compression emulation",
-      "manualUrl": "https://github.com/jatinchowdhury18/ChowDSP-VCV/blob/master/doc/manual.md#chow-tape-comp",
+      "manualUrl": "https://github.com/jatinchowdhury18/ChowDSP-VCV/blob/master/doc/manual.md#chow-tape",
       "tags": [
         "Effect",
         "Compressor",
@@ -140,7 +140,7 @@
       "slug": "ChowTapeChew",
       "name": "ChowTape Chew",
       "description": "Emulation of magnetic tape that has been chewed up by a tape machine",
-      "manualUrl": "https://github.com/jatinchowdhury18/ChowDSP-VCV/blob/master/doc/manual.md#chow-tape-chew",
+      "manualUrl": "https://github.com/jatinchowdhury18/ChowDSP-VCV/blob/master/doc/manual.md#chow-tape",
       "tags": [
         "Effect",
         "Distortion"
@@ -150,7 +150,7 @@
       "slug": "ChowTapeDegrade",
       "name": "ChowTape Degrade",
       "description": "Emulation of magnetic tape that has been degraded by time and use",
-      "manualUrl": "https://github.com/jatinchowdhury18/ChowDSP-VCV/blob/master/doc/manual.md#chow-tape-degrade",
+      "manualUrl": "https://github.com/jatinchowdhury18/ChowDSP-VCV/blob/master/doc/manual.md#chow-tape",
       "tags": [
         "Effect",
         "Distortion"
@@ -160,7 +160,7 @@
       "slug": "ChowTapeLoss",
       "name": "ChowTape Loss",
       "description": "Emulation of playhead loss effects for a reel-to-reel analog tape machine",
-      "manualUrl": "https://github.com/jatinchowdhury18/ChowDSP-VCV/blob/master/doc/manual.md#chow-tape-loss",
+      "manualUrl": "https://github.com/jatinchowdhury18/ChowDSP-VCV/blob/master/doc/manual.md#chow-tape",
       "tags": [
         "Effect",
         "Filter"
