@@ -165,6 +165,17 @@
         "Effect",
         "Filter"
       ]
+    },
+    {
+      "slug": "ChowChorus",
+      "name": "ChowChorus",
+      "description": "",
+      "manualUrl": "https://github.com/jatinchowdhury18/ChowDSP-VCV/blob/master/doc/manual.md#chow-chorus",
+      "tags": [
+        "Effect",
+        "Chorus",
+        "Physical modeling"
+      ]
     }
   ]
 }

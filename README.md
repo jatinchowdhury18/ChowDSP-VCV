@@ -5,7 +5,7 @@
 
 This repository contains [ChowDSP](https://ccrma.stanford.edu/~jatin/chowdsp) modules for [VCV Rack](https://vcvrack.com/). Official releases can be installed from the [VCV Rack Library](https://library.vcvrack.com/ChowDSP).
 
-<img src="./doc/Screenshots/ChowTape.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowTapeComp.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowTapeLoss.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowTapeDegrade.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowTapeChew.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowPhaserFeedback.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowPhaserMod.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowFDN.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowRNN.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowModal.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowDer.png" alt="Pic" height="300"><img src="./doc/Screenshots/Werner.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowPulse.png" alt="Pic" height="300"><img src="./doc/Screenshots/Credit.png" alt="Pic" height="300"><img src="./doc/Screenshots/Warp.png" alt="Pic" height="300">
+<img src="./doc/Screenshots/ChowTape.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowTapeComp.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowTapeLoss.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowTapeDegrade.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowTapeChew.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowPhaserFeedback.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowPhaserMod.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowFDN.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowRNN.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowModal.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowDer.png" alt="Pic" height="300"><img src="./doc/Screenshots/Werner.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowPulse.png" alt="Pic" height="300"><img src="./doc/Screenshots/Credit.png" alt="Pic" height="300"><img src="./doc/Screenshots/Warp.png" alt="Pic" height="300"><img src="./doc/Screenshots/ChowChorus.png" alt="Pic" height="300">
 
 For more information, see the [User Manual](./doc/manual.md).
 
@@ -24,7 +24,7 @@ The ChowDSP-VCV repository also contains a benchmarking suite. For more informat
 
 ## Credits
 
-ChowDSP VCV uses the [Eigen](http://eigen.tuxfamily.org/) and [r8lib](https://people.sc.fsu.edu/~jburkardt/f_src/r8lib/r8lib.html) libraries for linear algebra, as well as Stefano D'Angelo's [Wright Omega function approximations](http://www.dangelo.audio/dafx2019-omega.html).
+ChowDSP VCV uses the [Eigen](http://eigen.tuxfamily.org/) and [r8lib](https://people.sc.fsu.edu/~jburkardt/f_src/r8lib/r8lib.html) libraries for linear algebra, as well as Stefano D'Angelo's [Wright Omega function approximations](http://www.dangelo.audio/dafx2019-omega.html). The ChowChorus effect is inspired by the "Ensemble" effect in the [Surge Synthesizer](https://surge-synthesizer.github.io/) and borrows their implementation for representing complex numbers with SIMD registers.
 
 Module design assisted by [Margus Mets](mailto:hello@mmcreative.eu).
 
