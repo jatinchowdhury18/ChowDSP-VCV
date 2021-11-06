@@ -76,8 +76,6 @@ struct ChowTapeLoss : Module {
         curOrder = int (order * fsFactor);
         currentCoefs.resize (curOrder, 0.0f);
         Hcoefs.resize (curOrder, 0.0f);
-
-        // bumpFilter[0].prepare ({ (double) sampleRate, (uint32) samplesPerBlock, 2 });
         calcCoefs();
 
         filter.reset(new FIRFilter (curOrder));
@@ -88,6 +86,13 @@ struct ChowTapeLoss : Module {
         prevSpacing = params[SPACE_PARAM].getValue();
         prevThickness = params[THICK_PARAM].getValue();
         prevGap = params[GAP_PARAM].getValue();
+    }
+
+    void onReset() override {
+        Module::onReset();
+        
+        filter->reset();
+        headBumpFilter.reset();
     }
 
     void calcCoefs()

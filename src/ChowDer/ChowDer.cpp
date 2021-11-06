@@ -50,6 +50,11 @@ struct ChowDer : Module {
         cookParams(newSampleRate);
     }
 
+    void onReset() override {
+        Module::onReset();
+        onSampleRateChange();
+    }
+
     void cookParams(float fs) {
         auto lowGain = dsp::dbToAmplitude(params[BASS_PARAM].getValue() * 9.0f - 20.0f);
         auto highGain = dsp::dbToAmplitude(params[TREBLE_PARAM].getValue() * 9.0f - 20.0f);

@@ -36,6 +36,12 @@ struct ChowPhaserMod : Module {
         std::fill(z, &z[maxNumStages], 0.0f);
 	}
 
+    void onReset() override {
+        Module::onReset();
+        
+        std::fill(z, &z[maxNumStages], 0.0f);
+    }
+
 	void process(const ProcessArgs& args) override {
         // handle LFO
         const auto lfo = inputs[LFO_INPUT].getVoltage() / 5.0f;

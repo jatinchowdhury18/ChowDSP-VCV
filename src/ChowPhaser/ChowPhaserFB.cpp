@@ -33,6 +33,11 @@ struct ChowPhaserFeedback : Module {
 		configParam(FB_PARAM, 0.f, 0.95f, 0.f, "");
 	}
 
+    void onReset() override {
+        Module::onReset();
+        fbFilter.reset();
+    }
+
 	void process(const ProcessArgs& args) override {
         // handle LFO
         const auto lfo = inputs[LFO_INPUT].getVoltage() / 5.0f;

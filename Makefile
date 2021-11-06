@@ -25,11 +25,7 @@ DISTRIBUTABLES += $(wildcard LICENSE*)
 include $(RACK_DIR)/plugin.mk
 
 # Eigen library has a ton of deprecated copy warnings
-ifndef_any_of = $(filter undefined,$(foreach v,$(1),$(origin $(v))))
-ifdef_any_of = $(filter-out undefined,$(foreach v,$(1),$(origin $(v))))
-ifneq ($(call ifdef_any_of,ARCH_WIN ARCH_LIN),)
-  CXXFLAGS += -Wno-deprecated-copy
-endif
+CXXFLAGS += -Wno-deprecated-copy
 
 ifdef ARCH_WIN
 # extra dist target for Azure CI Windows build, as there is only 7zip available and no zip command

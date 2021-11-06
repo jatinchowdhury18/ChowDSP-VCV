@@ -69,6 +69,11 @@ struct ChowTapeCompression : Module {
         cookParams();
     }
 
+    void onReset() override {
+        Module::onReset();
+        slewLimiter.reset();
+    }
+
     void cookParams() {
         slewLimiter.setParameters(getAttackTime(), getReleaseTime());
     }

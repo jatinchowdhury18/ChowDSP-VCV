@@ -55,6 +55,11 @@ struct ChowPulse : Module {
         pulseShaper.reset(new PulseShaper(newSampleRate));
     }
 
+    void onReset() override {
+        Module::onReset();
+        onSampleRateChange();
+    }
+
     inline void cookParams(const ProcessArgs& args) {
         float widthParam = params[WIDTH_PARAM].getValue() + inputs[WIDTH_IN].getVoltage() / 10.0f;
         float pulseWidthMs = std::pow(widthBase, widthParam) * widthMult;

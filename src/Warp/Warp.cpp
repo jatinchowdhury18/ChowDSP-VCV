@@ -31,6 +31,11 @@ void Warp::onSampleRateChange() {
     warpFilter.onSampleRateChange();
 }
 
+void Warp::onReset() {
+    Module::onReset();
+    warpFilter.onSampleRateChange();
+}
+
 void Warp::cookParams(float sampleRate) noexcept {
 #if CHOWDSP_BENCH
     int mapChoice = 0;

@@ -43,6 +43,11 @@ struct ChowTapeChew : Module {
         cookParams();
     }
 
+    void onReset() override {
+        Module::onReset();
+        onSampleRateChange();
+    }
+
     void cookParams() {
         const float highFreq = std::min(22000.0f, 0.49f * sampleRate);
         const float freqChange = highFreq - 5000.0f;

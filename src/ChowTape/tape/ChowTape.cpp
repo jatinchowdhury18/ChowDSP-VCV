@@ -46,6 +46,13 @@ struct ChowTape : Module {
         oversample.reset(newSampleRate);
     }
 
+    void onReset() override {
+        Module::onReset();
+        
+        oversample.reset(getSampleRate());
+        hysteresis.reset();
+    }
+
 	void process(const ProcessArgs& args) override {
         // set hysteresis params
         float width = 1.0f - params[BIAS_PARAM].getValue();

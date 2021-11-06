@@ -41,6 +41,13 @@ struct ChowFDN : Module {
         preDelay.reset();
     }
 
+    void onReset() override {
+        Module::onReset();
+        
+        preDelay.reset();
+        fdn.reset();
+    }
+
     void process(const ProcessArgs& args) override {
         const float x = inputs[AUDIO_INPUT].getVoltage();
 

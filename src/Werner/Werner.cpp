@@ -69,6 +69,8 @@ struct Werner : Module {
 
     void onReset() override {
         Module::onReset();
+
+        oversample.reset(getSampleRate());
         svf.reset();
     }
 

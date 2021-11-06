@@ -28,6 +28,7 @@ struct Warp : Module {
 	Warp();
 
     void onSampleRateChange() override;
+    void onReset() override;
 	void process(const ProcessArgs& args) override;
 
     json_t* dataToJson() override;

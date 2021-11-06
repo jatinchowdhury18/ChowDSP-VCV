@@ -48,6 +48,11 @@ struct ChowTapeDegrade : Module {
         cookParams(sampleRate);
     }
 
+    void onReset() override {
+        Module::onReset();
+        onSampleRateChange();
+    }
+
     void cookParams(float fs) {
         const auto depthParam = params[DEPTH_PARAM].getValue();
         const auto amtParam = params[AMOUNT_PARAM].getValue();

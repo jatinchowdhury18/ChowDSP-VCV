@@ -69,12 +69,10 @@ struct ChowChorus : Module {
             dcBlocker[ch].setParameters(BiquadFilter::HIGHPASS, 240.0f / newSampleRate, 0.7071f, 1.0f);
         }
         
-        onReset();
+        resetProcessing();
     }
 
-    void onReset() override {
-        Module::onReset();
-
+    void resetProcessing() {
         constexpr float initialPhases[] = { -M_PI / 3.0f, 0.0f, 0.0f, M_PI / 3.0f };
         for(int ch = 0; ch < numChannels; ++ch)
         {
@@ -93,6 +91,11 @@ struct ChowChorus : Module {
         }
 
         cookParams(getSampleRate());
+    }
+
+    void onReset() override {
+        Module::onReset();
+        resetProcessing();
     }
 
     void cookParams(float fs) {

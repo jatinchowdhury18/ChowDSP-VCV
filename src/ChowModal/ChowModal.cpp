@@ -48,6 +48,11 @@ struct ChowModal : Module {
         mode.prepare((double) getSampleRate());
     }
 
+    void onReset() override {
+        Module::onReset();
+        mode.reset();
+    }
+
 	void process(const ProcessArgs& args) override {
         // set mode frequency
         float freqParam = params[FREQ_PARAM].getValue();
