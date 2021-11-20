@@ -2,6 +2,18 @@
 All notable changes to this project will be documented in
 this file.
 
+## UNRELEASED
+- Updated to Rack v2 API
+- Added ChowTape modules: Loss, Degrade, Chew, and Compression
+- Added ChowChorus module
+- Implemented performance improvements for ChowDer and ChowPulse
+- Implemented bypass routing for all modules
+- Added more customization options for Credit
+- Fixed knob parameters in Warp
+
+## [1.4.1] - 2021-03-17
+- Fixed load/save bug for modules with variable oversampling
+
 ## [1.4.0] - 2020-10-21
 - Added new distortion module (Warp)
 - Added variable oversampling options for ChowTape, ChowDer, Werner
