@@ -35,11 +35,11 @@ stages:
     strategy:
       matrix:
         mac:
-          imageName: 'macos-10.14'
+          imageName: 'macos-11'
           isMac: true
           sdk-type: 'mac'
         windows:
-          imageName: 'vs2017-win2016'
+          imageName: 'windows-2019'
           isWindows: true
           sdk-type: 'win'
         linux:
