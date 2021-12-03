@@ -2,7 +2,10 @@
 All notable changes to this project will be documented in
 this file.
 
-## UNRELEASED
+## [2.0.1] - UNRELEASED
+- Fixed issue with loadFont in Warp module.
+
+## [2.0.0] - 2021-11-20
 - Updated to Rack v2 API
 - Added ChowTape modules: Loss, Degrade, Chew, and Compression
 - Added ChowChorus module
