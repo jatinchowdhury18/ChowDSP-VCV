@@ -100,7 +100,7 @@ struct WarpWidget : ModuleWidget {
         modeLabel->box.size = mm2px(Vec(20.0, 15.0));
         modeLabel->fontSize = 15.0f;
         modeLabel->alignment = Label::Alignment::CENTER_ALIGNMENT;
-        modeLabel->font = APP->window->loadFont(asset::plugin(pluginInstance, "res/fonts/RobotoCondensed-Bold.ttf"));
+        modeLabel->fontPath = asset::plugin(pluginInstance, "res/fonts/RobotoCondensed-Bold.ttf");
         if(! module)
             modeLabel->text = "Mode: 0";
         addChild(modeLabel);

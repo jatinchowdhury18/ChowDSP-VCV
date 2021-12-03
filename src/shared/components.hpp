@@ -54,9 +54,10 @@ struct PinwheelRust : app::SvgSwitch {
 };
 
 struct ChowLabel : ui::Label {
-    std::shared_ptr<Font> font;
+    std::string fontPath;
 
     void draw(const DrawArgs& args) override {
+        std::shared_ptr<Font> font = APP->window->loadFont(fontPath);
         nvgFontSize(args.vg, fontSize);
         nvgFontFaceId(args.vg, font->handle);
         nvgTextLetterSpacing(args.vg, 0.2f);
