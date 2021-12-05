@@ -111,7 +111,7 @@ struct ModuleWriter {
 
         for(const auto& p : plugins) {
             auto pStr = p.print(writeURLs, pluginNamesOnly, allCaps);
-            fprintf(file, pStr.c_str());
+            fprintf(file, "%s", pStr.c_str());
         }
     }
 };
