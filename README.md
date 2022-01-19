@@ -32,4 +32,4 @@ ChowDSP uses [Roboto fonts](https://github.com/googlefonts/roboto), licensed und
 
 ## License
 
-ChowDSP VCV Modules are licensed under the GPLv3 license. Enjoy!
+ChowDSP VCV Modules (both artwork and code) are licensed under the GPLv3 license. Enjoy!
