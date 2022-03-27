@@ -28,18 +28,34 @@ struct CreditWidget : ModuleWidget {
     ModuleWriter mWriter;
 
     static void saveModules(ModuleWriter& mWriter) {
-        auto pathC = file_utils::getChosenFilePath();
+#ifdef USING_CARDINAL_NOT_RACK
+        std::string dir, ignore;
+        file_utils::getDefaultFilePath(dir, ignore);
+        async_dialog_filebrowser(true, dir.c_str(), "Save credit file", [&mWriter](char* pathC) {
+            if (pathC == nullptr) {
+                return; // fail silently
+            }
+            saveModulesPath(mWriter, pathC);
+            std::free(pathC);
+        });
+#else
+        char* pathC = file_utils::getChosenFilePath();
         if (pathC == nullptr) {
             return; // fail silently
         }
+        saveModulesPath(mWriter, pathC);
+        std::free(pathC);
+#endif
+    }
 
+    static void saveModulesPath(ModuleWriter& mWriter, const char* pathC) {
 	    // Append .txt extension if no extension was given.
-	    std::string pathStr = pathC.get();
+	    std::string pathStr = pathC;
 	    if (system::getExtension(pathStr) == "") {
 	    	pathStr += ".txt";
 	    }
 
-	    file_utils::FilePtr file = file_utils::getFilePtr(pathC.get());
+	    file_utils::FilePtr file = file_utils::getFilePtr(pathC);
 	    if (file == nullptr) {
 	    	return; // Fail silently
         }

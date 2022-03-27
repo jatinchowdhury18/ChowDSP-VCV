@@ -20,7 +20,7 @@ void getDefaultFilePath (std::string& dir, std::string& filename) {
 }
 
 /** Opens a dialog window to retrieve a file path to save to */
-std::unique_ptr<char> getChosenFilePath() {
+char* getChosenFilePath() {
     std::string dir;
     std::string filename;
     getDefaultFilePath(dir, filename);
@@ -30,12 +30,10 @@ std::unique_ptr<char> getChosenFilePath() {
         filename += ".txt";
     }
 
-    std::unique_ptr<char> pathC;
-
     auto* filters = osdialog_filters_parse("Raw Text (.txt):txt,m;Markdown (.md):md");
-    pathC.reset(osdialog_file(OSDIALOG_SAVE, dir.c_str(), filename.c_str(), NULL));
+    char* pathC = osdialog_file(OSDIALOG_SAVE, dir.c_str(), filename.c_str(), NULL);
     osdialog_filters_free(filters);
-        
+
     return pathC;
 }
 
