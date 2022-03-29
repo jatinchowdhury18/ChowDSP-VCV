@@ -48,7 +48,7 @@ void saveToChosenFilePath (std::function<void(const char* path)>&& saveAction) {
     });
 #else
     osdialog_filters_ptr filters { osdialog_filters_parse("Raw Text (.txt):txt,m;Markdown (.md):md"), osdialog_filters_free };
-    osdialog_file_ptr path { osdialog_file(OSDIALOG_SAVE, dir.c_str(), filename.c_str(), nullptr), std::free };
+    osdialog_file_ptr path { osdialog_file(OSDIALOG_SAVE, dir.c_str(), filename.c_str(), filters.get()), std::free };
     saveAction(path.get());
 #endif
 }
