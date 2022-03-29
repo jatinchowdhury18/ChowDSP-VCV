@@ -4,7 +4,7 @@ RACK_DIR ?= ../..
 include $(RACK_DIR)/arch.mk
 
 # FLAGS will be passed to both the C and C++ compiler
-FLAGS += -Ilib -Ilib/chowdsp_utils/DSP/WDF -DUSE_EIGEN
+FLAGS += -Ilib -Ilib/chowdsp_utils/modules/chowdsp_dsp/WDF -DUSE_EIGEN
 CFLAGS +=
 CXXFLAGS +=
 
@@ -26,6 +26,9 @@ include $(RACK_DIR)/plugin.mk
 
 # Eigen library has a ton of deprecated copy warnings
 CXXFLAGS += -Wno-deprecated-copy
+
+# WDF library uses nested namespaces (C++17 extension)
+CXXFLAGS += -Wno-c++17-extensions
 
 ifdef ARCH_WIN
 # extra dist target for Azure CI Windows build, as there is only 7zip available and no zip command
