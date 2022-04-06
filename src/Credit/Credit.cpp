@@ -27,29 +27,28 @@ struct Credit : Module {
 struct CreditWidget : ModuleWidget {
     ModuleWriter mWriter;
 
-    static void saveModules(ModuleWriter& mWriter) {
-        auto pathC = file_utils::getChosenFilePath();
-        if (pathC == nullptr) {
+    static void saveModules(const char* path, ModuleWriter& mWriter) {
+        if (path == nullptr) {
             return; // fail silently
         }
 
-	    // Append .txt extension if no extension was given.
-	    std::string pathStr = pathC.get();
-	    if (system::getExtension(pathStr) == "") {
-	    	pathStr += ".txt";
-	    }
+        // Append .txt extension if no extension was given.
+        std::string pathStr = path;
+        if (system::getExtension(pathStr).empty()) {
+            pathStr += ".txt";
+        }
 
-	    file_utils::FilePtr file = file_utils::getFilePtr(pathC.get());
-	    if (file == nullptr) {
-	    	return; // Fail silently
+        file_utils::FilePtr file = file_utils::getFilePtr(pathStr);
+        if (file == nullptr) {
+            return; // Fail silently
         }
 
         mWriter(file.get());
     }
 
-	CreditWidget(Credit* module) {
-		setModule(module);
-		setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Credit.svg")));
+    CreditWidget(Credit* module) {
+        setModule(module);
+	setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Credit.svg")));
         createScrews(*this);
 
         struct SaveButton : public PinwheelRust {
@@ -66,7 +65,7 @@ struct CreditWidget : ModuleWidget {
                 saving.store(! saving.load());
 
                 if(saving.load())
-                    saveModules(mw);
+                    file_utils::saveToChosenFilePath([this] (const char* path) { saveModules(path, mw); });
             }
         };
 
@@ -75,7 +74,7 @@ struct CreditWidget : ModuleWidget {
         saveButton->box.pos = saveButton->box.pos.minus(saveButton->box.size.div(2)); // center
         
         addChild(saveButton);
-	}
+    }
 
     void appendContextMenu(Menu *menu) override {
         menu->addChild(new MenuSeparator());
@@ -93,7 +92,7 @@ struct CreditWidget : ModuleWidget {
             }
 
 	    	void onAction(const event::Action& e) override {
-                property ^= true;
+                    property ^= true;
 	    	}
         };
         
@@ -102,6 +101,5 @@ struct CreditWidget : ModuleWidget {
         menu->addChild(new OptionItem(mWriter, "ALL CAPS", mWriter.allCaps));
     }
 };
-
 
 Model* modelCredit = createModel<Credit, CreditWidget>("Credit");

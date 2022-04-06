@@ -6,7 +6,7 @@ include $(RACK_DIR)/arch.mk
 # FLAGS will be passed to both the C and C++ compiler
 FLAGS += -Ilib -Ilib/chowdsp_utils/modules/chowdsp_dsp/WDF -DUSE_EIGEN
 CFLAGS +=
-CXXFLAGS +=
+CXXFLAGS += -Wno-c++17-extensions -Wno-c++14-extensions
 
 # Careful about linking to shared libraries, since you can't assume much about the user's environment and library search path.
 # Static libraries are fine, but they should be added to this plugin's build system.
@@ -26,9 +26,6 @@ include $(RACK_DIR)/plugin.mk
 
 # Eigen library has a ton of deprecated copy warnings
 CXXFLAGS += -Wno-deprecated-copy
-
-# WDF library uses nested namespaces (C++17 extension)
-CXXFLAGS += -Wno-c++17-extensions
 
 ifdef ARCH_WIN
 # extra dist target for Azure CI Windows build, as there is only 7zip available and no zip command
