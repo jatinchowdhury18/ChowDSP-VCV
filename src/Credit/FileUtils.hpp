@@ -42,8 +42,8 @@ void saveToChosenFilePath (std::function<void(const char* path)>&& saveAction) {
 #ifdef USING_CARDINAL_NOT_RACK
     // Cardinal currently requires us to use their async_dialog_filebrowser in place of
     // osdialog_file, since osdialog_file blocks the event loop.
-    async_dialog_filebrowser(true, dir.c_str(), "Save credit file", [saveAction](char* path) {
-        saveAction (path);
+    async_dialog_filebrowser(true, "credit.txt", dir.c_str(), "Save credit file", [saveAction](char* path) {
+        saveAction(path);
         std::free(path);
     });
 #else
