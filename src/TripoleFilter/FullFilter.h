@@ -142,7 +142,7 @@ private:
     const auto b = randOffset * T * g / capVal;
     const auto a = 1.0 / (1.0 + b);
     filter.setCoefs (b, a);
-  };
+  }
 
   double fs = 48000.0;
 
