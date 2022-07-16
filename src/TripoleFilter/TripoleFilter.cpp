@@ -1,6 +1,5 @@
 #include "../plugin.hpp"
-// #include "GenSVF.hpp"
-// #include "../shared/VariableOversampling.hpp"
+#include "FullFilter.h"
 
 namespace {
     constexpr float highFreq = 20000.0f;
