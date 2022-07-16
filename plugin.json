@@ -176,6 +176,17 @@
         "Chorus",
         "Physical modeling"
       ]
+    },
+    {
+      "slug": "TripoleFilter",
+      "name": "TripoleFilter",
+      "description": "",
+      "manualUrl": "https://github.com/jatinchowdhury18/ChowDSP-VCV/blob/master/doc/manual.md#tripole-filter",
+      "tags": [
+        "Effect",
+        "Filter",
+        "Physical modeling"
+      ]
     }
   ]
 }

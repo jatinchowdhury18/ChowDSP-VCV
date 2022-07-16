@@ -24,6 +24,7 @@ extern Model* modelChowTapeChew;
 extern Model* modelChowTapeDegrade;
 extern Model* modelChowTapeLoss;
 extern Model* modelChowChorus;
+extern Model* modelTripoleFilter;
 
 void createScrews(ModuleWidget& mw);
 void addPubToMenu(Menu *menu, const std::string& pub);
