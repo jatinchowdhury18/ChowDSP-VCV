@@ -27,7 +27,7 @@ The **skew** knob emphasises different parts of the CV input, in a way inspired 
 
 <img src="https://miro.medium.com/max/800/1*Et0lRw3uBadjunDu1RPTrA.png" alt="Pic" height="350">
 
-The Feedback module contains two modulating allpass stages arranged in a feedback architecture. The amount of feedback is controll by the **feedback** knob.
+The Feedback module contains two modulating allpass stages arranged in a feedback architecture. The amount of feedback is controlled by the **feedback** knob.
 
 The Mod module contains a series of modulating allpass stages. The **mod** knob controls the mix of the modulated signal. The **stages** knob controls the number of allpass stages used.
 
