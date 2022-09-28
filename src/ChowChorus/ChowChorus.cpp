@@ -65,7 +65,7 @@ struct ChowChorus : Module {
                 fastLFOs[ch][i].prepare((double) newSampleRate);
             }
 
-            aaFilter[ch].setParameters(BiquadFilter::LOWPASS, 12000.0f / newSampleRate, 0.7071f, 1.0f);
+            aaFilter[ch].setParameters(BiquadFilter::LOWPASS, std::min(12000.0f, newSampleRate * 0.49f) / newSampleRate, 0.7071f, 1.0f);
             dcBlocker[ch].setParameters(BiquadFilter::HIGHPASS, 240.0f / newSampleRate, 0.7071f, 1.0f);
         }
         
